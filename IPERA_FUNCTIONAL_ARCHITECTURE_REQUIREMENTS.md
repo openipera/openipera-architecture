@@ -1,5 +1,4 @@
-# IPERA Functional Architecture Requirements
-**Draft v0.2 — Discussion Draft**
+# IPERA Functional Architecture Requirements — Draft v0.3 — Discussion Draft
 
 ## 1. Purpose
 
@@ -12,6 +11,48 @@ Opinionated solutions identify technologies believed capable of satisfying a par
 IPERA intentionally applies established architectural patterns—including declarative intent, abstraction through contracts, dependency graphs, reconciliation, desired versus observed state, and separation of intent from implementation—at the enterprise-service level.
 
 Kubernetes and Kubernetes Resource Orchestrator (KRO) provide useful contemporary examples of these patterns at the resource-composition level. IPERA applies analogous patterns at a broader service abstraction.
+
+---
+
+## Critical Architectural Distinction: Service Model ≠ Execution Model
+
+> **The IPERA Service Dependency DAG is part of the authoritative Service Model. It is NOT an orchestration workflow and MUST NOT be owned by an execution or orchestration platform merely because that platform represents workflows as DAGs.**
+
+The Service Dependency DAG describes **what a service is**: its decomposition, relationships, dependencies, lifecycle constructs, and bindings.
+
+The **Dependency-Aware, Model-Driven Orchestrator** consumes and navigates this persistent model for a particular service request. Through graph consumption and traversal, it resolves dependencies and dynamically constructs a dependency-aware **runtime execution plan / pipeline**.
+
+```text
+AUTHORITATIVE SERVICE MODEL                  RUNTIME EXECUTION
+
+Service Model Repository
+          │
+          │ owns
+          ▼
+Service Dependency DAG ────────────────────► Orchestrator
+                     consumed / traversed by     │
+                                                 │ dynamically constructs
+                                                 ▼
+                                       Execution Plan / Pipeline
+                                                 │
+                                                 ▼
+                                        Execution Capabilities
+```
+
+> **The Service Dependency DAG is persistent service knowledge. The execution pipeline is an ephemeral realization of that knowledge.**
+
+The following requirements apply to every IPERA implementation:
+
+- The orchestrator MUST NOT become the authoritative repository for service dependencies.
+- A workflow defined in AAP, Airflow, or another orchestration product MUST NOT become the authoritative definition of the service.
+- The Service Model Repository MUST remain authoritative regardless of orchestration technology selected.
+- Replacing the orchestrator MUST NOT require redefining the logical service model.
+- An IPERA orchestrator is required to be **dependency-aware and model-driven**; it is not required to provide a particular native DAG-authoring mechanism.
+- How an orchestrator internally represents the resulting execution plan is an implementation detail.
+
+### Architectural Conformance Test
+
+> **If replacing the orchestration platform requires rebuilding the authoritative definition of the service and its dependencies, service-model responsibility has leaked into the orchestration layer and the implementation does not conform to this IPERA separation of responsibilities.**
 
 ---
 
@@ -174,7 +215,7 @@ Atomic Nodes do not themselves expose service APIs. They bind modeled lifecycle 
 | **Service Model Repository** | Maintain the authoritative decomposed service model and persistent Service Dependency DAG; represent Service Decks, Lifecycle Cards, Atomic Nodes and dependency relationships; define/discover Service Contracts for independently callable non-AN nodes; maintain interface bindings; maintain AN automation bindings; expose the model programmatically for query and traversal; support identity/versioning of modeled objects | Does not execute automation; does not construct runtime execution pipelines; does not replace execution engines or CI/CD | Backstage*; ServiceNow CSDM/CMDB* |
 | **Version Control System (VCS)** | Maintain authoritative versions of executable and declarative artifacts referenced by AN bindings; preserve history and provenance; support branching/review/change control; provide uniquely identifiable artifact versions | Does not determine service composition; does not determine execution order; does not decide when an artifact executes | GitHub; GitLab; Bitbucket; other Git-compatible platforms |
 | **CI/CD Platform** | Validate, test, package and promote executable/declarative artifacts; enforce appropriate quality/governance gates; produce known and deployable artifact versions suitable for AN binding | Does not own the Service Dependency DAG; does not determine runtime service composition; build/deployment pipelines must not become the authoritative service model | GitHub Actions; GitLab CI/CD; Jenkins; Tekton; other compliant CI/CD platforms |
-| **Orchestrator** | Accept a service request at a valid service-model entry point; interrogate the Service Model Repository; navigate the existing Service Dependency DAG; resolve dependencies, LCs, ANs and bindings; dynamically construct the required execution pipeline; pass required context/parameters between service levels; coordinate dependency-aware execution; consume execution results/status | Does not own or redefine the authoritative Service Dependency DAG; does not embed service composition in predefined end-to-end workflows; does not contain domain automation | Apache Airflow; AAP*; other compliant orchestrators |
+| **Dependency-Aware, Model-Driven Orchestrator** | Accept a service request at a valid service-model entry point; interrogate the Service Model Repository; navigate the existing Service Dependency DAG; resolve dependencies, LCs, ANs and bindings; dynamically construct the required execution pipeline; pass required context/parameters between service levels; coordinate dependency-aware execution; consume execution results/status | Does not own or redefine the authoritative Service Dependency DAG; does not embed service composition in predefined end-to-end workflows; does not contain domain automation | Apache Airflow; AAP*; other compliant orchestrators |
 | **Execution Capability** | Execute the automation action referenced by an AN binding; resolve/use the specified versioned artifact; accept defined execution inputs/context; invoke target/control-plane interfaces as required; return deterministic status, outputs and evidence | Does not determine which ANs constitute a service; does not determine service dependencies; does not construct the overall service realization pipeline | Ansible/AAP; Terraform/OpenTofu; Python; PowerShell; domain-specific execution tooling |
 | **State / Evidence Capability** | Capture execution results and evidence necessary to establish realized state; correlate evidence to service request, modeled service and AN where appropriate; expose state for lifecycle evaluation and subsequent orchestration decisions | Does not define desired service state; does not independently define service composition | Existing enterprise state/data platforms; implementation-dependent |
 | **Operational Feedback / Observability** | Provide runtime health, events, state changes and operational evidence; enable detection of drift or conditions requiring lifecycle reevaluation; correlate operational information with modeled services where possible | Does not own the Service Dependency DAG; does not define service composition; does not independently determine the realization pipeline | Existing enterprise observability/event platforms |
@@ -274,6 +315,10 @@ A node need not be callable merely because it participates in the DAG.
 9. **Execution mechanisms execute modeled intent; they do not determine service composition.**
 
 10. **IPERA defines functional contracts, not mandatory products.**
+
+11. **The Service Model Repository owns the authoritative Service Dependency DAG and MUST remain authoritative regardless of orchestration technology. Replacing the orchestrator MUST NOT require redefining the logical service model.**
+
+12. **The orchestrator MUST consume and traverse the persistent service model and dynamically construct dependency-aware execution. Native DAG authoring is not an IPERA requirement; the internal representation of the execution plan is an implementation detail.**
 
 ---
 
