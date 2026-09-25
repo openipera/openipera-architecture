@@ -2,126 +2,359 @@
 
 ## 1. Purpose
 
-This document defines the minimum logical structures and semantic rules required to represent an IPERA Service Model.
+This document defines the Minimum Viable Service Model (MVM) required to represent a service in IPERA.
 
-The Minimum Viable Service Model (MVM) consists of two related constructs:
+The objective is not to define a complete enterprise service ontology. The objective is to establish the minimum architectural constructs necessary to:
 
-1. **Service Model DAG (SM-DAG)** — defines how a service decomposes into constituent services and Atomic Nodes.
-2. **Lifecycle Card (LC) Registry** — defines the service dependencies and automation bindings associated with nodes in the Service Model.
+1. Describe how a service decomposes.
+2. Describe what other services are required to realize it.
+3. Identify where service-model resolution terminates and automation begins.
+4. Validate the model independently of any orchestration platform.
+5. Derive an Execution DAG without authoring the Execution DAG itself.
 
-Together, these constructs provide sufficient information for the **Service Model Validator (SMV)** to validate the Service Model and derive an Execution DAG.
-
-The MVM is intentionally implementation-neutral. It defines a logical and semantic contract, not a storage technology.
-
-An implementation may persist the model using JSON, YAML, relational tables, a graph database, a CMDB, a service catalog, or another structured repository provided that the semantics defined here are preserved.
+The central principle is:
 
 > **Model what is true about the service. Derive what must happen from that truth.**
 
+The Service Model describes architectural truth.
+
+The Execution DAG describes the operational consequence of that truth.
+
+They are not the same artifact.
+
 ---
 
-## 2. The Three Relationships
+## 2. Three Relationships
 
-IPERA distinguishes three relationships that must not be conflated.
+The Minimum Viable Service Model distinguishes three fundamentally different relationships.
 
 | Construct | Relationship | Meaning |
 |---|---|---|
-| SM-DAG edge | **decomposes into** | This service is composed of these subordinate service-model constructs. |
-| LC service dependency | **depends upon service** | Realization of this service requires realization of another service. |
-| Execution DAG edge | **must be realized before** | The derived execution dependency requires one operation to precede another. |
+| Service Model DAG edge | **decomposes into** | This service is structurally composed of these subordinate service-model constructs. |
+| Lifecycle Card service dependency | **depends upon service** | Realizing this service requires another service to be realized. |
+| Execution DAG edge | **must be realized before** | One realization activity must precede another as a consequence of the model. |
 
 The first two relationships are authored.
 
 The third is derived.
 
-The Service Model therefore describes architectural truth without prescribing workflow.
+This distinction is fundamental to IPERA.
+
+A service author describes decomposition and service dependencies. The Service Model Validator derives the resulting execution relationships.
 
 ---
 
-# 3. Service Model DAG
+## 3. Service Model DAG
 
-The **Service Model DAG (SM-DAG)** is the persistent architectural decomposition of a service.
+The Service Model DAG (SM-DAG) is the persistent architectural decomposition of a service.
 
 It answers:
 
-> **What is this service made of?**
+> **What does this service decompose into?**
 
 An SM-DAG edge means only:
 
 > **decomposes into**
 
-An SM-DAG edge MUST NOT represent execution order.
+It MUST NOT mean:
 
-An SM-DAG edge MUST NOT be interpreted as "execute before," "depends upon," or "requires."
+- execute before,
+- execute after,
+- requires completion of,
+- workflow predecessor,
+- workflow successor.
 
-Execution semantics are derived separately by the Service Model Validator.
+Execution ordering does not belong in the SM-DAG.
+
+A simplified example:
+
+```text
+General Purpose Compute
+   ├── Compute
+   │    └── VM
+   │         ├── CPU
+   │         └── Memory
+   ├── Storage
+   │    └── Provision Disk
+   ├── Network
+   │    ├── Allocate IP
+   │    └── Register DNS
+   ├── Identity
+   │    └── Register with Domain
+   │         └── Join Domain
+   ├── Security
+   │    └── Register with CyberArk
+   │         └── Onboard Account
+   ├── CMDB
+   │    └── Register CI in CMDB
+   │         └── Create CI
+   ├── Boot VM
+   │    └── Power On VM
+   └── Validate VM
+        └── Run VM Validation
+```
+
+This representation says nothing about execution order.
+
+It describes decomposition only.
 
 ---
 
-## 3.1 Minimum SM-DAG Node
+## 4. Node Types
 
-Every SM-DAG node MUST contain:
+Every node in the SM-DAG has an explicit `node_type`.
+
+The Minimum Viable Service Model defines two node types:
+
+```text
+service
+atomic
+```
+
+A **Service Node** may decompose into additional service-model constructs.
+
+An **Atomic Node** is the lowest-level service-model construct. It represents the boundary at which service-model resolution terminates and executable automation begins.
+
+Every SM-DAG node also contains a unique `lc_id` identifying its companion Lifecycle Card.
+
+Example Service Node:
 
 ```json
 {
-  "node_id": "vm",
-  "name": "Virtual Machine",
+  "node_id": "storage",
+  "name": "Storage",
   "node_type": "service",
-  "lc_id": "lc-vm"
+  "lc_id": "lc-storage"
 }
 ```
 
-The minimum fields are:
+Example Atomic Node:
 
-| Field | Purpose |
-|---|---|
-| `node_id` | Unique identity of the service-model node |
-| `name` | Human-readable name |
-| `node_type` | `service` or `atomic` |
-| `lc_id` | Unique identifier of the companion Lifecycle Card |
+```json
+{
+  "node_id": "an-provision-disk",
+  "name": "Provision Disk",
+  "node_type": "atomic",
+  "lc_id": "lc-an-provision-disk"
+}
+```
 
 `node_type` is intentionally explicit.
 
-Although information in the companion Lifecycle Card independently corroborates whether a node is atomic, retaining `node_type` makes the Service Model immediately understandable to both humans and machines.
-
-It also allows the SMV to validate independently authored assertions about the node.
+The model does not attempt to infer whether a node is atomic merely by examining other attributes. Explicit node typing improves human readability and provides an independent assertion that can be validated against the companion Lifecycle Card.
 
 ---
 
-# 4. Node Types
+## 5. Lifecycle Cards
 
-The Minimum Viable Service Model defines two node types.
+Every SM-DAG node has exactly one companion Lifecycle Card (LC).
 
-## 4.1 Service
+Lifecycle Cards are not nodes in the SM-DAG.
+
+The relationship is:
 
 ```text
-node_type: service
+SM-DAG Node
+     │
+     │ lc_id
+     ▼
+Lifecycle Card
 ```
 
-A service node represents a service-model construct that remains within the architectural model.
+The LC describes realization semantics associated with the node.
 
-A service may represent a resource, capability, grouping, or lifecycle action.
+In the Minimum Viable Service Model, the LC contains:
 
-Examples include:
+```text
+lc_id
+node_id
+service_dependencies
+automation_name
+automation_id
+```
 
-- General Purpose Compute
-- Virtual Machine
-- Storage
-- Network
-- Boot VM
-- Validate VM
-- Register with Domain
+The `lc_id` associates the Lifecycle Card with the SM-DAG node.
 
-A service does not directly bind to executable automation.
+The `node_id` provides an independent assertion of which SM-DAG node the card describes.
+
+`service_dependencies` declares other services that must be realized for this service to be realized.
+
+`automation_name` provides the human-readable name of automation associated with an Atomic Node.
+
+`automation_id` provides the immutable machine identity of that automation.
+
+Every Lifecycle Card MUST contain both the `automation_name` and `automation_id` keys.
+
+For a Service Node:
+
+```text
+automation_name = null
+automation_id   = null
+```
+
+For an Atomic Node:
+
+```text
+automation_name = populated
+automation_id   = populated UUID
+```
+
+The architectural location of the Atomic Node is not encoded in either automation field. That context is already represented by the Atomic Node's location in the SM-DAG and can therefore be derived.
 
 ---
 
-## 4.2 Atomic Node
+## 6. Minimum Lifecycle Card
 
-```text
-node_type: atomic
+A minimum Service Node Lifecycle Card is:
+
+```json
+{
+  "lc_id": "lc-storage",
+  "node_id": "storage",
+  "service_dependencies": ["provision-disk"],
+  "automation_name": null,
+  "automation_id": null
+}
 ```
 
-An **Atomic Node (AN)** is the lowest-level service-model construct in IPERA.
+A minimum Atomic Node Lifecycle Card is:
+
+```json
+{
+  "lc_id": "lc-an-provision-disk",
+  "node_id": "an-provision-disk",
+  "service_dependencies": [],
+  "automation_name": "provision-disk",
+  "automation_id": "a8f21764-9e31-4e8c-91a5-3c572cb614ef"
+}
+```
+
+### `automation_name`
+
+`automation_name` is a human-readable name for the automation capability.
+
+It is intended for:
+
+- human recognition,
+- logs,
+- visualization,
+- troubleshooting,
+- documentation,
+- operational presentation.
+
+It is not required to be globally unique.
+
+It MUST NOT be treated as the authoritative identity of the automation.
+
+### `automation_id`
+
+`automation_id` is the immutable machine identity of the automation capability.
+
+It MUST be represented as a UUID.
+
+The UUID is the authoritative identifier used to resolve the automation through the Automation Registry or equivalent binding mechanism.
+
+The automation name and automation identity are deliberately independent.
+
+For example, multiple automation capabilities could legitimately have:
+
+```text
+automation_name: provision-disk
+```
+
+while having different:
+
+```text
+automation_id
+```
+
+values.
+
+Uniqueness is established by the UUID, not by the friendly name.
+
+---
+
+## 7. Service Dependencies
+
+Lifecycle Cards declare **service dependencies**.
+
+A service dependency means:
+
+> **To realize this service, these other services must be realized.**
+
+It does not mean:
+
+> Execute this node after that node.
+
+The distinction matters.
+
+For example:
+
+```text
+Register with Domain [Validate VM]
+```
+
+means:
+
+> Register with Domain depends upon the Validate VM service.
+
+The model does not prescribe the resulting execution sequence.
+
+The Service Model Validator determines the operational consequence of that assertion when it derives the Execution DAG.
+
+The author therefore describes service truth rather than workflow.
+
+Wrong:
+
+```text
+Execute Validate VM before Register with Domain.
+```
+
+Correct:
+
+```text
+Register with Domain [Validate VM]
+```
+
+The first authors execution.
+
+The second authors a service dependency.
+
+---
+
+## 8. Cross-Branch Dependencies
+
+Service dependencies may cross SM-DAG decomposition branches.
+
+For example:
+
+```text
+General Purpose Compute
+   ├── Compute
+   │    └── VM
+   ├── Storage
+   └── Network
+```
+
+The VM Lifecycle Card may declare:
+
+```text
+VM [Storage, Network, CPU, Memory]
+```
+
+This does not require Storage or Network to be duplicated beneath VM in the SM-DAG.
+
+The SM-DAG describes decomposition.
+
+Lifecycle Cards describe service dependencies.
+
+This separation allows architectural decomposition and realization dependencies to evolve independently.
+
+---
+
+## 9. Atomic Nodes and Automation
+
+An Atomic Node is the lowest-level service-model construct in IPERA.
 
 An Atomic Node represents a discrete lifecycle action and binds that action to an external, version-controlled automation artifact.
 
@@ -136,194 +369,53 @@ Service
    ↓
 Service
    ↓
-Service
-   ↓
 Atomic Node
    ↓
 Automation
 ```
 
----
-
-# 5. Lifecycle Cards
-
-Every node in the SM-DAG MUST have exactly one companion **Lifecycle Card**.
-
-The relationship is established through `lc_id`.
-
-For example:
-
-```json
-{
-  "node_id": "vm",
-  "name": "Virtual Machine",
-  "node_type": "service",
-  "lc_id": "lc-vm"
-}
-```
-
-binds to:
-
-```json
-{
-  "lc_id": "lc-vm",
-  "node_id": "vm",
-  "service_dependencies": [
-    "storage",
-    "network",
-    "cpu",
-    "memory"
-  ],
-  "automation_id": null
-}
-```
-
-Lifecycle Cards are **not nodes in the SM-DAG**.
-
-They are companion records that describe realization semantics associated with SM-DAG nodes.
-
----
-
-# 6. Minimum Lifecycle Card
-
-Every Lifecycle Card MUST contain:
-
-```json
-{
-  "lc_id": "lc-example",
-  "node_id": "example",
-  "service_dependencies": [],
-  "automation_id": null
-}
-```
-
-The minimum fields are:
-
-| Field | Purpose |
-|---|---|
-| `lc_id` | Unique LC identifier matching the SM-DAG node |
-| `node_id` | Node to which this LC belongs |
-| `service_dependencies` | Services required to realize this service |
-| `automation_id` | Logical identifier of automation associated with an Atomic Node |
-
-The `automation_id` key is mandatory in every Lifecycle Card.
-
-Its value may be null or populated depending upon node type.
-
----
-
-# 7. Service Dependencies
-
-Lifecycle Cards declare **service dependencies**.
-
-They do not declare execution dependencies.
-
-For example:
-
-```json
-{
-  "lc_id": "lc-vm",
-  "node_id": "vm",
-  "service_dependencies": [
-    "storage",
-    "network",
-    "cpu",
-    "memory"
-  ],
-  "automation_id": null
-}
-```
-
-means:
-
-> To realize the VM service, the Storage, Network, CPU, and Memory services must be realized.
-
-It does **not** mean:
-
-> Execute Storage, then Network, then CPU, then Memory.
-
-No workflow ordering is being authored.
-
-The Service Model Validator determines the resulting execution relationships.
-
----
-
-# 8. Cross-Branch Dependencies
-
-Service dependencies are independent of SM-DAG decomposition.
-
-A VM may depend upon Storage even though Storage is not decomposed beneath VM.
-
-For example:
+The companion Lifecycle Card identifies the required automation using two independent attributes:
 
 ```text
-General Purpose Compute
-   ├── Compute
-   │    └── VM
-   ├── Storage
-   └── Network
+automation_name
+automation_id
 ```
 
-The VM Lifecycle Card may still declare:
+`automation_name` is human-readable.
 
-```json
-"service_dependencies": [
-  "storage",
-  "network"
-]
-```
+`automation_id` is an immutable UUID and is authoritative for machine identity.
 
-This is intentional.
-
-The SM-DAG says:
-
-> Storage and Network are constituent services of General Purpose Compute.
-
-The VM Lifecycle Card says:
-
-> Realization of VM requires those services.
-
-Storage and Network SHOULD NOT be duplicated beneath VM merely to express this dependency.
-
----
-
-# 9. Atomic Nodes and Automation
-
-An Atomic Node MUST have a populated `automation_id`.
-
-Example SM-DAG node:
-
-```json
-{
-  "node_id": "an-provision-disk",
-  "name": "Provision Disk",
-  "node_type": "atomic",
-  "lc_id": "lc-an-provision-disk"
-}
-```
-
-Companion Lifecycle Card:
+For example:
 
 ```json
 {
   "lc_id": "lc-an-provision-disk",
   "node_id": "an-provision-disk",
   "service_dependencies": [],
-  "automation_id": "auto-provision-disk"
+  "automation_name": "provision-disk",
+  "automation_id": "a8f21764-9e31-4e8c-91a5-3c572cb614ef"
 }
 ```
 
-`automation_id` is a logical identifier.
+The `automation_id` MUST resolve through an Automation Registry or equivalent binding mechanism to a valid, version-controlled automation implementation.
 
-It SHOULD NOT require the Service Model to know whether the automation is stored in GitHub, GitLab, a filesystem, or another VCS implementation.
-
-A separate automation registry or binding mechanism may resolve:
+Conceptually:
 
 ```text
-auto-provision-disk
+Atomic Node
+     ↓
+Lifecycle Card
+     ├── automation_name
+     └── automation_id (UUID)
+                  ↓
+          Automation Registry
+                  ↓
+       Version-Controlled Automation
+                  ↓
+          Execution Capability
 ```
 
-to implementation information such as:
+The Automation Registry may resolve the UUID to implementation attributes such as:
 
 ```text
 repository
@@ -331,204 +423,263 @@ version / commit
 artifact path
 execution type
 entrypoint
-hash
+artifact hash
 ```
 
-This preserves separation between service architecture and automation implementation.
+These attributes describe the implementation of the automation.
+
+They are not the automation's identity.
+
+They MUST NOT be embedded in the Service Model merely to locate the automation.
+
+This allows the implementation to move between repositories, change versions, change paths, or potentially change execution technologies without changing the immutable automation identity referenced by the Lifecycle Card.
+
+### Derived Architectural Context
+
+The SM-DAG already establishes the architectural location of the Atomic Node.
+
+Therefore, the full architectural context of an automation reference does not need to be persisted in `automation_id`.
+
+For example, the model may contain:
+
+```text
+General Purpose Compute
+   └── Storage
+        └── Provision Disk
+```
+
+with:
+
+```text
+automation_name: provision-disk
+automation_id:   a8f21764-9e31-4e8c-91a5-3c572cb614ef
+```
+
+A human-facing canonical representation such as:
+
+```text
+general-purpose-compute.storage.provision-disk.provision-disk-a8f21764-9e31-4e8c-91a5-3c572cb614ef
+```
+
+can be derived when useful.
+
+It need not be stored.
+
+This avoids duplicating architectural context and prevents an automation identity from changing merely because an Atomic Node is moved within the Service Model.
+
+### Resolution Is Not Execution
+
+Successful resolution of an `automation_id` establishes that the Atomic Node has an identifiable automation implementation.
+
+It does not establish that the automation will execute successfully.
+
+The Service Model Validator can establish:
+
+```text
+Atomic Node exists
+        ↓
+automation_name exists
+        ↓
+automation_id is a valid UUID
+        ↓
+automation_id resolves
+        ↓
+binding identifies automation implementation
+```
+
+Runtime execution establishes whether:
+
+```text
+automation executes successfully
+```
+
+Execution success and resulting evidence remain responsibilities of the execution capability and operational layers.
 
 ---
 
-# 10. Intentional Validation Redundancy
+## 10. Intentional Validation Redundancy
 
-The MVM intentionally contains independently authored information that can be cross-validated.
+The Minimum Viable Service Model intentionally contains independently asserted information.
+
+This is not accidental duplication.
+
+It allows the Service Model Validator to detect inconsistencies rather than silently infer architectural intent.
 
 For example:
 
 ```text
-SM-DAG:
-node_type = atomic
-
-Lifecycle Card:
-automation_id = auto-configure-cpu
-```
-
-These assertions are consistent.
-
-The explicit `node_type` is therefore not unnecessary duplication.
-
-It expresses architectural intent while the Lifecycle Card provides independent evidence that the node satisfies the requirements of that type.
-
-The Service Model Validator MUST reject inconsistencies between them.
-
----
-
-# 11. Minimum SMV Invariants
-
-The Service Model Validator MUST validate the Service Model before deriving an executable graph.
-
-At minimum, the following invariants apply.
-
-### Atomic Node without automation
-
-```text
-node_type: atomic
+node_type: service
+automation_name: null
 automation_id: null
 ```
 
-Result:
+is consistent.
 
-```text
-DENIED
-
-Atomic Node has no automation binding.
-```
-
----
-
-### Service node with automation
-
-```text
-node_type: service
-automation_id: auto-something
-```
-
-Result:
-
-```text
-DENIED
-
-Service node may not bind directly to automation.
-Declare an Atomic Node.
-```
-
----
-
-### Atomic Node with further service dependencies
+Likewise:
 
 ```text
 node_type: atomic
-service_dependencies:
-  - another-service
+service_dependencies: []
+automation_name: provision-disk
+automation_id: a8f21764-9e31-4e8c-91a5-3c572cb614ef
 ```
 
-Result:
+is structurally consistent.
 
-```text
-DENIED
+However, structural consistency does not yet establish realizability.
 
-Atomic Node declares further service dependencies.
-Atomic Nodes terminate service-model resolution.
-```
+The UUID must also resolve through the authoritative Automation Registry or equivalent binding mechanism.
+
+The governing rule is:
+
+> **`node_type` expresses architectural intent. The companion Lifecycle Card provides independent evidence that the node satisfies the requirements of that type. The Service Model Validator MUST reject inconsistencies between the two.**
 
 ---
+
+## 11. Minimum SMV Invariants
+
+The Service Model Validator MUST reject structurally or semantically invalid models.
+
+At minimum, the following conditions are invalid.
 
 ### Missing Lifecycle Card
 
 ```text
+SM-DAG node references lc_id
+Lifecycle Card does not exist
+
+DENIED:
+SM-DAG node has no corresponding Lifecycle Card.
+```
+
+### Lifecycle Card / Node Mismatch
+
+```text
 SM-DAG node:
-lc_id: lc-vm
-
-LC Registry:
-lc-vm not found
-```
-
-Result:
-
-```text
-DENIED
-
-SM-DAG node references a nonexistent Lifecycle Card.
-```
-
----
-
-### Mismatched node binding
-
-```text
-SM-DAG:
-node_id: vm
-lc_id: lc-vm
+node_id = storage
+lc_id   = lc-storage
 
 Lifecycle Card:
-lc_id: lc-vm
-node_id: storage
+lc_id   = lc-storage
+node_id = network
+
+DENIED:
+Lifecycle Card does not describe the node that references it.
 ```
 
-Result:
-
-```text
-DENIED
-
-Lifecycle Card does not correspond to the SM-DAG node
-that references it.
-```
-
----
-
-### Missing dependency target
+### Missing Service Dependency Target
 
 ```text
 service_dependencies:
   - nonexistent-service
+
+DENIED:
+Lifecycle Card references an unknown service.
 ```
 
-Result:
+### Duplicate Identity
+
+Duplicate identifiers that are required to be unique within their authoritative namespace MUST be rejected.
+
+This includes duplicate SM-DAG node identities, Lifecycle Card identities, and automation UUIDs where the registry requires uniqueness.
+
+### Service Dependency Cycle
+
+A service dependency graph containing a cycle MUST be rejected.
+
+The model is allowed to be wrong.
+
+The validator is not allowed to pretend that it is right.
+
+### Atomic Node With No Automation Binding
 
 ```text
-DENIED
+node_type: atomic
+automation_name: null
+automation_id: null
 
-Lifecycle Card references a service that does not exist
-in the authoritative Service Model.
+DENIED:
+Atomic Node has no automation binding.
 ```
+
+### Atomic Node With Name But No Identity
+
+```text
+node_type: atomic
+automation_name: provision-disk
+automation_id: null
+
+DENIED:
+Atomic Node has an automation name but no immutable automation identity.
+```
+
+### Atomic Node With Identity But No Name
+
+```text
+node_type: atomic
+automation_name: null
+automation_id: a8f21764-9e31-4e8c-91a5-3c572cb614ef
+
+DENIED:
+Atomic Node has an automation identity but no human-readable automation name.
+```
+
+### Invalid Automation UUID
+
+```text
+node_type: atomic
+automation_name: provision-disk
+automation_id: not-a-valid-uuid
+
+DENIED:
+Atomic Node automation_id is not a valid UUID.
+```
+
+### Unresolved Automation Identity
+
+```text
+node_type: atomic
+automation_name: provision-disk
+automation_id: a8f21764-9e31-4e8c-91a5-3c572cb614ef
+
+Automation Registry:
+NOT FOUND
+
+DENIED:
+Atomic Node automation_id does not resolve to a registered automation binding.
+```
+
+### Service Node Bound Directly to Automation
+
+```text
+node_type: service
+automation_name: provision-disk
+automation_id: a8f21764-9e31-4e8c-91a5-3c572cb614ef
+
+DENIED:
+Service Node may not bind directly to automation.
+Declare an Atomic Node.
+```
+
+### Atomic Node With Service Dependencies
+
+```text
+node_type: atomic
+service_dependencies:
+  - storage
+
+DENIED:
+Atomic Node declares further service dependencies.
+Atomic Nodes terminate service-model resolution.
+```
+
+For an Atomic Node to be realizable, its companion Lifecycle Card MUST contain both an `automation_name` and a valid UUID `automation_id`, and that `automation_id` MUST resolve through the authoritative Automation Registry or equivalent binding mechanism.
 
 ---
 
-### Duplicate identifiers
+## 12. Worked Example: General Purpose Compute
 
-Duplicate `node_id` or `lc_id` values MUST be rejected.
-
-```text
-DENIED
-
-Service Model identifiers must be unique.
-```
-
----
-
-### Dependency cycle
-
-If service dependencies resolve to:
-
-```text
-Service-A
-   ↓
-Service-B
-   ↓
-Service-C
-   ↓
-Service-A
-```
-
-the SMV MUST reject the model.
-
-```text
-DENIED
-
-Service dependency cycle detected.
-An Execution DAG cannot be derived from a cyclic dependency model.
-```
-
-The SMV MUST report the cycle rather than silently altering the Service Model.
-
----
-
-# 12. Worked Example: General Purpose Compute
-
-The following model illustrates the Minimum Viable Service Model.
-
-This is an illustrative POC model, not a claim that every enterprise must decompose General Purpose Compute in this manner.
-
-## 12.1 SM-DAG
+Consider the following decomposition:
 
 ```text
 General Purpose Compute
@@ -536,266 +687,169 @@ General Purpose Compute
    │    └── VM
    │         ├── CPU
    │         └── Memory
-   │
    ├── Storage
    │    └── Provision Disk
-   │
    ├── Network
    │    ├── Allocate IP
    │    └── Register DNS
-   │
    ├── Identity
    │    └── Register with Domain
    │         └── Join Domain
-   │
    ├── Security
    │    └── Register with CyberArk
    │         └── Onboard Account
-   │
    ├── CMDB
    │    └── Register CI in CMDB
    │         └── Create CI
-   │
    ├── Boot VM
    │    └── Power On VM
-   │
    └── Validate VM
         └── Run VM Validation
 ```
 
-In this example:
+This is the SM-DAG.
 
-- `CPU`, `Memory`, `Provision Disk`, `Allocate IP`, and `Register DNS` may be represented as Atomic Nodes where they correspond directly to automation.
-- `Join Domain`, `Onboard Account`, `Create CI`, `Power On VM`, and `Run VM Validation` are terminal Atomic Nodes.
-- `Boot VM`, `Validate VM`, `Register with Domain`, `Register with CyberArk`, and `Register CI in CMDB` demonstrate that a service may describe an action without requiring a separate action node type.
+It describes decomposition only.
 
-The exact decomposition remains an architectural decision made by the responsible SMEs.
-
----
-
-# 13. Concrete SM-DAG Representation
-
-One JSON representation of part of the preceding SM-DAG could be:
-
-```json
-{
-  "service_model": {
-    "root": "gpc",
-    "nodes": [
-      {
-        "node_id": "gpc",
-        "name": "General Purpose Compute",
-        "node_type": "service",
-        "lc_id": "lc-gpc"
-      },
-      {
-        "node_id": "compute",
-        "name": "Compute",
-        "node_type": "service",
-        "lc_id": "lc-compute"
-      },
-      {
-        "node_id": "vm",
-        "name": "Virtual Machine",
-        "node_type": "service",
-        "lc_id": "lc-vm"
-      },
-      {
-        "node_id": "storage",
-        "name": "Storage",
-        "node_type": "service",
-        "lc_id": "lc-storage"
-      },
-      {
-        "node_id": "network",
-        "name": "Network",
-        "node_type": "service",
-        "lc_id": "lc-network"
-      },
-      {
-        "node_id": "cpu",
-        "name": "CPU",
-        "node_type": "atomic",
-        "lc_id": "lc-cpu"
-      },
-      {
-        "node_id": "memory",
-        "name": "Memory",
-        "node_type": "atomic",
-        "lc_id": "lc-memory"
-      }
-    ],
-    "edges": [
-      {
-        "from": "gpc",
-        "to": "compute"
-      },
-      {
-        "from": "gpc",
-        "to": "storage"
-      },
-      {
-        "from": "gpc",
-        "to": "network"
-      },
-      {
-        "from": "compute",
-        "to": "vm"
-      },
-      {
-        "from": "vm",
-        "to": "cpu"
-      },
-      {
-        "from": "vm",
-        "to": "memory"
-      }
-    ]
-  }
-}
-```
-
-Every edge in this structure has exactly one semantic meaning:
+Representative service dependencies might include:
 
 ```text
-decomposes into
+General Purpose Compute [Compute, Storage, Network, Identity, Security, CMDB]
+
+Compute [VM]
+
+VM [Storage, Network, CPU, Memory]
+
+Storage [Provision Disk]
+
+Network [Allocate IP, Register DNS]
+
+Identity [Register with Domain]
+
+Security [Register with CyberArk]
+
+CMDB [Register CI in CMDB]
+
+Register with Domain [Validate VM]
+
+Register with CyberArk [Register with Domain]
+
+Register CI in CMDB [Validate VM]
 ```
 
-No execution semantics are encoded in these edges.
+These assertions still do not define a workflow.
+
+They define service dependencies.
+
+The Service Model Validator determines the resulting Execution DAG.
 
 ---
 
-# 14. Concrete Lifecycle Card Registry
+## 13. Concrete SM-DAG Representation
 
-A corresponding LC Registry may contain:
+A portion of the preceding SM-DAG could be represented as:
 
 ```json
 {
-  "lifecycle_cards": [
+  "node_id": "general-purpose-compute",
+  "name": "General Purpose Compute",
+  "node_type": "service",
+  "lc_id": "lc-general-purpose-compute",
+  "children": [
     {
-      "lc_id": "lc-gpc",
-      "node_id": "gpc",
-      "service_dependencies": [
-        "compute",
-        "storage",
-        "network",
-        "identity",
-        "security",
-        "cmdb"
-      ],
-      "automation_id": null
-    },
-    {
-      "lc_id": "lc-compute",
-      "node_id": "compute",
-      "service_dependencies": [
-        "vm"
-      ],
-      "automation_id": null
-    },
-    {
-      "lc_id": "lc-vm",
-      "node_id": "vm",
-      "service_dependencies": [
-        "storage",
-        "network",
-        "cpu",
-        "memory"
-      ],
-      "automation_id": null
-    },
-    {
-      "lc_id": "lc-cpu",
-      "node_id": "cpu",
-      "service_dependencies": [],
-      "automation_id": "auto-configure-cpu"
-    },
-    {
-      "lc_id": "lc-memory",
-      "node_id": "memory",
-      "service_dependencies": [],
-      "automation_id": "auto-configure-memory"
-    },
-    {
-      "lc_id": "lc-storage",
       "node_id": "storage",
-      "service_dependencies": [
-        "provision-disk"
-      ],
-      "automation_id": null
-    },
-    {
-      "lc_id": "lc-provision-disk",
-      "node_id": "provision-disk",
-      "service_dependencies": [],
-      "automation_id": "auto-provision-disk"
-    },
-    {
-      "lc_id": "lc-network",
-      "node_id": "network",
-      "service_dependencies": [
-        "allocate-ip",
-        "register-dns"
-      ],
-      "automation_id": null
-    },
-    {
-      "lc_id": "lc-allocate-ip",
-      "node_id": "allocate-ip",
-      "service_dependencies": [],
-      "automation_id": "auto-allocate-ip"
-    },
-    {
-      "lc_id": "lc-register-dns",
-      "node_id": "register-dns",
-      "service_dependencies": [
-        "allocate-ip"
-      ],
-      "automation_id": "auto-register-dns"
+      "name": "Storage",
+      "node_type": "service",
+      "lc_id": "lc-storage",
+      "children": [
+        {
+          "node_id": "an-provision-disk",
+          "name": "Provision Disk",
+          "node_type": "atomic",
+          "lc_id": "lc-an-provision-disk"
+        }
+      ]
     }
   ]
 }
 ```
 
-This example deliberately exposes an important modeling issue.
-
-`register-dns` is shown as an Atomic Node with both:
+The SM-DAG says:
 
 ```text
-automation_id = populated
+General Purpose Compute
+decomposes into
+Storage
+decomposes into
+Provision Disk
 ```
 
-and:
-
-```text
-service_dependencies = [allocate-ip]
-```
-
-Under the MVM invariants defined above, that model is invalid.
-
-The SMV therefore returns:
-
-```text
-DENIED
-
-Atomic Node declares further service dependencies.
-```
-
-The SME must resolve the modeling error rather than the SMV silently changing the model.
-
-For example, the SME might determine that `Register DNS` is actually a service containing an Atomic Node that performs the registration. That decision belongs to the Service Model author—not to the validator.
-
-This illustrates an important purpose of the MVM:
-
-> The model is allowed to be wrong. The validator is not allowed to pretend that it is right.
+It says nothing about when Provision Disk executes.
 
 ---
 
-# 15. Action-Oriented Services
+## 14. Concrete Lifecycle Card Registry
 
-Services are not limited to persistent infrastructure objects.
+The corresponding Lifecycle Cards could include:
 
-A service may represent an action within the lifecycle of another service.
+```json
+[
+  {
+    "lc_id": "lc-general-purpose-compute",
+    "node_id": "general-purpose-compute",
+    "service_dependencies": [
+      "compute",
+      "storage",
+      "network",
+      "identity",
+      "security",
+      "cmdb"
+    ],
+    "automation_name": null,
+    "automation_id": null
+  },
+  {
+    "lc_id": "lc-storage",
+    "node_id": "storage",
+    "service_dependencies": [
+      "an-provision-disk"
+    ],
+    "automation_name": null,
+    "automation_id": null
+  },
+  {
+    "lc_id": "lc-an-provision-disk",
+    "node_id": "an-provision-disk",
+    "service_dependencies": [],
+    "automation_name": "provision-disk",
+    "automation_id": "a8f21764-9e31-4e8c-91a5-3c572cb614ef"
+  }
+]
+```
+
+The Lifecycle Cards describe realization semantics.
+
+The SM-DAG and Lifecycle Cards together constitute the minimum information required by the Service Model Validator to derive execution consequences.
+
+---
+
+## 15. Action-Oriented Services
+
+Not every service-model construct represents a persistent infrastructure resource.
+
+A service may represent an action or lifecycle operation.
+
+Examples include:
+
+```text
+Boot VM
+Validate VM
+Register with Domain
+Register with CyberArk
+Register CI in CMDB
+```
+
+These remain Service Nodes when they have subordinate service-model constructs.
 
 For example:
 
@@ -804,299 +858,279 @@ Boot VM
    └── Power On VM
 ```
 
-could be represented as:
+where:
 
-```json
-{
-  "node_id": "boot-vm",
-  "name": "Boot VM",
-  "node_type": "service",
-  "lc_id": "lc-boot-vm"
-}
+```text
+Boot VM       = service
+Power On VM   = atomic
 ```
 
-with a terminal child:
+The Boot VM Lifecycle Card may declare service dependencies.
 
-```json
-{
-  "node_id": "an-power-on-vm",
-  "name": "Power On VM",
-  "node_type": "atomic",
-  "lc_id": "lc-an-power-on-vm"
-}
-```
-
-The Atomic Node LC might contain:
+The Power On VM Lifecycle Card terminates service-model resolution and identifies automation:
 
 ```json
 {
   "lc_id": "lc-an-power-on-vm",
   "node_id": "an-power-on-vm",
   "service_dependencies": [],
-  "automation_id": "auto-power-on-vm"
+  "automation_name": "power-on-vm",
+  "automation_id": "6e6c0e74-3dd8-48cf-8ea5-8939287c2648"
 }
 ```
 
-No special `action` node type is required by the Minimum Viable Service Model.
+No additional `action` node type is required by the Minimum Viable Service Model.
 
 ---
 
-# 16. Service Model Validator
+## 16. Service Model Validator
 
-The **Service Model Validator (SMV)** is a reusable IPERA capability that independently evaluates an authoritative Service Model, derives the resulting Execution DAG, identifies structural inconsistencies, and renders the graph for SME review and validation before runtime orchestration.
+The Service Model Validator (SMV) is a reusable IPERA capability that independently evaluates an authoritative Service Model, derives the resulting Execution DAG, identifies structural inconsistencies, and renders the graph for SME review and validation before runtime orchestration.
 
 The SMV:
 
-1. Reads the SM-DAG.
-2. Reads the Lifecycle Card Registry.
-3. Validates node-to-LC relationships.
-4. Validates architectural invariants.
-5. Resolves service dependencies recursively.
-6. Detects invalid references and cycles.
-7. Determines service versus Atomic Node semantics.
-8. Derives the Execution DAG.
-9. Renders the result for human inspection.
+- consumes the model,
+- does not own the model,
+- validates SM-DAG structure,
+- validates Lifecycle Card bindings,
+- validates node-type invariants,
+- validates service dependencies,
+- validates automation identity structure,
+- validates automation binding resolution,
+- detects missing references,
+- detects cycles,
+- derives execution relationships,
+- renders the result for human review.
 
-The SMV consumes the model.
+The SMV MUST NOT silently repair semantic model errors.
 
-It does not own the model.
+Subject Matter Experts own domain truth.
 
-It does not silently repair semantic errors.
+The validator determines whether the supplied model is internally consistent and whether its declared Atomic Nodes can be resolved to identifiable automation implementations.
+
+The SMV is independent of the eventual orchestration platform.
+
+This makes it useful both as a model-validation capability and as a vendor-neutral conformance oracle.
 
 ---
 
-# 17. Execution DAG
+## 17. Execution DAG
 
-The Execution DAG is a **derived artifact**.
+The Execution DAG is derived.
 
-It MUST NOT be authored as part of the authoritative Service Model.
+It is not authored.
 
 It answers:
 
 > **What must happen, and in what dependency order, to realize this request?**
 
-The resulting graph may contain both service nodes and Atomic Nodes.
-
-The SMV derives those relationships from:
+The SMV derives the Execution DAG from:
 
 ```text
-SM-DAG
-   +
+Service Model DAG
+        +
 Lifecycle Cards
-   ↓
-Service Model Validator
-   ↓
-Execution DAG
+        +
+validated automation bindings
 ```
 
-Or, more succinctly:
+The resulting graph may contain both Service Nodes and Atomic Nodes.
 
-> **Service Model DAG: decomposition of intent.**
+Execution relationships are consequences of:
 
-> **Execution DAG: realization of intent.**
+- decomposition,
+- service dependencies,
+- Atomic Node boundaries,
+- valid automation bindings.
 
-The Service Model describes what is true.
+The Execution DAG must be acyclic.
 
-The Execution DAG describes what must happen.
+The persistent model may contain errors, including cycles.
+
+Those errors are detected during validation.
 
 ---
 
-# 18. Authoring Rule
+## 18. Authoring Rule
 
-The distinction between service truth and execution prescription is fundamental.
+The governing authoring rule is:
 
-An author SHOULD NOT write:
+> **Model service truth. Do not author execution order.**
 
-```text
-Execute Validate VM before Register Domain.
-```
-
-That statement prescribes workflow.
-
-Instead, the model should declare:
+A model author should ask:
 
 ```text
-Register Domain
-    service_dependencies:
-        - Validate VM
+What is this service made of?
 ```
 
-That statement expresses service truth:
+and:
 
-> Registration with the domain requires a validated VM.
+```text
+What other services must exist or be realized for this service to be realized?
+```
 
-The SMV derives the execution consequence.
+The model author should not ask:
 
-This is the fundamental IPERA authoring rule:
+```text
+What step should execute next?
+```
 
-> **Model what is true about the service. Derive what must happen from that truth.**
+That is a derived concern.
+
+The distinction can be summarized as:
+
+> **Service Model DAG: decomposition of intent. Execution DAG: realization of intent.**
+
+Or:
+
+> **The Service Model describes what is true. The Execution DAG describes what must happen.**
 
 ---
 
-# 19. Persistence Independence
+## 19. Persistence Independence
 
-The MVM defines semantics, not storage.
+The Minimum Viable Service Model does not prescribe a particular persistence technology.
 
-The same LC could be represented in YAML:
+The authoritative model could be maintained in a platform capable of representing the required semantics.
 
-```yaml
-lc_id: lc-vm
-node_id: vm
-service_dependencies:
-  - storage
-  - network
-  - cpu
-  - memory
-automation_id:
-```
+Examples may include:
 
-or relationally:
+- an enterprise service-model repository,
+- a CMDB with sufficient relationship semantics,
+- a service catalog/model platform,
+- Backstage or a similar extensible platform,
+- another authoritative model repository.
 
-```text
-LIFECYCLE_CARD
-----------------------------------------
-lc_id       | node_id | automation_id
-lc-vm       | vm      | NULL
-```
+Likewise, the Automation Registry is a logical architectural capability.
 
-with dependencies represented separately:
+The MVM does not require a specific product or persistence implementation for that registry.
+
+The requirement is semantic:
 
 ```text
-SERVICE_DEPENDENCY
-----------------------------------------
-lc_id       | depends_on_node_id
-lc-vm       | storage
-lc-vm       | network
-lc-vm       | cpu
-lc-vm       | memory
+automation_id
 ```
 
-A graph database, CMDB, service catalog, or other structured platform may represent the same relationships differently.
+must uniquely and immutably identify an automation capability and must resolve to an identifiable version-controlled implementation.
 
-Those implementations conform to the MVM if the same semantic assertions can be recovered without embedding execution workflow into the persistent Service Model.
+Products are implementations of architectural capabilities.
+
+They are not architectural prerequisites.
 
 ---
 
-# 20. POC-03 Conformance Test
+## 20. POC-03 Conformance Test
 
-POC-03 should demonstrate that the SM-DAG and Lifecycle Cards remain independent sources of architectural truth while the Execution DAG remains derived.
-
-The primary mutation test is:
-
-```text
-1. Create valid SM-DAG.
-2. Create valid LC Registry.
-3. Derive Execution DAG.
-4. Change ONLY a service dependency in an LC.
-5. Do not change the SM-DAG.
-6. Do not change SMV logic.
-7. Derive Execution DAG again.
-```
-
-The resulting Execution DAG MUST reflect the changed service dependency.
-
-A secondary mutation test is:
-
-```text
-1. Add or modify SM-DAG decomposition.
-2. Add the corresponding valid LC.
-3. Do not modify SMV logic.
-4. Derive Execution DAG.
-```
-
-The resulting graph MUST incorporate the changed model.
-
-If application logic must be modified to accommodate either mutation, the model is not authoritative.
-
----
-
-# 21. Deliberate Cycle Test
-
-The following dependency declarations illustrate a useful negative test:
-
-```text
-General Purpose Compute
-    depends upon Identity
-
-Identity
-    depends upon Register Domain
-
-Register Domain
-    depends upon Validate VM
-
-Validate VM
-    depends upon Boot VM
-
-Boot VM
-    depends upon General Purpose Compute
-```
-
-This produces:
-
-```text
-GPC
- ↓
-Identity
- ↓
-Register Domain
- ↓
-Validate VM
- ↓
-Boot VM
- ↓
-GPC
-```
-
-The SMV MUST reject this model.
-
-```text
-DENIED
-
-Service dependency cycle detected.
-```
-
-The validator MUST NOT decide which dependency the architect "probably meant."
-
-The responsible SME must correct the Service Model.
-
-This test is particularly useful because each individual dependency can appear reasonable when viewed locally while producing an impossible realization graph when evaluated globally.
-
----
-
-# 22. Minimum Viable Model Principle
-
-An IPERA Service Model does not need to encode a workflow.
-
-It needs only enough structured architectural truth for a conforming implementation to derive one.
+POC-03 should demonstrate the separation established by this model.
 
 At minimum:
 
+1. Construct an SM-DAG.
+2. Construct a separate Lifecycle Card Registry.
+3. Bind every SM-DAG node to exactly one LC using `lc_id`.
+4. Populate `automation_name` and UUID `automation_id` for every Atomic Node.
+5. Provide resolvable Automation Registry entries for those UUIDs.
+6. Leave both automation fields null for Service Nodes.
+7. Have the SMV consume the SM-DAG, Lifecycle Cards, and Automation Registry.
+8. Validate structural and semantic invariants.
+9. Derive an Execution DAG containing appropriate Service and Atomic Nodes.
+10. Demonstrate that the Execution DAG was not predefined in resolver logic.
+
+The primary mutation test should modify only an LC service dependency.
+
+The following remain unchanged:
+
 ```text
 SM-DAG
-    defines decomposition
-
-Lifecycle Cards
-    define service dependencies
-    and Atomic Node automation bindings
-
-Service Model Validator
-    validates both
-    and derives execution semantics
-
-Execution DAG
-    represents the resulting realization path
+SMV
+automation bindings
 ```
 
-The architecture therefore maintains a deliberate separation between:
+The derived Execution DAG must change correctly.
+
+A secondary mutation should modify the SM-DAG and add the corresponding Lifecycle Card while leaving the SMV unchanged.
+
+The derived graph must incorporate the new structure.
+
+An automation-binding mutation should modify the implementation resolved by an existing `automation_id` while leaving the SM-DAG and Lifecycle Card unchanged.
+
+The automation identity must remain stable while the resolved implementation changes.
+
+Negative tests should include:
+
+- missing LC,
+- mismatched LC/node binding,
+- missing service dependency target,
+- duplicate identifiers,
+- invalid UUID,
+- missing automation name,
+- unresolved automation UUID,
+- service node bound directly to automation,
+- atomic node with service dependencies,
+- service dependency cycle.
+
+---
+
+## 21. Deliberate Cycle Test
+
+A useful negative test is to deliberately introduce a logically plausible but cyclic set of service dependencies.
+
+For example:
+
+```text
+Boot VM [General Purpose Compute]
+
+Validate VM [Boot VM]
+
+Register with Domain [Validate VM]
+```
+
+while General Purpose Compute itself requires Identity and Identity requires Register with Domain.
+
+This creates a cycle through the model.
+
+The SMV MUST detect and reject the cycle.
+
+It MUST NOT choose an arbitrary ordering merely to make the model executable.
+
+This is an important architectural property:
+
+> **The model is allowed to be wrong. The validator is not allowed to pretend that it is right.**
+
+---
+
+## 22. Minimum Viable Model Principle
+
+The Minimum Viable Service Model intentionally contains only enough information to describe:
 
 ```text
 WHAT THE SERVICE IS
         ↓
 WHAT THE SERVICE REQUIRES
         ↓
+WHERE SERVICE RESOLUTION TERMINATES
+        ↓
+WHICH AUTOMATION CAPABILITY IS REQUIRED
+        ↓
 WHAT MUST HAPPEN
         ↓
 HOW THE WORK IS EXECUTED
 ```
+
+The Service Model should not become an orchestration workflow.
+
+The Lifecycle Card should not become an automation artifact.
+
+The Atomic Node should not contain executable code.
+
+The automation name should not masquerade as machine identity.
+
+The automation UUID should not encode architectural location or implementation details.
+
+The Automation Registry should resolve identity to implementation without changing service-model truth.
+
+The Execution DAG should not become persistent architectural truth.
+
+Each construct has one job.
 
 That separation is the foundation of the IPERA Minimum Viable Service Model.
