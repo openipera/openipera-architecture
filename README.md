@@ -197,9 +197,7 @@ They should therefore be read as a progression of architectural experiments:
 HYPOTHESIS → POC → EVIDENCE → LEARNING → NEXT HYPOTHESIS
 ```
 
-Earlier POCs are intentionally preserved when later experiments refine or invalidate an earlier assumption. The history of the experiments is part of the architectural evidence.  POC-01, POC-02, and subsequent POCs test distinct hypotheses; they are **not successive
-software releases**. Each experiment keeps its own model, runtime, tests, artifacts,
-configuration, documentation, and available evidence.
+Earlier POCs are intentionally preserved when later experiments refine or invalidate an earlier assumption. The history of the experiments is part of the architectural evidence.
 
 ```text
 POC-01 — demonstrated by its recorded validation
