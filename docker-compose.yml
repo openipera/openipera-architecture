@@ -1,0 +1,32 @@
+services:
+  model:
+    image: python:3.13-slim
+    command: ["python", "-m", "http.server", "8000", "--directory", "/model"]
+    volumes:
+      - ./model:/model:ro
+    ports:
+      - "127.0.0.1:18080:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/service-model.json')"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+  orchestrator:
+    build: .
+    environment:
+      MODEL_URL: http://model:8000/service-model.json
+      ARTIFACT_DIR: /artifacts
+      EVIDENCE_DIR: /evidence
+    volumes:
+      - ./artifacts:/artifacts:ro
+      - ./evidence:/evidence
+    ports:
+      - "127.0.0.1:18081:8080"
+    depends_on:
+      model:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
