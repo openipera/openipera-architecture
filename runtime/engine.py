@@ -1,75 +1,98 @@
-"""Generic model consumer; no service-specific workflow or automation."""
+"""Resolve persistent dependency facts into a request-scoped execution DAG."""
 import hashlib
-import json
+import re
 from concurrent.futures import ThreadPoolExecutor
-from graphlib import TopologicalSorter
-from urllib.request import urlopen
+from graphlib import CycleError, TopologicalSorter
 
 
 def digest(data):
     return hashlib.sha256(data).hexdigest()
 
 
-def derive(model, service):
-    nodes = model['nodes']
-    entry = nodes.get(service, {})
-    if entry.get('kind') != 'service' or not entry.get('contract'):
-        raise ValueError('Entry must be a callable service')
-    graph = {}
+class ResolutionError(ValueError):
+    def __init__(self, message, *, dependencies_resolved=None, cycle_detected=None,
+                 missing_references=None, cycle=None):
+        super().__init__(message)
+        self.details = dict(valid=False, dependencies_resolved=dependencies_resolved,
+                            cycle_detected=cycle_detected,
+                            missing_references=missing_references or [], cycle=cycle or [])
+
+
+def derive(model, entry_point):
+    """Resolve the entry point's transitive prerequisites; edges run prerequisite -> node."""
+    if not isinstance(model, dict) or set(model) != {'nodes'} or not isinstance(model['nodes'], list):
+        raise ResolutionError('Model must contain only a nodes list')
+    nodes = {}
+    for node in model['nodes']:
+        if not isinstance(node, dict) or set(node) != {'service', 'node', 'dependencies'}:
+            raise ResolutionError('Every node requires exactly service, node, dependencies')
+        service, name, deps = node['service'], node['node'], node['dependencies']
+        if not isinstance(service, str) or not re.fullmatch(r'[A-Za-z][A-Za-z0-9_-]*', service):
+            raise ResolutionError('Invalid service name')
+        if isinstance(name, str) and name.startswith('S-'):
+            raise ResolutionError('S-* Service Node semantics are undefined in POC-02')
+        if not isinstance(name, str) or not re.fullmatch(r'AN-[A-Za-z0-9_-]+', name):
+            raise ResolutionError('Expected an AN-* Atomic Node name')
+        if not isinstance(deps, list) or not all(
+            isinstance(dep, str) and re.fullmatch(r'[A-Za-z][A-Za-z0-9_-]*\.AN-[A-Za-z0-9_-]+', dep)
+            for dep in deps
+        ):
+            raise ResolutionError(f'{service}.{name}: dependencies must be fully qualified AN references')
+        qualified = f'{service}.{name}'
+        if qualified in nodes:
+            raise ResolutionError(f'Duplicate node: {qualified}')
+        nodes[qualified] = node
+    if entry_point not in nodes:
+        raise ResolutionError(f'Unknown entry point: {entry_point}', dependencies_resolved=False,
+                              missing_references=[entry_point])
+
+    graph, missing = {}, []
 
     def visit(name):
         if name in graph:
             return
-        node = nodes[name]
-        kind = node['kind']
-        if kind not in ('service', 'atomic'):
-            raise ValueError('Unknown node kind')
-        allowed = {'kind', 'requires', 'contract'} if kind == 'service' else {'kind', 'requires', 'binding'}
-        if set(node) - allowed:
-            raise ValueError('Unexpected model fields; automation is external')
-        deps = node['requires']
-        if not isinstance(deps, list) or not all(isinstance(d, str) for d in deps):
-            raise ValueError('requires must be a list of node references')
-        if kind == 'atomic' and set(node['binding']) != {'artifact', 'sha256'}:
-            raise ValueError('Atomic binding must identify artifact and content digest')
-        graph[name] = deps
-        for dep in deps:
-            visit(dep)
+        graph[name] = sorted(set(nodes[name]['dependencies']))
+        for dep in graph[name]:
+            if dep not in nodes:
+                missing.append(f'{name} depends on missing {dep}')
+            else:
+                visit(dep)
 
-    visit(service)
+    visit(entry_point)
+    if missing:
+        raise ResolutionError('; '.join(missing), dependencies_resolved=False,
+                              missing_references=missing)
     sorter = TopologicalSorter(graph)
-    sorter.prepare()  # Validate the complete reachable graph before any execution.
+    try:
+        sorter.prepare()
+    except CycleError as exc:
+        cycle = exc.args[1]
+        raise ResolutionError('Dependency cycle (prerequisite -> dependent): ' + ' -> '.join(cycle),
+                              dependencies_resolved=True, cycle_detected=True, cycle=cycle) from exc
     layers = []
     while sorter.is_active():
         ready = sorted(sorter.get_ready())
         layers.append(ready)
         sorter.done(*ready)
-    return layers
+    return {'entry_point': entry_point, 'nodes': sorted(graph),
+            'edges': sorted([[dep, name] for name, deps in graph.items() for dep in deps]),
+            'layers': layers, 'valid': True, 'dependencies_resolved': True,
+            'cycle_detected': False}
 
 
-def realize(model_url, service, execute, emit):
-    with urlopen(model_url, timeout=10) as response:
-        raw = response.read()
-    model = json.loads(raw)
-    layers = derive(model, service)
-    emit('plan', model_sha256=digest(raw), model=model, layers=layers)
-
+def execute_dag(dag, binding, execute, emit):
+    """Barrier per derived layer; no domain names or model facts live here."""
     def action(name):
-        node = model['nodes'][name]
-        if node['kind'] == 'service':
-            emit('service_complete', node=name)
-            return True
-        emit('action_started', node=name, binding=node['binding'])
+        emit('action_started', node=name, binding=binding)
         try:
-            result = execute(name, node['binding'])
+            result = execute(name, binding)
         except Exception as exc:
             result = {'returncode': -1, 'stderr': str(exc), 'stdout': ''}
         emit('action_finished', node=name, **result)
         return result['returncode'] == 0
 
-    for layer in layers:
+    for layer in dag['layers']:
         with ThreadPoolExecutor(max_workers=min(8, len(layer))) as pool:
             outcomes = list(pool.map(action, layer))
         if not all(outcomes):
             raise RuntimeError('Action failed; dependent layers were not executed')
-    return layers

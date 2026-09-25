@@ -1,5 +1,8 @@
 # Actual POC-01 validation
 
+> Historical results for POC-01, not validation of the current POC-02 runtime.
+> See [POC-02 validation](POC-02-VALIDATION.md) for the current iteration.
+
 Executed 2026-09-24 on the user's Windows laptop, from the existing repository
 `F:\Programming\IPERA\ipera-demonstration-project`.
 

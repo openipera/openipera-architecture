@@ -1,0 +1,27 @@
+{
+  "nodes": [
+    "Compute.AN-DeployVM", "Compute.AN-ConfigureCPU", "Storage.AN-ProvisionDisk",
+    "Compute.AN-ConfigureDisk", "Network.AN-AllocateIP", "Network.AN-RegisterDNS",
+    "Compute.AN-ConfigureIP", "Identity.AN-JoinDomain", "Compute.AN-ValidateVM"
+  ],
+  "edges": [
+    ["Compute.AN-DeployVM", "Compute.AN-ConfigureCPU"],
+    ["Compute.AN-DeployVM", "Compute.AN-ConfigureDisk"],
+    ["Storage.AN-ProvisionDisk", "Compute.AN-ConfigureDisk"],
+    ["Network.AN-AllocateIP", "Network.AN-RegisterDNS"],
+    ["Compute.AN-DeployVM", "Compute.AN-ConfigureIP"],
+    ["Network.AN-RegisterDNS", "Compute.AN-ConfigureIP"],
+    ["Compute.AN-DeployVM", "Identity.AN-JoinDomain"],
+    ["Network.AN-RegisterDNS", "Identity.AN-JoinDomain"],
+    ["Compute.AN-ConfigureCPU", "Compute.AN-ValidateVM"],
+    ["Compute.AN-ConfigureDisk", "Compute.AN-ValidateVM"],
+    ["Compute.AN-ConfigureIP", "Compute.AN-ValidateVM"],
+    ["Identity.AN-JoinDomain", "Compute.AN-ValidateVM"]
+  ],
+  "layers": [
+    ["Compute.AN-DeployVM", "Storage.AN-ProvisionDisk", "Network.AN-AllocateIP"],
+    ["Compute.AN-ConfigureCPU", "Compute.AN-ConfigureDisk", "Network.AN-RegisterDNS"],
+    ["Compute.AN-ConfigureIP", "Identity.AN-JoinDomain"],
+    ["Compute.AN-ValidateVM"]
+  ]
+}
