@@ -1,0 +1,371 @@
+{
+  "result": "PASS",
+  "baseline": {
+    "run_id": "e1fcd258e752406b9321e39a7e1a1930",
+    "status": "succeeded",
+    "events": [
+      {
+        "run_id": "e1fcd258e752406b9321e39a7e1a1930",
+        "sequence": 0,
+        "time_ns": 1790352997133981596,
+        "event": "request_started",
+        "service": "A"
+      },
+      {
+        "run_id": "e1fcd258e752406b9321e39a7e1a1930",
+        "sequence": 1,
+        "time_ns": 1790352997143819346,
+        "event": "plan",
+        "model_sha256": "e8b5e339bca494baedce5a6432c3ff4a144008d454608393555406e960977431",
+        "model": {
+          "version": "poc-01/v1",
+          "nodes": {
+            "A": {
+              "contract": {
+                "invocation": "POST /requests",
+                "version": "1",
+                "output": {
+                  "run_id": "string",
+                  "status": "succeeded|failed"
+                },
+                "input": {
+                  "service": "A"
+                }
+              },
+              "kind": "service",
+              "requires": [
+                "B",
+                "C"
+              ]
+            },
+            "B": {
+              "binding": {
+                "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a",
+                "artifact": "v1/record.py"
+              },
+              "kind": "atomic",
+              "requires": [
+                "D"
+              ]
+            },
+            "C": {
+              "binding": {
+                "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a",
+                "artifact": "v1/record.py"
+              },
+              "kind": "atomic",
+              "requires": [
+                "D"
+              ]
+            },
+            "D": {
+              "binding": {
+                "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a",
+                "artifact": "v1/record.py"
+              },
+              "kind": "atomic",
+              "requires": []
+            }
+          }
+        },
+        "layers": [
+          [
+            "D"
+          ],
+          [
+            "B",
+            "C"
+          ],
+          [
+            "A"
+          ]
+        ]
+      },
+      {
+        "run_id": "e1fcd258e752406b9321e39a7e1a1930",
+        "sequence": 2,
+        "time_ns": 1790352997144339430,
+        "event": "action_started",
+        "node": "D",
+        "binding": {
+          "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a",
+          "artifact": "v1/record.py"
+        }
+      },
+      {
+        "run_id": "e1fcd258e752406b9321e39a7e1a1930",
+        "sequence": 3,
+        "time_ns": 1790352997202601846,
+        "event": "action_finished",
+        "node": "D",
+        "returncode": 0,
+        "stdout": "{\"action\": \"D\", \"result\": \"ok\"}\n",
+        "stderr": "",
+        "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+      },
+      {
+        "run_id": "e1fcd258e752406b9321e39a7e1a1930",
+        "sequence": 4,
+        "time_ns": 1790352997203256013,
+        "event": "action_started",
+        "node": "B",
+        "binding": {
+          "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a",
+          "artifact": "v1/record.py"
+        }
+      },
+      {
+        "run_id": "e1fcd258e752406b9321e39a7e1a1930",
+        "sequence": 5,
+        "time_ns": 1790352997203538888,
+        "event": "action_started",
+        "node": "C",
+        "binding": {
+          "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a",
+          "artifact": "v1/record.py"
+        }
+      },
+      {
+        "run_id": "e1fcd258e752406b9321e39a7e1a1930",
+        "sequence": 6,
+        "time_ns": 1790352997262710721,
+        "event": "action_finished",
+        "node": "B",
+        "returncode": 0,
+        "stdout": "{\"action\": \"B\", \"result\": \"ok\"}\n",
+        "stderr": "",
+        "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+      },
+      {
+        "run_id": "e1fcd258e752406b9321e39a7e1a1930",
+        "sequence": 7,
+        "time_ns": 1790352997267277596,
+        "event": "action_finished",
+        "node": "C",
+        "returncode": 0,
+        "stdout": "{\"action\": \"C\", \"result\": \"ok\"}\n",
+        "stderr": "",
+        "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+      },
+      {
+        "run_id": "e1fcd258e752406b9321e39a7e1a1930",
+        "sequence": 8,
+        "time_ns": 1790352997267811513,
+        "event": "service_complete",
+        "node": "A"
+      },
+      {
+        "run_id": "e1fcd258e752406b9321e39a7e1a1930",
+        "sequence": 9,
+        "time_ns": 1790352997268096388,
+        "event": "request_finished",
+        "status": "succeeded"
+      }
+    ]
+  },
+  "model_only_E": {
+    "run_id": "5530946ed4884171b5bdc085fe1fdbdc",
+    "status": "succeeded",
+    "events": [
+      {
+        "run_id": "5530946ed4884171b5bdc085fe1fdbdc",
+        "sequence": 0,
+        "time_ns": 1790352997271110846,
+        "event": "request_started",
+        "service": "A"
+      },
+      {
+        "run_id": "5530946ed4884171b5bdc085fe1fdbdc",
+        "sequence": 1,
+        "time_ns": 1790352997272692638,
+        "event": "plan",
+        "model_sha256": "701fd63c678a2e8e5c92679e40d4893c4e340ab02612924453c10af9b67db4d9",
+        "model": {
+          "version": "poc-01/v1",
+          "nodes": {
+            "A": {
+              "contract": {
+                "invocation": "POST /requests",
+                "version": "1",
+                "output": {
+                  "run_id": "string",
+                  "status": "succeeded|failed"
+                },
+                "input": {
+                  "service": "A"
+                }
+              },
+              "kind": "service",
+              "requires": [
+                "B",
+                "C",
+                "E"
+              ]
+            },
+            "B": {
+              "binding": {
+                "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a",
+                "artifact": "v1/record.py"
+              },
+              "kind": "atomic",
+              "requires": [
+                "D"
+              ]
+            },
+            "C": {
+              "binding": {
+                "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a",
+                "artifact": "v1/record.py"
+              },
+              "kind": "atomic",
+              "requires": [
+                "D"
+              ]
+            },
+            "D": {
+              "binding": {
+                "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a",
+                "artifact": "v1/record.py"
+              },
+              "kind": "atomic",
+              "requires": []
+            },
+            "E": {
+              "binding": {
+                "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a",
+                "artifact": "v1/record.py"
+              },
+              "kind": "atomic",
+              "requires": [
+                "D"
+              ]
+            }
+          }
+        },
+        "layers": [
+          [
+            "D"
+          ],
+          [
+            "B",
+            "C",
+            "E"
+          ],
+          [
+            "A"
+          ]
+        ]
+      },
+      {
+        "run_id": "5530946ed4884171b5bdc085fe1fdbdc",
+        "sequence": 2,
+        "time_ns": 1790352997273183430,
+        "event": "action_started",
+        "node": "D",
+        "binding": {
+          "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a",
+          "artifact": "v1/record.py"
+        }
+      },
+      {
+        "run_id": "5530946ed4884171b5bdc085fe1fdbdc",
+        "sequence": 3,
+        "time_ns": 1790352997331394513,
+        "event": "action_finished",
+        "node": "D",
+        "returncode": 0,
+        "stdout": "{\"action\": \"D\", \"result\": \"ok\"}\n",
+        "stderr": "",
+        "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+      },
+      {
+        "run_id": "5530946ed4884171b5bdc085fe1fdbdc",
+        "sequence": 4,
+        "time_ns": 1790352997332051513,
+        "event": "action_started",
+        "node": "B",
+        "binding": {
+          "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a",
+          "artifact": "v1/record.py"
+        }
+      },
+      {
+        "run_id": "5530946ed4884171b5bdc085fe1fdbdc",
+        "sequence": 5,
+        "time_ns": 1790352997332661222,
+        "event": "action_started",
+        "node": "C",
+        "binding": {
+          "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a",
+          "artifact": "v1/record.py"
+        }
+      },
+      {
+        "run_id": "5530946ed4884171b5bdc085fe1fdbdc",
+        "sequence": 6,
+        "time_ns": 1790352997333128680,
+        "event": "action_started",
+        "node": "E",
+        "binding": {
+          "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a",
+          "artifact": "v1/record.py"
+        }
+      },
+      {
+        "run_id": "5530946ed4884171b5bdc085fe1fdbdc",
+        "sequence": 7,
+        "time_ns": 1790352997392647097,
+        "event": "action_finished",
+        "node": "B",
+        "returncode": 0,
+        "stdout": "{\"action\": \"B\", \"result\": \"ok\"}\n",
+        "stderr": "",
+        "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+      },
+      {
+        "run_id": "5530946ed4884171b5bdc085fe1fdbdc",
+        "sequence": 8,
+        "time_ns": 1790352997396659388,
+        "event": "action_finished",
+        "node": "C",
+        "returncode": 0,
+        "stdout": "{\"action\": \"C\", \"result\": \"ok\"}\n",
+        "stderr": "",
+        "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+      },
+      {
+        "run_id": "5530946ed4884171b5bdc085fe1fdbdc",
+        "sequence": 9,
+        "time_ns": 1790352997396998638,
+        "event": "action_finished",
+        "node": "E",
+        "returncode": 0,
+        "stdout": "{\"action\": \"E\", \"result\": \"ok\"}\n",
+        "stderr": "",
+        "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+      },
+      {
+        "run_id": "5530946ed4884171b5bdc085fe1fdbdc",
+        "sequence": 10,
+        "time_ns": 1790352997397488263,
+        "event": "service_complete",
+        "node": "A"
+      },
+      {
+        "run_id": "5530946ed4884171b5bdc085fe1fdbdc",
+        "sequence": 11,
+        "time_ns": 1790352997397818305,
+        "event": "request_finished",
+        "status": "succeeded"
+      }
+    ]
+  },
+  "unchanged_files_sha256": {
+    "runtime/server.py": "9c7e33a04066907d991ebb818a559c105a4f6032de801ed32031626ab01f7aa2",
+    "runtime/execution.py": "56fde974b64d7b4f28cb6631222061bc3ae4a06794c2e40e752d45a7d9ba8b34",
+    "runtime/engine.py": "6fa86787945c5d04b6bac2c34296789cf1cb64bab40d4ea31ddfe5678616fabd",
+    "artifacts/v1/record.py": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a",
+    "Dockerfile": "e7efdf87c00707e96c38f3e21a2f8da1c05b64f7e3212e774b9a32343033c98d",
+    "docker-compose.yml": "4fcb55c22ae7943a38f1c3ab9dfe1f740c6823a353ec6d453fab5fa6bab76ccd"
+  }
+}

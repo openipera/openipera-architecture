@@ -71,3 +71,15 @@ provenance; no separate browser-rendered visual layout test was performed.
 Changes are confined to the root README and the new independent `poc-03/` tree.
 The final implementation commit and push result are reported with the handoff, since
 embedding a commit's own SHA in its contents would create a circular reference.
+
+
+## Docker follow-up — completed later on 2026-09-25
+
+After Docker Desktop became available, both original Compose stacks built and
+became healthy in disposable copies. All 6 POC-01 and 12 POC-02 unit tests passed
+inside containers, as did both container-to-container live HTTP conformance suites.
+Test containers/networks were removed. This closes the earlier container-startup
+verification gap without changing either historical experiment.
+
+See [Docker follow-up evidence](docker-validation/README.md) for setup details,
+initial environment failures, and successful test transcripts and conformance JSON.

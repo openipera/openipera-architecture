@@ -1,0 +1,48 @@
+ Image python:3.13-slim Pulling 
+ 0fb3db4aef9a Pulling fs layer 0B
+ 123abebbace7 Pulling fs layer 0B
+ bd36565c0fde Pulling fs layer 0B
+ 4b83fbae47dd Pulling fs layer 0B
+ 55e5012f3959 Download complete 0B
+ d3624ea90579 Downloading 1.049MB
+ 0fb3db4aef9a Download complete 0B
+ 123abebbace7 Downloading 1.049MB
+ d3624ea90579 Download complete 0B
+ 123abebbace7 Download complete 0B
+ bd36565c0fde Downloading 2.097MB
+ bd36565c0fde Downloading 4.194MB
+ 4b83fbae47dd Downloading 1.049MB
+ bd36565c0fde Downloading 6.291MB
+ 4b83fbae47dd Downloading 2.097MB
+ bd36565c0fde Downloading 9.437MB
+ 4b83fbae47dd Downloading 3.146MB
+ bd36565c0fde Downloading 11.53MB
+ 4b83fbae47dd Downloading 4.194MB
+ bd36565c0fde Downloading 14.68MB
+ 4b83fbae47dd Downloading 5.243MB
+ bd36565c0fde Downloading 17.83MB
+ 4b83fbae47dd Downloading 6.291MB
+ bd36565c0fde Downloading 20.97MB
+ 4b83fbae47dd Downloading 8.389MB
+ bd36565c0fde Downloading 25.17MB
+ 4b83fbae47dd Downloading 10.49MB
+ bd36565c0fde Downloading 30.19MB
+ 4b83fbae47dd Download complete 0B
+ bd36565c0fde Download complete 0B
+ bd36565c0fde Extracting 1B
+ bd36565c0fde Extracting 1B
+ bd36565c0fde Extracting 1B
+ bd36565c0fde Extracting 1B
+ bd36565c0fde Extracting 1B
+ bd36565c0fde Extracting 1B
+ 123abebbace7 Extracting 1B
+ bd36565c0fde Pull complete 0B
+ 123abebbace7 Pull complete 0B
+ 4b83fbae47dd Extracting 1B
+ 4b83fbae47dd Extracting 1B
+ 0fb3db4aef9a Pull complete 0B
+ 4b83fbae47dd Pull complete 0B
+ Image python:3.13-slim Pulled 
+ Image ipera-validation-poc-01-orchestrator Building 
+failed to update builder last activity time: open /Users/stevjon/.docker/buildx/activity/.tmp-default241584434: operation not permitted
+

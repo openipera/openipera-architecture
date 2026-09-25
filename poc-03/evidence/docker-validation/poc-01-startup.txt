@@ -1,0 +1,61 @@
+ Image ipera-validation-poc-01-orchestrator Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 678B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 171B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.13-slim
+#3 DONE 0.1s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 93B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 6.69kB done
+#5 DONE 0.0s
+
+#6 [1/3] FROM docker.io/library/python:3.13-slim@sha256:8d9d0b8bcf6506481eae4907c18f5e3e7902e629f5f6d684f9e7c32e85e3ddf0
+#6 resolve docker.io/library/python:3.13-slim@sha256:8d9d0b8bcf6506481eae4907c18f5e3e7902e629f5f6d684f9e7c32e85e3ddf0 0.0s done
+#6 DONE 0.0s
+
+#7 [2/3] WORKDIR /app
+#7 DONE 0.3s
+
+#8 [3/3] COPY runtime/ /app/
+#8 DONE 0.0s
+
+#9 exporting to image
+#9 exporting layers 0.0s done
+#9 exporting manifest sha256:19fd8bd5bcbffa91160a0c0393b66e15752c41151dcc7caa44c2c9a287d066e4 done
+#9 exporting config sha256:980c5915717e1a3ec2b9d176b0a3db91961748cc033d18a32c85d58a4a6bba00 done
+#9 exporting attestation manifest sha256:5b8954514e5f6c97d43293e80f7994a1a78fab0f964babf1b92b264f35913dc4 0.0s done
+#9 exporting manifest list sha256:b90caee770173aa660e0c60d0a1b19d9b32c8f8a58592dcf26fec816f154b237 done
+#9 naming to docker.io/library/ipera-validation-poc-01-orchestrator:latest done
+#9 unpacking to docker.io/library/ipera-validation-poc-01-orchestrator:latest 0.0s done
+#9 DONE 0.1s
+
+#10 resolving provenance for metadata file
+#10 DONE 0.0s
+ Image ipera-validation-poc-01-orchestrator Built 
+ Network ipera-validation-poc-01_default Creating 
+ Network ipera-validation-poc-01_default Creating 
+ Network ipera-validation-poc-01_default Created 
+ Network ipera-validation-poc-01_default Created 
+ Container ipera-validation-poc-01-model-1 Creating 
+ Container ipera-validation-poc-01-model-1 Created 
+ Container ipera-validation-poc-01-orchestrator-1 Creating 
+ Container ipera-validation-poc-01-orchestrator-1 Created 
+ Container ipera-validation-poc-01-model-1 Starting 
+ Container ipera-validation-poc-01-model-1 Started 
+ Container ipera-validation-poc-01-model-1 Waiting 
+ Container ipera-validation-poc-01-model-1 Healthy 
+ Container ipera-validation-poc-01-orchestrator-1 Starting 
+ Container ipera-validation-poc-01-orchestrator-1 Started 
+ Container ipera-validation-poc-01-model-1 Waiting 
+ Container ipera-validation-poc-01-orchestrator-1 Waiting 
+ Container ipera-validation-poc-01-model-1 Healthy 
+ Container ipera-validation-poc-01-orchestrator-1 Healthy 

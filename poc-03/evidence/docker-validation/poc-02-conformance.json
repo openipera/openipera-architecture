@@ -1,0 +1,1416 @@
+{
+  "result": "PASS",
+  "baseline_restored": true,
+  "runs": {
+    "baseline": {
+      "run_id": "30d9df21fb2842b3b8abc4a393c0dc7a",
+      "status": "succeeded",
+      "dag": {
+        "entry_point": "Compute.AN-ValidateVM",
+        "nodes": [
+          "Compute.AN-ConfigureCPU",
+          "Compute.AN-ConfigureDisk",
+          "Compute.AN-ConfigureIP",
+          "Compute.AN-DeployVM",
+          "Compute.AN-ValidateVM",
+          "Identity.AN-JoinDomain",
+          "Network.AN-AllocateIP",
+          "Network.AN-RegisterDNS",
+          "Storage.AN-ProvisionDisk"
+        ],
+        "edges": [
+          [
+            "Compute.AN-ConfigureCPU",
+            "Compute.AN-ValidateVM"
+          ],
+          [
+            "Compute.AN-ConfigureDisk",
+            "Compute.AN-ValidateVM"
+          ],
+          [
+            "Compute.AN-ConfigureIP",
+            "Compute.AN-ValidateVM"
+          ],
+          [
+            "Compute.AN-DeployVM",
+            "Compute.AN-ConfigureCPU"
+          ],
+          [
+            "Compute.AN-DeployVM",
+            "Compute.AN-ConfigureDisk"
+          ],
+          [
+            "Compute.AN-DeployVM",
+            "Compute.AN-ConfigureIP"
+          ],
+          [
+            "Compute.AN-DeployVM",
+            "Identity.AN-JoinDomain"
+          ],
+          [
+            "Identity.AN-JoinDomain",
+            "Compute.AN-ValidateVM"
+          ],
+          [
+            "Network.AN-AllocateIP",
+            "Network.AN-RegisterDNS"
+          ],
+          [
+            "Network.AN-RegisterDNS",
+            "Compute.AN-ConfigureIP"
+          ],
+          [
+            "Network.AN-RegisterDNS",
+            "Identity.AN-JoinDomain"
+          ],
+          [
+            "Storage.AN-ProvisionDisk",
+            "Compute.AN-ConfigureDisk"
+          ]
+        ],
+        "layers": [
+          [
+            "Compute.AN-DeployVM",
+            "Network.AN-AllocateIP",
+            "Storage.AN-ProvisionDisk"
+          ],
+          [
+            "Compute.AN-ConfigureCPU",
+            "Compute.AN-ConfigureDisk",
+            "Network.AN-RegisterDNS"
+          ],
+          [
+            "Compute.AN-ConfigureIP",
+            "Identity.AN-JoinDomain"
+          ],
+          [
+            "Compute.AN-ValidateVM"
+          ]
+        ],
+        "valid": true,
+        "dependencies_resolved": true,
+        "cycle_detected": false
+      },
+      "evidence": "30d9df21fb2842b3b8abc4a393c0dc7a-execution-dag.md",
+      "events": [
+        {
+          "run_id": "30d9df21fb2842b3b8abc4a393c0dc7a",
+          "sequence": 0,
+          "time_ns": 1790353011304819881,
+          "event": "request_started",
+          "request": "{\"entry_point\": \"Compute.AN-ValidateVM\"}"
+        },
+        {
+          "run_id": "30d9df21fb2842b3b8abc4a393c0dc7a",
+          "sequence": 1,
+          "time_ns": 1790353011314646256,
+          "event": "model_snapshot",
+          "source": "http://model:8000/service-model.json",
+          "model_sha256": "87f428a1ba6cc40da5e71dcd224fd9f5c4f35c65919d9a88addf04422d6e56fb",
+          "model_text": "{\n  \"nodes\": [\n    {\"service\": \"Compute\", \"node\": \"AN-DeployVM\", \"dependencies\": []},\n    {\"service\": \"Compute\", \"node\": \"AN-ConfigureCPU\", \"dependencies\": [\"Compute.AN-DeployVM\"]},\n    {\"service\": \"Storage\", \"node\": \"AN-ProvisionDisk\", \"dependencies\": []},\n    {\"service\": \"Compute\", \"node\": \"AN-ConfigureDisk\", \"dependencies\": [\"Compute.AN-DeployVM\", \"Storage.AN-ProvisionDisk\"]},\n    {\"service\": \"Network\", \"node\": \"AN-AllocateIP\", \"dependencies\": []},\n    {\"service\": \"Network\", \"node\": \"AN-RegisterDNS\", \"dependencies\": [\"Network.AN-AllocateIP\"]},\n    {\"service\": \"Compute\", \"node\": \"AN-ConfigureIP\", \"dependencies\": [\"Compute.AN-DeployVM\", \"Network.AN-RegisterDNS\"]},\n    {\"service\": \"Identity\", \"node\": \"AN-JoinDomain\", \"dependencies\": [\"Compute.AN-DeployVM\", \"Network.AN-RegisterDNS\"]},\n    {\"service\": \"Compute\", \"node\": \"AN-ValidateVM\", \"dependencies\": [\"Compute.AN-ConfigureCPU\", \"Compute.AN-ConfigureDisk\", \"Compute.AN-ConfigureIP\", \"Identity.AN-JoinDomain\"]}\n  ]\n}\n"
+        },
+        {
+          "run_id": "30d9df21fb2842b3b8abc4a393c0dc7a",
+          "sequence": 2,
+          "time_ns": 1790353011315070756,
+          "event": "resolution_succeeded",
+          "dag": {
+            "entry_point": "Compute.AN-ValidateVM",
+            "nodes": [
+              "Compute.AN-ConfigureCPU",
+              "Compute.AN-ConfigureDisk",
+              "Compute.AN-ConfigureIP",
+              "Compute.AN-DeployVM",
+              "Compute.AN-ValidateVM",
+              "Identity.AN-JoinDomain",
+              "Network.AN-AllocateIP",
+              "Network.AN-RegisterDNS",
+              "Storage.AN-ProvisionDisk"
+            ],
+            "edges": [
+              [
+                "Compute.AN-ConfigureCPU",
+                "Compute.AN-ValidateVM"
+              ],
+              [
+                "Compute.AN-ConfigureDisk",
+                "Compute.AN-ValidateVM"
+              ],
+              [
+                "Compute.AN-ConfigureIP",
+                "Compute.AN-ValidateVM"
+              ],
+              [
+                "Compute.AN-DeployVM",
+                "Compute.AN-ConfigureCPU"
+              ],
+              [
+                "Compute.AN-DeployVM",
+                "Compute.AN-ConfigureDisk"
+              ],
+              [
+                "Compute.AN-DeployVM",
+                "Compute.AN-ConfigureIP"
+              ],
+              [
+                "Compute.AN-DeployVM",
+                "Identity.AN-JoinDomain"
+              ],
+              [
+                "Identity.AN-JoinDomain",
+                "Compute.AN-ValidateVM"
+              ],
+              [
+                "Network.AN-AllocateIP",
+                "Network.AN-RegisterDNS"
+              ],
+              [
+                "Network.AN-RegisterDNS",
+                "Compute.AN-ConfigureIP"
+              ],
+              [
+                "Network.AN-RegisterDNS",
+                "Identity.AN-JoinDomain"
+              ],
+              [
+                "Storage.AN-ProvisionDisk",
+                "Compute.AN-ConfigureDisk"
+              ]
+            ],
+            "layers": [
+              [
+                "Compute.AN-DeployVM",
+                "Network.AN-AllocateIP",
+                "Storage.AN-ProvisionDisk"
+              ],
+              [
+                "Compute.AN-ConfigureCPU",
+                "Compute.AN-ConfigureDisk",
+                "Network.AN-RegisterDNS"
+              ],
+              [
+                "Compute.AN-ConfigureIP",
+                "Identity.AN-JoinDomain"
+              ],
+              [
+                "Compute.AN-ValidateVM"
+              ]
+            ],
+            "valid": true,
+            "dependencies_resolved": true,
+            "cycle_detected": false
+          }
+        },
+        {
+          "run_id": "30d9df21fb2842b3b8abc4a393c0dc7a",
+          "sequence": 3,
+          "time_ns": 1790353011315555506,
+          "event": "binding_resolved",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          },
+          "binding_sha256": "3d19e9fa57311a7d6b3100fd0ad8b0d30542ef2ed17da85471746506319cd442"
+        },
+        {
+          "run_id": "30d9df21fb2842b3b8abc4a393c0dc7a",
+          "sequence": 4,
+          "time_ns": 1790353011315817922,
+          "event": "action_started",
+          "node": "Compute.AN-DeployVM",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "30d9df21fb2842b3b8abc4a393c0dc7a",
+          "sequence": 5,
+          "time_ns": 1790353011316162797,
+          "event": "action_started",
+          "node": "Network.AN-AllocateIP",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "30d9df21fb2842b3b8abc4a393c0dc7a",
+          "sequence": 6,
+          "time_ns": 1790353011316469714,
+          "event": "action_started",
+          "node": "Storage.AN-ProvisionDisk",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "30d9df21fb2842b3b8abc4a393c0dc7a",
+          "sequence": 7,
+          "time_ns": 1790353011375478381,
+          "event": "action_finished",
+          "node": "Compute.AN-DeployVM",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Compute.AN-DeployVM\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "30d9df21fb2842b3b8abc4a393c0dc7a",
+          "sequence": 8,
+          "time_ns": 1790353011378299464,
+          "event": "action_finished",
+          "node": "Network.AN-AllocateIP",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Network.AN-AllocateIP\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "30d9df21fb2842b3b8abc4a393c0dc7a",
+          "sequence": 9,
+          "time_ns": 1790353011378928922,
+          "event": "action_finished",
+          "node": "Storage.AN-ProvisionDisk",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Storage.AN-ProvisionDisk\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "30d9df21fb2842b3b8abc4a393c0dc7a",
+          "sequence": 10,
+          "time_ns": 1790353011379401422,
+          "event": "action_started",
+          "node": "Compute.AN-ConfigureCPU",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "30d9df21fb2842b3b8abc4a393c0dc7a",
+          "sequence": 11,
+          "time_ns": 1790353011379926047,
+          "event": "action_started",
+          "node": "Compute.AN-ConfigureDisk",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "30d9df21fb2842b3b8abc4a393c0dc7a",
+          "sequence": 12,
+          "time_ns": 1790353011380363172,
+          "event": "action_started",
+          "node": "Network.AN-RegisterDNS",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "30d9df21fb2842b3b8abc4a393c0dc7a",
+          "sequence": 13,
+          "time_ns": 1790353011440581922,
+          "event": "action_finished",
+          "node": "Compute.AN-ConfigureCPU",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Compute.AN-ConfigureCPU\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "30d9df21fb2842b3b8abc4a393c0dc7a",
+          "sequence": 14,
+          "time_ns": 1790353011445341381,
+          "event": "action_finished",
+          "node": "Compute.AN-ConfigureDisk",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Compute.AN-ConfigureDisk\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "30d9df21fb2842b3b8abc4a393c0dc7a",
+          "sequence": 15,
+          "time_ns": 1790353011449788756,
+          "event": "action_finished",
+          "node": "Network.AN-RegisterDNS",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Network.AN-RegisterDNS\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "30d9df21fb2842b3b8abc4a393c0dc7a",
+          "sequence": 16,
+          "time_ns": 1790353011450363881,
+          "event": "action_started",
+          "node": "Compute.AN-ConfigureIP",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "30d9df21fb2842b3b8abc4a393c0dc7a",
+          "sequence": 17,
+          "time_ns": 1790353011450640297,
+          "event": "action_started",
+          "node": "Identity.AN-JoinDomain",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "30d9df21fb2842b3b8abc4a393c0dc7a",
+          "sequence": 18,
+          "time_ns": 1790353011515972797,
+          "event": "action_finished",
+          "node": "Compute.AN-ConfigureIP",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Compute.AN-ConfigureIP\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "30d9df21fb2842b3b8abc4a393c0dc7a",
+          "sequence": 19,
+          "time_ns": 1790353011516431756,
+          "event": "action_finished",
+          "node": "Identity.AN-JoinDomain",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Identity.AN-JoinDomain\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "30d9df21fb2842b3b8abc4a393c0dc7a",
+          "sequence": 20,
+          "time_ns": 1790353011517240256,
+          "event": "action_started",
+          "node": "Compute.AN-ValidateVM",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "30d9df21fb2842b3b8abc4a393c0dc7a",
+          "sequence": 21,
+          "time_ns": 1790353011575611131,
+          "event": "action_finished",
+          "node": "Compute.AN-ValidateVM",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Compute.AN-ValidateVM\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "30d9df21fb2842b3b8abc4a393c0dc7a",
+          "sequence": 22,
+          "time_ns": 1790353011576442047,
+          "event": "request_finished",
+          "status": "succeeded"
+        }
+      ]
+    },
+    "new_atomic_node": {
+      "run_id": "3a78aaf122004677b3ca5565908f60ef",
+      "status": "succeeded",
+      "dag": {
+        "entry_point": "Compute.AN-ValidateVM",
+        "nodes": [
+          "Compute.AN-ConfigureCPU",
+          "Compute.AN-ConfigureDisk",
+          "Compute.AN-ConfigureIP",
+          "Compute.AN-ConfigureMemory",
+          "Compute.AN-DeployVM",
+          "Compute.AN-ValidateVM",
+          "Identity.AN-JoinDomain",
+          "Network.AN-AllocateIP",
+          "Network.AN-RegisterDNS",
+          "Storage.AN-ProvisionDisk"
+        ],
+        "edges": [
+          [
+            "Compute.AN-ConfigureCPU",
+            "Compute.AN-ValidateVM"
+          ],
+          [
+            "Compute.AN-ConfigureDisk",
+            "Compute.AN-ValidateVM"
+          ],
+          [
+            "Compute.AN-ConfigureIP",
+            "Compute.AN-ValidateVM"
+          ],
+          [
+            "Compute.AN-ConfigureMemory",
+            "Compute.AN-ValidateVM"
+          ],
+          [
+            "Compute.AN-DeployVM",
+            "Compute.AN-ConfigureCPU"
+          ],
+          [
+            "Compute.AN-DeployVM",
+            "Compute.AN-ConfigureDisk"
+          ],
+          [
+            "Compute.AN-DeployVM",
+            "Compute.AN-ConfigureIP"
+          ],
+          [
+            "Compute.AN-DeployVM",
+            "Compute.AN-ConfigureMemory"
+          ],
+          [
+            "Compute.AN-DeployVM",
+            "Identity.AN-JoinDomain"
+          ],
+          [
+            "Identity.AN-JoinDomain",
+            "Compute.AN-ValidateVM"
+          ],
+          [
+            "Network.AN-AllocateIP",
+            "Network.AN-RegisterDNS"
+          ],
+          [
+            "Network.AN-RegisterDNS",
+            "Compute.AN-ConfigureIP"
+          ],
+          [
+            "Network.AN-RegisterDNS",
+            "Identity.AN-JoinDomain"
+          ],
+          [
+            "Storage.AN-ProvisionDisk",
+            "Compute.AN-ConfigureDisk"
+          ]
+        ],
+        "layers": [
+          [
+            "Compute.AN-DeployVM",
+            "Network.AN-AllocateIP",
+            "Storage.AN-ProvisionDisk"
+          ],
+          [
+            "Compute.AN-ConfigureCPU",
+            "Compute.AN-ConfigureDisk",
+            "Compute.AN-ConfigureMemory",
+            "Network.AN-RegisterDNS"
+          ],
+          [
+            "Compute.AN-ConfigureIP",
+            "Identity.AN-JoinDomain"
+          ],
+          [
+            "Compute.AN-ValidateVM"
+          ]
+        ],
+        "valid": true,
+        "dependencies_resolved": true,
+        "cycle_detected": false
+      },
+      "evidence": "3a78aaf122004677b3ca5565908f60ef-execution-dag.md",
+      "events": [
+        {
+          "run_id": "3a78aaf122004677b3ca5565908f60ef",
+          "sequence": 0,
+          "time_ns": 1790353011583749589,
+          "event": "request_started",
+          "request": "{\"entry_point\": \"Compute.AN-ValidateVM\"}"
+        },
+        {
+          "run_id": "3a78aaf122004677b3ca5565908f60ef",
+          "sequence": 1,
+          "time_ns": 1790353011585673256,
+          "event": "model_snapshot",
+          "source": "http://model:8000/service-model.json",
+          "model_sha256": "b78f08fca2d455dfccfdeda651d70d847ab0d4c53e393e66cb32f7d886e65e07",
+          "model_text": "{\n  \"nodes\": [\n    {\n      \"service\": \"Compute\",\n      \"node\": \"AN-DeployVM\",\n      \"dependencies\": []\n    },\n    {\n      \"service\": \"Compute\",\n      \"node\": \"AN-ConfigureCPU\",\n      \"dependencies\": [\n        \"Compute.AN-DeployVM\"\n      ]\n    },\n    {\n      \"service\": \"Storage\",\n      \"node\": \"AN-ProvisionDisk\",\n      \"dependencies\": []\n    },\n    {\n      \"service\": \"Compute\",\n      \"node\": \"AN-ConfigureDisk\",\n      \"dependencies\": [\n        \"Compute.AN-DeployVM\",\n        \"Storage.AN-ProvisionDisk\"\n      ]\n    },\n    {\n      \"service\": \"Network\",\n      \"node\": \"AN-AllocateIP\",\n      \"dependencies\": []\n    },\n    {\n      \"service\": \"Network\",\n      \"node\": \"AN-RegisterDNS\",\n      \"dependencies\": [\n        \"Network.AN-AllocateIP\"\n      ]\n    },\n    {\n      \"service\": \"Compute\",\n      \"node\": \"AN-ConfigureIP\",\n      \"dependencies\": [\n        \"Compute.AN-DeployVM\",\n        \"Network.AN-RegisterDNS\"\n      ]\n    },\n    {\n      \"service\": \"Identity\",\n      \"node\": \"AN-JoinDomain\",\n      \"dependencies\": [\n        \"Compute.AN-DeployVM\",\n        \"Network.AN-RegisterDNS\"\n      ]\n    },\n    {\n      \"service\": \"Compute\",\n      \"node\": \"AN-ValidateVM\",\n      \"dependencies\": [\n        \"Compute.AN-ConfigureCPU\",\n        \"Compute.AN-ConfigureDisk\",\n        \"Compute.AN-ConfigureIP\",\n        \"Identity.AN-JoinDomain\",\n        \"Compute.AN-ConfigureMemory\"\n      ]\n    },\n    {\n      \"service\": \"Compute\",\n      \"node\": \"AN-ConfigureMemory\",\n      \"dependencies\": [\n        \"Compute.AN-DeployVM\"\n      ]\n    }\n  ]\n}\n"
+        },
+        {
+          "run_id": "3a78aaf122004677b3ca5565908f60ef",
+          "sequence": 2,
+          "time_ns": 1790353011585895631,
+          "event": "resolution_succeeded",
+          "dag": {
+            "entry_point": "Compute.AN-ValidateVM",
+            "nodes": [
+              "Compute.AN-ConfigureCPU",
+              "Compute.AN-ConfigureDisk",
+              "Compute.AN-ConfigureIP",
+              "Compute.AN-ConfigureMemory",
+              "Compute.AN-DeployVM",
+              "Compute.AN-ValidateVM",
+              "Identity.AN-JoinDomain",
+              "Network.AN-AllocateIP",
+              "Network.AN-RegisterDNS",
+              "Storage.AN-ProvisionDisk"
+            ],
+            "edges": [
+              [
+                "Compute.AN-ConfigureCPU",
+                "Compute.AN-ValidateVM"
+              ],
+              [
+                "Compute.AN-ConfigureDisk",
+                "Compute.AN-ValidateVM"
+              ],
+              [
+                "Compute.AN-ConfigureIP",
+                "Compute.AN-ValidateVM"
+              ],
+              [
+                "Compute.AN-ConfigureMemory",
+                "Compute.AN-ValidateVM"
+              ],
+              [
+                "Compute.AN-DeployVM",
+                "Compute.AN-ConfigureCPU"
+              ],
+              [
+                "Compute.AN-DeployVM",
+                "Compute.AN-ConfigureDisk"
+              ],
+              [
+                "Compute.AN-DeployVM",
+                "Compute.AN-ConfigureIP"
+              ],
+              [
+                "Compute.AN-DeployVM",
+                "Compute.AN-ConfigureMemory"
+              ],
+              [
+                "Compute.AN-DeployVM",
+                "Identity.AN-JoinDomain"
+              ],
+              [
+                "Identity.AN-JoinDomain",
+                "Compute.AN-ValidateVM"
+              ],
+              [
+                "Network.AN-AllocateIP",
+                "Network.AN-RegisterDNS"
+              ],
+              [
+                "Network.AN-RegisterDNS",
+                "Compute.AN-ConfigureIP"
+              ],
+              [
+                "Network.AN-RegisterDNS",
+                "Identity.AN-JoinDomain"
+              ],
+              [
+                "Storage.AN-ProvisionDisk",
+                "Compute.AN-ConfigureDisk"
+              ]
+            ],
+            "layers": [
+              [
+                "Compute.AN-DeployVM",
+                "Network.AN-AllocateIP",
+                "Storage.AN-ProvisionDisk"
+              ],
+              [
+                "Compute.AN-ConfigureCPU",
+                "Compute.AN-ConfigureDisk",
+                "Compute.AN-ConfigureMemory",
+                "Network.AN-RegisterDNS"
+              ],
+              [
+                "Compute.AN-ConfigureIP",
+                "Identity.AN-JoinDomain"
+              ],
+              [
+                "Compute.AN-ValidateVM"
+              ]
+            ],
+            "valid": true,
+            "dependencies_resolved": true,
+            "cycle_detected": false
+          }
+        },
+        {
+          "run_id": "3a78aaf122004677b3ca5565908f60ef",
+          "sequence": 3,
+          "time_ns": 1790353011586258172,
+          "event": "binding_resolved",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          },
+          "binding_sha256": "3d19e9fa57311a7d6b3100fd0ad8b0d30542ef2ed17da85471746506319cd442"
+        },
+        {
+          "run_id": "3a78aaf122004677b3ca5565908f60ef",
+          "sequence": 4,
+          "time_ns": 1790353011586465506,
+          "event": "action_started",
+          "node": "Compute.AN-DeployVM",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "3a78aaf122004677b3ca5565908f60ef",
+          "sequence": 5,
+          "time_ns": 1790353011586832756,
+          "event": "action_started",
+          "node": "Storage.AN-ProvisionDisk",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "3a78aaf122004677b3ca5565908f60ef",
+          "sequence": 6,
+          "time_ns": 1790353011587268756,
+          "event": "action_started",
+          "node": "Network.AN-AllocateIP",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "3a78aaf122004677b3ca5565908f60ef",
+          "sequence": 7,
+          "time_ns": 1790353011651197881,
+          "event": "action_finished",
+          "node": "Compute.AN-DeployVM",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Compute.AN-DeployVM\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "3a78aaf122004677b3ca5565908f60ef",
+          "sequence": 8,
+          "time_ns": 1790353011652931214,
+          "event": "action_finished",
+          "node": "Storage.AN-ProvisionDisk",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Storage.AN-ProvisionDisk\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "3a78aaf122004677b3ca5565908f60ef",
+          "sequence": 9,
+          "time_ns": 1790353011656872964,
+          "event": "action_finished",
+          "node": "Network.AN-AllocateIP",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Network.AN-AllocateIP\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "3a78aaf122004677b3ca5565908f60ef",
+          "sequence": 10,
+          "time_ns": 1790353011657491172,
+          "event": "action_started",
+          "node": "Compute.AN-ConfigureCPU",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "3a78aaf122004677b3ca5565908f60ef",
+          "sequence": 11,
+          "time_ns": 1790353011658033714,
+          "event": "action_started",
+          "node": "Compute.AN-ConfigureDisk",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "3a78aaf122004677b3ca5565908f60ef",
+          "sequence": 12,
+          "time_ns": 1790353011658501506,
+          "event": "action_started",
+          "node": "Compute.AN-ConfigureMemory",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "3a78aaf122004677b3ca5565908f60ef",
+          "sequence": 13,
+          "time_ns": 1790353011658892964,
+          "event": "action_started",
+          "node": "Network.AN-RegisterDNS",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "3a78aaf122004677b3ca5565908f60ef",
+          "sequence": 14,
+          "time_ns": 1790353011720103672,
+          "event": "action_finished",
+          "node": "Compute.AN-ConfigureMemory",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Compute.AN-ConfigureMemory\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "3a78aaf122004677b3ca5565908f60ef",
+          "sequence": 15,
+          "time_ns": 1790353011721997131,
+          "event": "action_finished",
+          "node": "Network.AN-RegisterDNS",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Network.AN-RegisterDNS\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "3a78aaf122004677b3ca5565908f60ef",
+          "sequence": 16,
+          "time_ns": 1790353011724351422,
+          "event": "action_finished",
+          "node": "Compute.AN-ConfigureCPU",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Compute.AN-ConfigureCPU\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "3a78aaf122004677b3ca5565908f60ef",
+          "sequence": 17,
+          "time_ns": 1790353011724771839,
+          "event": "action_finished",
+          "node": "Compute.AN-ConfigureDisk",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Compute.AN-ConfigureDisk\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "3a78aaf122004677b3ca5565908f60ef",
+          "sequence": 18,
+          "time_ns": 1790353011725342964,
+          "event": "action_started",
+          "node": "Compute.AN-ConfigureIP",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "3a78aaf122004677b3ca5565908f60ef",
+          "sequence": 19,
+          "time_ns": 1790353011725637756,
+          "event": "action_started",
+          "node": "Identity.AN-JoinDomain",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "3a78aaf122004677b3ca5565908f60ef",
+          "sequence": 20,
+          "time_ns": 1790353011787117256,
+          "event": "action_finished",
+          "node": "Compute.AN-ConfigureIP",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Compute.AN-ConfigureIP\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "3a78aaf122004677b3ca5565908f60ef",
+          "sequence": 21,
+          "time_ns": 1790353011789488589,
+          "event": "action_finished",
+          "node": "Identity.AN-JoinDomain",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Identity.AN-JoinDomain\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "3a78aaf122004677b3ca5565908f60ef",
+          "sequence": 22,
+          "time_ns": 1790353011790057839,
+          "event": "action_started",
+          "node": "Compute.AN-ValidateVM",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "3a78aaf122004677b3ca5565908f60ef",
+          "sequence": 23,
+          "time_ns": 1790353011848893422,
+          "event": "action_finished",
+          "node": "Compute.AN-ValidateVM",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Compute.AN-ValidateVM\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "3a78aaf122004677b3ca5565908f60ef",
+          "sequence": 24,
+          "time_ns": 1790353011849405214,
+          "event": "request_finished",
+          "status": "succeeded"
+        }
+      ]
+    },
+    "new_cross_service_dependency": {
+      "run_id": "7aeffa83a67a465f81216dfe34ad95e7",
+      "status": "succeeded",
+      "dag": {
+        "entry_point": "Compute.AN-ValidateVM",
+        "nodes": [
+          "Compute.AN-ConfigureCPU",
+          "Compute.AN-ConfigureDisk",
+          "Compute.AN-ConfigureIP",
+          "Compute.AN-DeployVM",
+          "Compute.AN-ValidateVM",
+          "Identity.AN-JoinDomain",
+          "Network.AN-AllocateIP",
+          "Network.AN-RegisterDNS",
+          "Storage.AN-ProvisionDisk"
+        ],
+        "edges": [
+          [
+            "Compute.AN-ConfigureCPU",
+            "Compute.AN-ValidateVM"
+          ],
+          [
+            "Compute.AN-ConfigureCPU",
+            "Network.AN-RegisterDNS"
+          ],
+          [
+            "Compute.AN-ConfigureDisk",
+            "Compute.AN-ValidateVM"
+          ],
+          [
+            "Compute.AN-ConfigureIP",
+            "Compute.AN-ValidateVM"
+          ],
+          [
+            "Compute.AN-DeployVM",
+            "Compute.AN-ConfigureCPU"
+          ],
+          [
+            "Compute.AN-DeployVM",
+            "Compute.AN-ConfigureDisk"
+          ],
+          [
+            "Compute.AN-DeployVM",
+            "Compute.AN-ConfigureIP"
+          ],
+          [
+            "Compute.AN-DeployVM",
+            "Identity.AN-JoinDomain"
+          ],
+          [
+            "Identity.AN-JoinDomain",
+            "Compute.AN-ValidateVM"
+          ],
+          [
+            "Network.AN-AllocateIP",
+            "Network.AN-RegisterDNS"
+          ],
+          [
+            "Network.AN-RegisterDNS",
+            "Compute.AN-ConfigureIP"
+          ],
+          [
+            "Network.AN-RegisterDNS",
+            "Identity.AN-JoinDomain"
+          ],
+          [
+            "Storage.AN-ProvisionDisk",
+            "Compute.AN-ConfigureDisk"
+          ]
+        ],
+        "layers": [
+          [
+            "Compute.AN-DeployVM",
+            "Network.AN-AllocateIP",
+            "Storage.AN-ProvisionDisk"
+          ],
+          [
+            "Compute.AN-ConfigureCPU",
+            "Compute.AN-ConfigureDisk"
+          ],
+          [
+            "Network.AN-RegisterDNS"
+          ],
+          [
+            "Compute.AN-ConfigureIP",
+            "Identity.AN-JoinDomain"
+          ],
+          [
+            "Compute.AN-ValidateVM"
+          ]
+        ],
+        "valid": true,
+        "dependencies_resolved": true,
+        "cycle_detected": false
+      },
+      "evidence": "7aeffa83a67a465f81216dfe34ad95e7-execution-dag.md",
+      "events": [
+        {
+          "run_id": "7aeffa83a67a465f81216dfe34ad95e7",
+          "sequence": 0,
+          "time_ns": 1790353011857769881,
+          "event": "request_started",
+          "request": "{\"entry_point\": \"Compute.AN-ValidateVM\"}"
+        },
+        {
+          "run_id": "7aeffa83a67a465f81216dfe34ad95e7",
+          "sequence": 1,
+          "time_ns": 1790353011859902714,
+          "event": "model_snapshot",
+          "source": "http://model:8000/service-model.json",
+          "model_sha256": "61bd9ab72520cacc699eff6659138b340016cc3c229769b2463c893b9ef567db",
+          "model_text": "{\n  \"nodes\": [\n    {\n      \"service\": \"Compute\",\n      \"node\": \"AN-DeployVM\",\n      \"dependencies\": []\n    },\n    {\n      \"service\": \"Compute\",\n      \"node\": \"AN-ConfigureCPU\",\n      \"dependencies\": [\n        \"Compute.AN-DeployVM\"\n      ]\n    },\n    {\n      \"service\": \"Storage\",\n      \"node\": \"AN-ProvisionDisk\",\n      \"dependencies\": []\n    },\n    {\n      \"service\": \"Compute\",\n      \"node\": \"AN-ConfigureDisk\",\n      \"dependencies\": [\n        \"Compute.AN-DeployVM\",\n        \"Storage.AN-ProvisionDisk\"\n      ]\n    },\n    {\n      \"service\": \"Network\",\n      \"node\": \"AN-AllocateIP\",\n      \"dependencies\": []\n    },\n    {\n      \"service\": \"Network\",\n      \"node\": \"AN-RegisterDNS\",\n      \"dependencies\": [\n        \"Network.AN-AllocateIP\",\n        \"Compute.AN-ConfigureCPU\"\n      ]\n    },\n    {\n      \"service\": \"Compute\",\n      \"node\": \"AN-ConfigureIP\",\n      \"dependencies\": [\n        \"Compute.AN-DeployVM\",\n        \"Network.AN-RegisterDNS\"\n      ]\n    },\n    {\n      \"service\": \"Identity\",\n      \"node\": \"AN-JoinDomain\",\n      \"dependencies\": [\n        \"Compute.AN-DeployVM\",\n        \"Network.AN-RegisterDNS\"\n      ]\n    },\n    {\n      \"service\": \"Compute\",\n      \"node\": \"AN-ValidateVM\",\n      \"dependencies\": [\n        \"Compute.AN-ConfigureCPU\",\n        \"Compute.AN-ConfigureDisk\",\n        \"Compute.AN-ConfigureIP\",\n        \"Identity.AN-JoinDomain\"\n      ]\n    }\n  ]\n}\n"
+        },
+        {
+          "run_id": "7aeffa83a67a465f81216dfe34ad95e7",
+          "sequence": 2,
+          "time_ns": 1790353011860150297,
+          "event": "resolution_succeeded",
+          "dag": {
+            "entry_point": "Compute.AN-ValidateVM",
+            "nodes": [
+              "Compute.AN-ConfigureCPU",
+              "Compute.AN-ConfigureDisk",
+              "Compute.AN-ConfigureIP",
+              "Compute.AN-DeployVM",
+              "Compute.AN-ValidateVM",
+              "Identity.AN-JoinDomain",
+              "Network.AN-AllocateIP",
+              "Network.AN-RegisterDNS",
+              "Storage.AN-ProvisionDisk"
+            ],
+            "edges": [
+              [
+                "Compute.AN-ConfigureCPU",
+                "Compute.AN-ValidateVM"
+              ],
+              [
+                "Compute.AN-ConfigureCPU",
+                "Network.AN-RegisterDNS"
+              ],
+              [
+                "Compute.AN-ConfigureDisk",
+                "Compute.AN-ValidateVM"
+              ],
+              [
+                "Compute.AN-ConfigureIP",
+                "Compute.AN-ValidateVM"
+              ],
+              [
+                "Compute.AN-DeployVM",
+                "Compute.AN-ConfigureCPU"
+              ],
+              [
+                "Compute.AN-DeployVM",
+                "Compute.AN-ConfigureDisk"
+              ],
+              [
+                "Compute.AN-DeployVM",
+                "Compute.AN-ConfigureIP"
+              ],
+              [
+                "Compute.AN-DeployVM",
+                "Identity.AN-JoinDomain"
+              ],
+              [
+                "Identity.AN-JoinDomain",
+                "Compute.AN-ValidateVM"
+              ],
+              [
+                "Network.AN-AllocateIP",
+                "Network.AN-RegisterDNS"
+              ],
+              [
+                "Network.AN-RegisterDNS",
+                "Compute.AN-ConfigureIP"
+              ],
+              [
+                "Network.AN-RegisterDNS",
+                "Identity.AN-JoinDomain"
+              ],
+              [
+                "Storage.AN-ProvisionDisk",
+                "Compute.AN-ConfigureDisk"
+              ]
+            ],
+            "layers": [
+              [
+                "Compute.AN-DeployVM",
+                "Network.AN-AllocateIP",
+                "Storage.AN-ProvisionDisk"
+              ],
+              [
+                "Compute.AN-ConfigureCPU",
+                "Compute.AN-ConfigureDisk"
+              ],
+              [
+                "Network.AN-RegisterDNS"
+              ],
+              [
+                "Compute.AN-ConfigureIP",
+                "Identity.AN-JoinDomain"
+              ],
+              [
+                "Compute.AN-ValidateVM"
+              ]
+            ],
+            "valid": true,
+            "dependencies_resolved": true,
+            "cycle_detected": false
+          }
+        },
+        {
+          "run_id": "7aeffa83a67a465f81216dfe34ad95e7",
+          "sequence": 3,
+          "time_ns": 1790353011860486339,
+          "event": "binding_resolved",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          },
+          "binding_sha256": "3d19e9fa57311a7d6b3100fd0ad8b0d30542ef2ed17da85471746506319cd442"
+        },
+        {
+          "run_id": "7aeffa83a67a465f81216dfe34ad95e7",
+          "sequence": 4,
+          "time_ns": 1790353011860693422,
+          "event": "action_started",
+          "node": "Compute.AN-DeployVM",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "7aeffa83a67a465f81216dfe34ad95e7",
+          "sequence": 5,
+          "time_ns": 1790353011861476172,
+          "event": "action_started",
+          "node": "Network.AN-AllocateIP",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "7aeffa83a67a465f81216dfe34ad95e7",
+          "sequence": 6,
+          "time_ns": 1790353011861956422,
+          "event": "action_started",
+          "node": "Storage.AN-ProvisionDisk",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "7aeffa83a67a465f81216dfe34ad95e7",
+          "sequence": 7,
+          "time_ns": 1790353011923309048,
+          "event": "action_finished",
+          "node": "Compute.AN-DeployVM",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Compute.AN-DeployVM\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "7aeffa83a67a465f81216dfe34ad95e7",
+          "sequence": 8,
+          "time_ns": 1790353011926050381,
+          "event": "action_finished",
+          "node": "Network.AN-AllocateIP",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Network.AN-AllocateIP\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "7aeffa83a67a465f81216dfe34ad95e7",
+          "sequence": 9,
+          "time_ns": 1790353011929537173,
+          "event": "action_finished",
+          "node": "Storage.AN-ProvisionDisk",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Storage.AN-ProvisionDisk\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "7aeffa83a67a465f81216dfe34ad95e7",
+          "sequence": 10,
+          "time_ns": 1790353011930578339,
+          "event": "action_started",
+          "node": "Compute.AN-ConfigureCPU",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "7aeffa83a67a465f81216dfe34ad95e7",
+          "sequence": 11,
+          "time_ns": 1790353011931166214,
+          "event": "action_started",
+          "node": "Compute.AN-ConfigureDisk",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "7aeffa83a67a465f81216dfe34ad95e7",
+          "sequence": 12,
+          "time_ns": 1790353011991542006,
+          "event": "action_finished",
+          "node": "Compute.AN-ConfigureCPU",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Compute.AN-ConfigureCPU\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "7aeffa83a67a465f81216dfe34ad95e7",
+          "sequence": 13,
+          "time_ns": 1790353011998109798,
+          "event": "action_finished",
+          "node": "Compute.AN-ConfigureDisk",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Compute.AN-ConfigureDisk\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "7aeffa83a67a465f81216dfe34ad95e7",
+          "sequence": 14,
+          "time_ns": 1790353011998821506,
+          "event": "action_started",
+          "node": "Network.AN-RegisterDNS",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "7aeffa83a67a465f81216dfe34ad95e7",
+          "sequence": 15,
+          "time_ns": 1790353012057382506,
+          "event": "action_finished",
+          "node": "Network.AN-RegisterDNS",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Network.AN-RegisterDNS\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "7aeffa83a67a465f81216dfe34ad95e7",
+          "sequence": 16,
+          "time_ns": 1790353012058055798,
+          "event": "action_started",
+          "node": "Compute.AN-ConfigureIP",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "7aeffa83a67a465f81216dfe34ad95e7",
+          "sequence": 17,
+          "time_ns": 1790353012058571006,
+          "event": "action_started",
+          "node": "Identity.AN-JoinDomain",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "7aeffa83a67a465f81216dfe34ad95e7",
+          "sequence": 18,
+          "time_ns": 1790353012117722089,
+          "event": "action_finished",
+          "node": "Identity.AN-JoinDomain",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Identity.AN-JoinDomain\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "7aeffa83a67a465f81216dfe34ad95e7",
+          "sequence": 19,
+          "time_ns": 1790353012120058256,
+          "event": "action_finished",
+          "node": "Compute.AN-ConfigureIP",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Compute.AN-ConfigureIP\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "7aeffa83a67a465f81216dfe34ad95e7",
+          "sequence": 20,
+          "time_ns": 1790353012120543631,
+          "event": "action_started",
+          "node": "Compute.AN-ValidateVM",
+          "binding": {
+            "artifact": "v1/record.py",
+            "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+          }
+        },
+        {
+          "run_id": "7aeffa83a67a465f81216dfe34ad95e7",
+          "sequence": 21,
+          "time_ns": 1790353012178549548,
+          "event": "action_finished",
+          "node": "Compute.AN-ValidateVM",
+          "returncode": 0,
+          "stdout": "{\"action\": \"Compute.AN-ValidateVM\", \"result\": \"ok\"}\n",
+          "stderr": "",
+          "artifact_sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a"
+        },
+        {
+          "run_id": "7aeffa83a67a465f81216dfe34ad95e7",
+          "sequence": 22,
+          "time_ns": 1790353012179208673,
+          "event": "request_finished",
+          "status": "succeeded"
+        }
+      ]
+    },
+    "missing_reference": {
+      "run_id": "744cccad142f491a9968cd0d87984e94",
+      "status": "failed",
+      "dag": null,
+      "evidence": "744cccad142f491a9968cd0d87984e94-execution-dag.md",
+      "events": [
+        {
+          "run_id": "744cccad142f491a9968cd0d87984e94",
+          "sequence": 0,
+          "time_ns": 1790353012186089881,
+          "event": "request_started",
+          "request": "{\"entry_point\": \"Compute.AN-ValidateVM\"}"
+        },
+        {
+          "run_id": "744cccad142f491a9968cd0d87984e94",
+          "sequence": 1,
+          "time_ns": 1790353012188588548,
+          "event": "model_snapshot",
+          "source": "http://model:8000/service-model.json",
+          "model_sha256": "936ab2a81a398c126c6849ea15189de2e4acb20044b6858977809d3f53b57b4d",
+          "model_text": "{\n  \"nodes\": [\n    {\n      \"service\": \"Compute\",\n      \"node\": \"AN-DeployVM\",\n      \"dependencies\": []\n    },\n    {\n      \"service\": \"Compute\",\n      \"node\": \"AN-ConfigureCPU\",\n      \"dependencies\": [\n        \"Compute.AN-DeployVM\"\n      ]\n    },\n    {\n      \"service\": \"Storage\",\n      \"node\": \"AN-ProvisionDisk\",\n      \"dependencies\": []\n    },\n    {\n      \"service\": \"Compute\",\n      \"node\": \"AN-ConfigureDisk\",\n      \"dependencies\": [\n        \"Compute.AN-DeployVM\",\n        \"Storage.AN-ProvisionDisk\",\n        \"Storage.AN-MissingDisk\"\n      ]\n    },\n    {\n      \"service\": \"Network\",\n      \"node\": \"AN-AllocateIP\",\n      \"dependencies\": []\n    },\n    {\n      \"service\": \"Network\",\n      \"node\": \"AN-RegisterDNS\",\n      \"dependencies\": [\n        \"Network.AN-AllocateIP\"\n      ]\n    },\n    {\n      \"service\": \"Compute\",\n      \"node\": \"AN-ConfigureIP\",\n      \"dependencies\": [\n        \"Compute.AN-DeployVM\",\n        \"Network.AN-RegisterDNS\"\n      ]\n    },\n    {\n      \"service\": \"Identity\",\n      \"node\": \"AN-JoinDomain\",\n      \"dependencies\": [\n        \"Compute.AN-DeployVM\",\n        \"Network.AN-RegisterDNS\"\n      ]\n    },\n    {\n      \"service\": \"Compute\",\n      \"node\": \"AN-ValidateVM\",\n      \"dependencies\": [\n        \"Compute.AN-ConfigureCPU\",\n        \"Compute.AN-ConfigureDisk\",\n        \"Compute.AN-ConfigureIP\",\n        \"Identity.AN-JoinDomain\"\n      ]\n    }\n  ]\n}\n"
+        },
+        {
+          "run_id": "744cccad142f491a9968cd0d87984e94",
+          "sequence": 2,
+          "time_ns": 1790353012188889214,
+          "event": "resolution_failed",
+          "error": "Compute.AN-ConfigureDisk depends on missing Storage.AN-MissingDisk",
+          "valid": false,
+          "dependencies_resolved": false,
+          "cycle_detected": null,
+          "missing_references": [
+            "Compute.AN-ConfigureDisk depends on missing Storage.AN-MissingDisk"
+          ],
+          "cycle": []
+        },
+        {
+          "run_id": "744cccad142f491a9968cd0d87984e94",
+          "sequence": 3,
+          "time_ns": 1790353012189030506,
+          "event": "request_finished",
+          "status": "failed",
+          "error": "Compute.AN-ConfigureDisk depends on missing Storage.AN-MissingDisk"
+        }
+      ]
+    },
+    "cycle": {
+      "run_id": "000fd2be990e404b9ad6eb5826a0da59",
+      "status": "failed",
+      "dag": null,
+      "evidence": "000fd2be990e404b9ad6eb5826a0da59-execution-dag.md",
+      "events": [
+        {
+          "run_id": "000fd2be990e404b9ad6eb5826a0da59",
+          "sequence": 0,
+          "time_ns": 1790353012195341631,
+          "event": "request_started",
+          "request": "{\"entry_point\": \"Compute.AN-ValidateVM\"}"
+        },
+        {
+          "run_id": "000fd2be990e404b9ad6eb5826a0da59",
+          "sequence": 1,
+          "time_ns": 1790353012196905298,
+          "event": "model_snapshot",
+          "source": "http://model:8000/service-model.json",
+          "model_sha256": "7c3637bb3852a162d5c478e19da51f79b4d31196f2398a739941a27be68dab31",
+          "model_text": "{\n  \"nodes\": [\n    {\n      \"service\": \"Compute\",\n      \"node\": \"AN-DeployVM\",\n      \"dependencies\": [\n        \"Compute.AN-ValidateVM\"\n      ]\n    },\n    {\n      \"service\": \"Compute\",\n      \"node\": \"AN-ConfigureCPU\",\n      \"dependencies\": [\n        \"Compute.AN-DeployVM\"\n      ]\n    },\n    {\n      \"service\": \"Storage\",\n      \"node\": \"AN-ProvisionDisk\",\n      \"dependencies\": []\n    },\n    {\n      \"service\": \"Compute\",\n      \"node\": \"AN-ConfigureDisk\",\n      \"dependencies\": [\n        \"Compute.AN-DeployVM\",\n        \"Storage.AN-ProvisionDisk\"\n      ]\n    },\n    {\n      \"service\": \"Network\",\n      \"node\": \"AN-AllocateIP\",\n      \"dependencies\": []\n    },\n    {\n      \"service\": \"Network\",\n      \"node\": \"AN-RegisterDNS\",\n      \"dependencies\": [\n        \"Network.AN-AllocateIP\"\n      ]\n    },\n    {\n      \"service\": \"Compute\",\n      \"node\": \"AN-ConfigureIP\",\n      \"dependencies\": [\n        \"Compute.AN-DeployVM\",\n        \"Network.AN-RegisterDNS\"\n      ]\n    },\n    {\n      \"service\": \"Identity\",\n      \"node\": \"AN-JoinDomain\",\n      \"dependencies\": [\n        \"Compute.AN-DeployVM\",\n        \"Network.AN-RegisterDNS\"\n      ]\n    },\n    {\n      \"service\": \"Compute\",\n      \"node\": \"AN-ValidateVM\",\n      \"dependencies\": [\n        \"Compute.AN-ConfigureCPU\",\n        \"Compute.AN-ConfigureDisk\",\n        \"Compute.AN-ConfigureIP\",\n        \"Identity.AN-JoinDomain\"\n      ]\n    }\n  ]\n}\n"
+        },
+        {
+          "run_id": "000fd2be990e404b9ad6eb5826a0da59",
+          "sequence": 2,
+          "time_ns": 1790353012197151173,
+          "event": "resolution_failed",
+          "error": "Dependency cycle (prerequisite -> dependent): Compute.AN-ValidateVM -> Compute.AN-DeployVM -> Compute.AN-ConfigureCPU -> Compute.AN-ValidateVM",
+          "valid": false,
+          "dependencies_resolved": true,
+          "cycle_detected": true,
+          "missing_references": [],
+          "cycle": [
+            "Compute.AN-ValidateVM",
+            "Compute.AN-DeployVM",
+            "Compute.AN-ConfigureCPU",
+            "Compute.AN-ValidateVM"
+          ]
+        },
+        {
+          "run_id": "000fd2be990e404b9ad6eb5826a0da59",
+          "sequence": 3,
+          "time_ns": 1790353012197273048,
+          "event": "request_finished",
+          "status": "failed",
+          "error": "Dependency cycle (prerequisite -> dependent): Compute.AN-ValidateVM -> Compute.AN-DeployVM -> Compute.AN-ConfigureCPU -> Compute.AN-ValidateVM"
+        }
+      ]
+    }
+  },
+  "unchanged_files_sha256": {
+    "runtime/server.py": "f7b72dcd7da6f0bbb103cf44a3bfcd3c97d510076a8d262f8e8e33c2fe545bd9",
+    "runtime/execution.py": "56fde974b64d7b4f28cb6631222061bc3ae4a06794c2e40e752d45a7d9ba8b34",
+    "runtime/engine.py": "669137da5abe004c5515ff9a82844003012ed4c2ce5a66d23a8dfca9943dca8d",
+    "runtime/evidence.py": "b0359e3ae4a19c81a9d1acc48f5c8633e3b9daedd8ebaafea88aac101ef10775",
+    "artifacts/binding.json": "3d19e9fa57311a7d6b3100fd0ad8b0d30542ef2ed17da85471746506319cd442",
+    "artifacts/v1/record.py": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a",
+    "Dockerfile": "e7efdf87c00707e96c38f3e21a2f8da1c05b64f7e3212e774b9a32343033c98d",
+    "docker-compose.yml": "4fcb55c22ae7943a38f1c3ab9dfe1f740c6823a353ec6d453fab5fa6bab76ccd"
+  }
+}

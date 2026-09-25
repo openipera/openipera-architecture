@@ -1,0 +1,8 @@
+ Container ipera-validation-poc-02-orchestrator-run-149de7f7035b Creating 
+ Container ipera-validation-poc-02-orchestrator-run-149de7f7035b Created 
+PASS baseline: 30d9df21fb2842b3b8abc4a393c0dc7a -> 30d9df21fb2842b3b8abc4a393c0dc7a-execution-dag.md
+PASS new_atomic_node: 3a78aaf122004677b3ca5565908f60ef -> 3a78aaf122004677b3ca5565908f60ef-execution-dag.md
+PASS new_cross_service_dependency: 7aeffa83a67a465f81216dfe34ad95e7 -> 7aeffa83a67a465f81216dfe34ad95e7-execution-dag.md
+PASS missing_reference: 744cccad142f491a9968cd0d87984e94 -> 744cccad142f491a9968cd0d87984e94-execution-dag.md
+PASS cycle: 000fd2be990e404b9ad6eb5826a0da59 -> 000fd2be990e404b9ad6eb5826a0da59-execution-dag.md
+PASS: all graph and mutation checks; exact baseline restored; runtime and bindings unchanged

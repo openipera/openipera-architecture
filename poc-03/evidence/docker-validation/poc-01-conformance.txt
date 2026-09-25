@@ -1,0 +1,4 @@
+ Container ipera-validation-poc-01-orchestrator-run-ce108fec2cd1 Creating 
+ Container ipera-validation-poc-01-orchestrator-run-ce108fec2cd1 Created 
+PASS: D -> {B,C} -> A; model-only edit; D -> {B,C,E} -> A
+Runtime/artifact fingerprints unchanged; evidence/conformance.json written

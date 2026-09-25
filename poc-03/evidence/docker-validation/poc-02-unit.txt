@@ -1,0 +1,19 @@
+ Container ipera-validation-poc-02-orchestrator-run-96728349ce78 Creating 
+ Container ipera-validation-poc-02-orchestrator-run-96728349ce78 Created 
+test_artifact_integrity_and_path (test_engine.ContractTests.test_artifact_integrity_and_path) ... ok
+test_concurrent_ready_nodes (test_engine.ContractTests.test_concurrent_ready_nodes) ... ok
+test_domain_names_are_not_built_in (test_engine.ContractTests.test_domain_names_are_not_built_in) ... ok
+test_duplicate_and_unknown_entry (test_engine.ContractTests.test_duplicate_and_unknown_entry) ... ok
+test_execution_failure_preserves_valid_graph_in_report (test_engine.ContractTests.test_execution_failure_preserves_valid_graph_in_report) ... ok
+test_failure_blocks_later_layers (test_engine.ContractTests.test_failure_blocks_later_layers) ... ok
+test_independent_oracle (test_engine.ContractTests.test_independent_oracle) ... ok
+test_invalid_schema_and_service_nodes (test_engine.ContractTests.test_invalid_schema_and_service_nodes) ... ok
+test_missing_and_cycle_details (test_engine.ContractTests.test_missing_and_cycle_details) ... ok
+test_oracle_detects_extra_edges_even_with_same_layers (test_engine.ContractTests.test_oracle_detects_extra_edges_even_with_same_layers) ... ok
+test_selected_dependency_closure (test_engine.ContractTests.test_selected_dependency_closure) ... ok
+test_shuffled_declarations_and_dependencies (test_engine.ContractTests.test_shuffled_declarations_and_dependencies) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.014s
+
+OK
