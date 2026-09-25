@@ -1,3 +1,8 @@
 __pycache__/
-evidence/*
+# Runtime evidence is local/transient
+evidence/*.jsonl
+evidence/conformance.json
+
+# Human-inspectable POC evidence is retained
+!evidence/*.md
 !evidence/.gitkeep
