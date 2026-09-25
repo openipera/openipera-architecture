@@ -16,14 +16,28 @@ The first run needs access to the public Python image; no cloud account is neede
 Docker Engine on Linux is sufficient; Docker Desktop is optional.
 Wait for both containers to be healthy (`docker compose ps`). In another terminal:
 
-```sh
-curl -X POST http://localhost:18081/requests -H "Content-Type: application/json" -d '{"service":"A"}'
+### Windows Command Prompt (cmd.exe)
+
+```bat
+curl -X POST http://localhost:18081/requests -H "Content-Type: application/json" -d "{\"service\":\"A\"}"
 ```
 
-PowerShell equivalent:
+The backslashes preserve the JSON double quotes when passed to curl. Copy this
+command into cmd.exe; single quotes do not quote arguments in that shell.
+
+### PowerShell
+
+Use `Invoke-RestMethod` to avoid the version-dependent `curl` alias and native
+command argument quoting differences:
 
 ```powershell
 Invoke-RestMethod http://localhost:18081/requests -Method Post -ContentType application/json -Body '{"service":"A"}' | ConvertTo-Json -Depth 20
+```
+
+### bash/zsh
+
+```sh
+curl -X POST http://localhost:18081/requests -H 'Content-Type: application/json' -d '{"service":"A"}'
 ```
 
 Inspect the authoritative model at http://localhost:18080/service-model.json.
