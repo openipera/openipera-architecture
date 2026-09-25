@@ -1,10 +1,10 @@
 # POC-01 architecture and conformance boundary
 
 > Historical POC-01 record. POC-02 supersedes this schema and test. See
-> [POC-02](POC-02-CONFORMANCE.md): the persistent Service Dependency Model and
+> [POC-02](../../poc-02/docs/POC-02-CONFORMANCE.md): the persistent Service Dependency Model and
 > the dynamically derived Execution DAG are distinct artifacts.
 
-Baseline: the repository's unchanged `IPERA_FUNCTIONAL_ARCHITECTURE_REQUIREMENTS.md`,
+Baseline: the repository's unchanged [IPERA_FUNCTIONAL_ARCHITECTURE_REQUIREMENTS.md](../../docs/IPERA_FUNCTIONAL_ARCHITECTURE_REQUIREMENTS.md),
 draft v0.3. This is an executable reference experiment, not a new IPERA product or a
 claim to implement every v0.3 capability.
 

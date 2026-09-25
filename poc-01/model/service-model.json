@@ -1,0 +1,51 @@
+{
+  "version": "poc-01/v1",
+  "nodes": {
+    "A": {
+      "contract": {
+        "invocation": "POST /requests",
+        "version": "1",
+        "output": {
+          "run_id": "string",
+          "status": "succeeded|failed"
+        },
+        "input": {
+          "service": "A"
+        }
+      },
+      "kind": "service",
+      "requires": [
+        "B",
+        "C"
+      ]
+    },
+    "B": {
+      "binding": {
+        "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a",
+        "artifact": "v1/record.py"
+      },
+      "kind": "atomic",
+      "requires": [
+        "D"
+      ]
+    },
+    "C": {
+      "binding": {
+        "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a",
+        "artifact": "v1/record.py"
+      },
+      "kind": "atomic",
+      "requires": [
+        "D"
+      ]
+    },
+    "D": {
+      "binding": {
+        "sha256": "b999ac0052b75baf78bcf0b5c594dd76b59d036c4b573d5c5aacd3299eebea7a",
+        "artifact": "v1/record.py"
+      },
+      "kind": "atomic",
+      "requires": []
+    }
+  }
+}
