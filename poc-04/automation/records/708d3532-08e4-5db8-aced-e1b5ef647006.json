@@ -1,0 +1,6 @@
+{
+  "automation_id": "708d3532-08e4-5db8-aced-e1b5ef647006",
+  "automation_name": "Run VM Validation",
+  "artifact_path": "poc-04/automation/artifacts/an-validate.py",
+  "execution_type": "python-demo"
+}

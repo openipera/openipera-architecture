@@ -1,0 +1,6 @@
+{
+  "automation_id": "2124882e-62b0-5f25-9753-ec915164a1c5",
+  "automation_name": "Provision Disk",
+  "artifact_path": "poc-04/automation/artifacts/an-disk.py",
+  "execution_type": "python-demo"
+}

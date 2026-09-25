@@ -1,0 +1,6 @@
+{
+  "automation_id": "39c45414-d3c4-5596-964d-3f7821a645e9",
+  "automation_name": "Deploy VM",
+  "artifact_path": "poc-04/automation/artifacts/an-deploy-vm.py",
+  "execution_type": "python-demo"
+}

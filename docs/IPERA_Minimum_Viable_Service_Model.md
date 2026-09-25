@@ -177,7 +177,14 @@ The `lc_id` associates the Lifecycle Card with the SM-DAG node.
 
 The `node_id` provides an independent assertion of which SM-DAG node the card describes.
 
-`service_dependencies` declares other services that must be realized for this service to be realized.
+`service_dependencies` is populated only on LCs for Service Nodes and may reference
+Service Nodes only. It records the Domain or Service SME's independent assertion of
+what services are required for realization. Atomic Node LCs contain an empty list;
+service dependency resolution terminates at their automation boundary.
+
+The SM-DAG is authored by the Service Architect from the top down. LCs are authored
+by Domain or Service SMEs from the bottom up. A dependency that matches direct or
+transitive decomposition may be intentional corroboration, not redundant data.
 
 `automation_name` provides the human-readable name of automation associated with an Atomic Node.
 
@@ -211,7 +218,7 @@ A minimum Service Node Lifecycle Card is:
 {
   "lc_id": "lc-storage",
   "node_id": "storage",
-  "service_dependencies": ["provision-disk"],
+  "service_dependencies": [],
   "automation_name": null,
   "automation_id": null
 }
@@ -720,10 +727,6 @@ Compute [VM]
 
 VM [Storage, Network, CPU, Memory]
 
-Storage [Provision Disk]
-
-Network [Allocate IP, Register DNS]
-
 Identity [Register with Domain]
 
 Security [Register with CyberArk]
@@ -811,9 +814,7 @@ The corresponding Lifecycle Cards could include:
   {
     "lc_id": "lc-storage",
     "node_id": "storage",
-    "service_dependencies": [
-      "an-provision-disk"
-    ],
+    "service_dependencies": [],
     "automation_name": null,
     "automation_id": null
   },
@@ -883,9 +884,36 @@ No additional `action` node type is required by the Minimum Viable Service Model
 
 ---
 
+## 15A. Independent Authority Comparison
+
+The Service Architect authors the SM-DAG decomposition. Domain or Service SMEs
+author LC realization requirements. These are independent authorities: the same
+Service Node relationship may appear in both without being an invalid duplicate.
+
+| SM-DAG | LC | SMV status | Meaning |
+|---|---|---|---|
+| YES | YES | CORROBORATED | Architecture and SME both assert the relationship. |
+| YES | NO | UNCORROBORATED | Architecture asserts a relationship the SME did not. |
+| NO | YES | UNMODELED | SME asserts a requirement absent from decomposition. |
+| NO | NO | No finding | Neither authority asserts the relationship. |
+
+The SMV compares architectural decomposition with the corresponding Service Node
+LC in both directions. It reports discrepancies without inferring their cause or
+altering either source. A discrepancy is information before it is an error. A
+structurally valid model can contain unresolved disagreement. Governing policy
+separately determines whether a finding is informational, requires review, or
+blocks compilation. IPERA does not yet prescribe that governance policy.
+
+---
+
 ## 16. Service Model Validator
 
 The Service Model Validator (SMV) is a reusable IPERA capability that independently evaluates an authoritative Service Model, derives the resulting Execution DAG, identifies structural inconsistencies, and renders the graph for SME review and validation before runtime orchestration.
+
+The SMV is the compiler of the Service Model. It reads the independently authored
+SM-DAG and LCs, validates references and semantics, performs forward and reverse
+comparison, diagnoses disagreements, and compiles the Execution DAG when policy
+permits. It does not silently repair either authoritative source.
 
 The SMV:
 
@@ -916,9 +944,11 @@ This makes it useful both as a model-validation capability and as a vendor-neutr
 
 ## 17. Execution DAG
 
-The Execution DAG is derived.
+The Execution DAG is compiled output from the validated Service Model. It is derived.
 
-It is not authored.
+It is not authored, persistent architectural truth, or itself an executable
+pipeline. It contains derived realization relationships and symbolic automation
+identities for later linking.
 
 It answers:
 
@@ -948,6 +978,19 @@ The Execution DAG must be acyclic.
 The persistent model may contain errors, including cycles.
 
 Those errors are detected during validation.
+
+The Orchestrator consumes the compiled Execution DAG, resolves the symbolic
+automation identities to implementations, links the required modules into an
+executable pipeline, and dispatches runnable work. The Execution Capability runs
+that work and returns state and evidence. The SMV validates that an automation
+identity resolves to a version-controlled capability; physical runtime linking
+is the Orchestrator's responsibility. Changing the implementation behind the same
+identity does not change Service Model truth.
+
+**Architectural separation does not require product separation. The compiler,
+linker, and runtime are distinct functional responsibilities, but a conforming
+implementation may provide multiple responsibilities within a single platform,
+provided the architectural boundaries and authoritative sources remain preserved.**
 
 ---
 

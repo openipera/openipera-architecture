@@ -1,0 +1,66 @@
+{
+  "result": "PASS",
+  "cases": [
+    {
+      "case": "baseline",
+      "status": "VALID",
+      "registry_commit": "81cec176fcec05796a4260dd0d1f059052a82b7e"
+    },
+    {
+      "case": "policy-block-unmodeled",
+      "status": "DENIED",
+      "registry_commit": "81cec176fcec05796a4260dd0d1f059052a82b7e"
+    },
+    {
+      "case": "lc-only",
+      "status": "VALID",
+      "registry_commit": "81cec176fcec05796a4260dd0d1f059052a82b7e"
+    },
+    {
+      "case": "structure-and-lc",
+      "status": "VALID",
+      "registry_commit": "81cec176fcec05796a4260dd0d1f059052a82b7e"
+    },
+    {
+      "case": "unresolved-uuid",
+      "status": "DENIED",
+      "registry_commit": "81cec176fcec05796a4260dd0d1f059052a82b7e"
+    },
+    {
+      "case": "binding-only",
+      "status": "VALID",
+      "registry_commit": "b0dc6071795682d147da5ad363c23329b6a75b91"
+    }
+  ],
+  "unchanged_source_sha256": {
+    "runtime/smv.py": "a3dff8223326a4061505dbf6d4ce0c8ca478bec593375ab19dcaea46835fc591",
+    "model/lifecycle-cards.json": "ca0c6395679ff52afd2631e6f3d9e8944a02e60cb498deba06b530e0343acf91",
+    "model/policy-block-unmodeled.json": "ec7460ce5089b8bc657eef0fbb603831400b92ce1233ba3acddd621afe649a5d",
+    "model/policy-permissive.json": "9640f6c1d748772e7decde4cde0133b3df4121391abd20720a374c19938ce8ab",
+    "model/sm-dag.json": "c41be45b9bfcd99c0063a5ebf4c9a19c6b7797fc0f2615744b3f5519a92e4014",
+    "automation/.DS_Store": "c9f092f074eecb1a3c411919bd7174fe7f9c97279000ce98af005917b15843ff",
+    "automation/artifacts/an-boot.py": "6f91668dd76fb3122f92436cd1afaf055ce7bfc222a4a4b31ee4f9cc5bff444b",
+    "automation/artifacts/an-cpu.py": "dda45c0197594b11972216c628a91745a0dab4aba70206653e98babc57db7fc9",
+    "automation/artifacts/an-cyberark.py": "1cbc7374f3d435335b03308c677f83769342bab45e9281c31da39fd83cac63c1",
+    "automation/artifacts/an-deploy-vm.py": "903d63490a47e4b3a33ce05a6ca62dd9e74db7ffd6e55a114e6134eb5b3b94e9",
+    "automation/artifacts/an-disk.py": "abb08cf8d1fab169d1b4b266625e51ec224fcd0e095855d801c58bcaef5f0cb9",
+    "automation/artifacts/an-dns.py": "65a29c111fcaff9cc5c1d7ac263546ed42300734d013133e516ea6685ae1770a",
+    "automation/artifacts/an-domain.py": "cd7a0988978c7ba89bd2da01bb91c65fb52f24de73a1b5d4f684918ccd3f402b",
+    "automation/artifacts/an-ip.py": "7d09896b2ec3af43206e982f2818737d6268a628a28f60f3d7f8de00378e7ed2",
+    "automation/artifacts/an-memory.py": "f52d01cadb634d7756c44646b11aae035a7fd9930938b813530a38b900b51fd9",
+    "automation/artifacts/an-register-ci.py": "ecb9e7e1d529e6f0a1481d4b701a1427e2a97ba2d42fda2995749201268b0f96",
+    "automation/artifacts/an-validate.py": "99562dc7c2f380113445645782dbdeee70aa07e12fa2839310924d60c529a909",
+    "automation/records/2124882e-62b0-5f25-9753-ec915164a1c5.json": "745c4148ac26c2846e9c3b943648960dab43e7e91580576a65e4327c46ae5ff1",
+    "automation/records/271817c4-99f6-5b24-9da0-0db3e508f6a5.json": "000928d80095e7aa7c6dba3db79228b37f6d6f08bfda3fe809ba68fca95eaa0b",
+    "automation/records/2873ad87-1d8d-5f6c-b130-df639ed139a0.json": "c45835ea381615a8c75f41e60247aa90052890a6c8c4957ca719faec53d2d3d1",
+    "automation/records/39c45414-d3c4-5596-964d-3f7821a645e9.json": "c1f614f47dff07022ab59db4d9bddce4677371b60b67ac1e72ae5e738d0958a4",
+    "automation/records/54af18cc-31eb-5c4a-804d-d68a1caea269.json": "c12a10b85d1366191ea11f9e5de4744434c81dc297eda4ad93440bcf3f2b63d8",
+    "automation/records/708d3532-08e4-5db8-aced-e1b5ef647006.json": "b5bc57bb78b9f1a2533843112c4066fd9d167242a62afeb8cb752ee38dea8399",
+    "automation/records/ac242887-89b7-55b0-b1d8-500c57748d16.json": "d573ae084c34e1693ff1204eb6298d6d8f7bbecfc2956146fbc3abf101ee012b",
+    "automation/records/c348ea21-fa84-5209-b3e0-34241c2b652e.json": "82c397dc3c45d2420c2cd91bee42f442e038d6e841bed19e2c351efb4925529c",
+    "automation/records/d2bf2f4e-8b53-5942-ade4-75796bc252c9.json": "c8e5a8ac908804b7f2fe9c7395a8557e28b447f0b9b2e8b0778c2ef54877ed9c",
+    "automation/records/ecf32e26-53b4-58ad-bff4-d070a50846ec.json": "b501f4bf15105321514f8bc1e473a07cadc6e4c87fbba5c609ea48d9f4fe57fc",
+    "automation/records/f15db5bf-ddea-566f-9f5c-2ac081794a5f.json": "a2561254eab3143a73fa6e73dc765a654e3af5dddcfb55cb531744017c54bdb1"
+  },
+  "note": "Registry commits are isolated test commits preserved in automation-snapshots.bundle."
+}

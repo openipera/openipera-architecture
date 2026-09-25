@@ -1,0 +1,6 @@
+{
+  "automation_id": "2873ad87-1d8d-5f6c-b130-df639ed139a0",
+  "automation_name": "Register DNS",
+  "artifact_path": "poc-04/automation/artifacts/an-dns.py",
+  "execution_type": "python-demo"
+}

@@ -1,0 +1,2 @@
+PASS: D -> {B,C} -> A; model-only edit; D -> {B,C,E} -> A
+Runtime/artifact fingerprints unchanged; evidence/conformance.json written

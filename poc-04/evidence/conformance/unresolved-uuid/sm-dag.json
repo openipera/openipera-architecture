@@ -1,0 +1,282 @@
+{
+  "nodes": [
+    {
+      "node_id": "gpc",
+      "name": "General Purpose Compute",
+      "node_type": "service",
+      "lc_id": "lc-gpc"
+    },
+    {
+      "node_id": "compute",
+      "name": "Compute",
+      "node_type": "service",
+      "lc_id": "lc-compute"
+    },
+    {
+      "node_id": "vm",
+      "name": "VM",
+      "node_type": "service",
+      "lc_id": "lc-vm"
+    },
+    {
+      "node_id": "cpu",
+      "name": "CPU",
+      "node_type": "service",
+      "lc_id": "lc-cpu"
+    },
+    {
+      "node_id": "an-cpu",
+      "name": "Configure CPU",
+      "node_type": "atomic",
+      "lc_id": "lc-an-cpu"
+    },
+    {
+      "node_id": "memory",
+      "name": "Memory",
+      "node_type": "service",
+      "lc_id": "lc-memory"
+    },
+    {
+      "node_id": "an-memory",
+      "name": "Configure Memory",
+      "node_type": "atomic",
+      "lc_id": "lc-an-memory"
+    },
+    {
+      "node_id": "an-deploy-vm",
+      "name": "Deploy VM",
+      "node_type": "atomic",
+      "lc_id": "lc-an-deploy-vm"
+    },
+    {
+      "node_id": "storage",
+      "name": "Storage",
+      "node_type": "service",
+      "lc_id": "lc-storage"
+    },
+    {
+      "node_id": "an-disk",
+      "name": "Provision Disk",
+      "node_type": "atomic",
+      "lc_id": "lc-an-disk"
+    },
+    {
+      "node_id": "network",
+      "name": "Network",
+      "node_type": "service",
+      "lc_id": "lc-network"
+    },
+    {
+      "node_id": "allocate-ip",
+      "name": "Allocate IP",
+      "node_type": "service",
+      "lc_id": "lc-allocate-ip"
+    },
+    {
+      "node_id": "an-ip",
+      "name": "Allocate IP",
+      "node_type": "atomic",
+      "lc_id": "lc-an-ip"
+    },
+    {
+      "node_id": "register-dns",
+      "name": "Register DNS",
+      "node_type": "service",
+      "lc_id": "lc-register-dns"
+    },
+    {
+      "node_id": "an-dns",
+      "name": "Register DNS",
+      "node_type": "atomic",
+      "lc_id": "lc-an-dns"
+    },
+    {
+      "node_id": "boot",
+      "name": "Boot VM",
+      "node_type": "service",
+      "lc_id": "lc-boot"
+    },
+    {
+      "node_id": "an-boot",
+      "name": "Power On VM",
+      "node_type": "atomic",
+      "lc_id": "lc-an-boot"
+    },
+    {
+      "node_id": "validate",
+      "name": "Validate VM",
+      "node_type": "service",
+      "lc_id": "lc-validate"
+    },
+    {
+      "node_id": "an-validate",
+      "name": "Run VM Validation",
+      "node_type": "atomic",
+      "lc_id": "lc-an-validate"
+    },
+    {
+      "node_id": "identity",
+      "name": "Identity",
+      "node_type": "service",
+      "lc_id": "lc-identity"
+    },
+    {
+      "node_id": "domain",
+      "name": "Register with Domain",
+      "node_type": "service",
+      "lc_id": "lc-domain"
+    },
+    {
+      "node_id": "an-domain",
+      "name": "Join Domain",
+      "node_type": "atomic",
+      "lc_id": "lc-an-domain"
+    },
+    {
+      "node_id": "security",
+      "name": "Security",
+      "node_type": "service",
+      "lc_id": "lc-security"
+    },
+    {
+      "node_id": "cyberark",
+      "name": "Register with CyberArk",
+      "node_type": "service",
+      "lc_id": "lc-cyberark"
+    },
+    {
+      "node_id": "an-cyberark",
+      "name": "Onboard Account",
+      "node_type": "atomic",
+      "lc_id": "lc-an-cyberark"
+    },
+    {
+      "node_id": "cmdb",
+      "name": "CMDB",
+      "node_type": "service",
+      "lc_id": "lc-cmdb"
+    },
+    {
+      "node_id": "register-ci",
+      "name": "Register CI in CMDB",
+      "node_type": "service",
+      "lc_id": "lc-register-ci"
+    },
+    {
+      "node_id": "an-register-ci",
+      "name": "Create CI",
+      "node_type": "atomic",
+      "lc_id": "lc-an-register-ci"
+    }
+  ],
+  "decomposition": [
+    [
+      "gpc",
+      "compute"
+    ],
+    [
+      "compute",
+      "vm"
+    ],
+    [
+      "compute",
+      "cpu"
+    ],
+    [
+      "cpu",
+      "an-cpu"
+    ],
+    [
+      "compute",
+      "memory"
+    ],
+    [
+      "memory",
+      "an-memory"
+    ],
+    [
+      "vm",
+      "an-deploy-vm"
+    ],
+    [
+      "gpc",
+      "storage"
+    ],
+    [
+      "storage",
+      "an-disk"
+    ],
+    [
+      "gpc",
+      "network"
+    ],
+    [
+      "network",
+      "allocate-ip"
+    ],
+    [
+      "allocate-ip",
+      "an-ip"
+    ],
+    [
+      "network",
+      "register-dns"
+    ],
+    [
+      "register-dns",
+      "an-dns"
+    ],
+    [
+      "gpc",
+      "boot"
+    ],
+    [
+      "boot",
+      "an-boot"
+    ],
+    [
+      "gpc",
+      "validate"
+    ],
+    [
+      "validate",
+      "an-validate"
+    ],
+    [
+      "gpc",
+      "identity"
+    ],
+    [
+      "identity",
+      "domain"
+    ],
+    [
+      "domain",
+      "an-domain"
+    ],
+    [
+      "gpc",
+      "security"
+    ],
+    [
+      "security",
+      "cyberark"
+    ],
+    [
+      "cyberark",
+      "an-cyberark"
+    ],
+    [
+      "gpc",
+      "cmdb"
+    ],
+    [
+      "cmdb",
+      "register-ci"
+    ],
+    [
+      "register-ci",
+      "an-register-ci"
+    ]
+  ]
+}

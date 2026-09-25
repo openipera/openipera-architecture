@@ -1,0 +1,50 @@
+test_binding_mutation_and_snapshot_isolation (test_smv.GitTests.test_binding_mutation_and_snapshot_isolation) ... ok
+test_cli_valid_denied_and_fresh_output (test_smv.GitTests.test_cli_valid_denied_and_fresh_output) ... ok
+test_duplicate_registry_uuid (test_smv.GitTests.test_duplicate_registry_uuid) ... ok
+test_missing_committed_artifact (test_smv.GitTests.test_missing_committed_artifact) ... ok
+test_symlink_is_not_automation (test_smv.GitTests.test_symlink_is_not_automation) ... ok
+test_atomic_children (test_smv.ModelTests.test_atomic_children) ... ok
+test_atomic_dependencies (test_smv.ModelTests.test_atomic_dependencies) ... ok
+test_atomic_dependency_target (test_smv.ModelTests.test_atomic_dependency_target) ... ok
+test_bad_uuid (test_smv.ModelTests.test_bad_uuid) ... ok
+test_baseline_independent_oracle (test_smv.ModelTests.test_baseline_independent_oracle) ... ok
+test_block_selected_class_only (test_smv.ModelTests.test_block_selected_class_only) ... ok
+test_combined_cycle (test_smv.ModelTests.test_combined_cycle) ... ok
+test_corroboration_of_direct_and_transitive_decomposition (test_smv.ModelTests.test_corroboration_of_direct_and_transitive_decomposition) ... ok
+test_decomposition_cycle (test_smv.ModelTests.test_decomposition_cycle) ... ok
+test_dependency_cycle (test_smv.ModelTests.test_dependency_cycle) ... ok
+test_duplicate_dependency (test_smv.ModelTests.test_duplicate_dependency) ... ok
+test_duplicate_edge (test_smv.ModelTests.test_duplicate_edge) ... ok
+test_duplicate_lc (test_smv.ModelTests.test_duplicate_lc) ... ok
+test_duplicate_lc_owner (test_smv.ModelTests.test_duplicate_lc_owner) ... ok
+test_duplicate_lc_reference (test_smv.ModelTests.test_duplicate_lc_reference) ... ok
+test_duplicate_node (test_smv.ModelTests.test_duplicate_node) ... ok
+test_empty_service (test_smv.ModelTests.test_empty_service) ... ok
+test_forward_reverse_classification (test_smv.ModelTests.test_forward_reverse_classification) ... ok
+test_generic_names (test_smv.ModelTests.test_generic_names) ... ok
+test_json_duplicate_keys (test_smv.ModelTests.test_json_duplicate_keys) ... ok
+test_lc_mutation_changes_finding_and_graph (test_smv.ModelTests.test_lc_mutation_changes_finding_and_graph) ... ok
+test_lc_only_mutation (test_smv.ModelTests.test_lc_only_mutation) ... ok
+test_mismatch (test_smv.ModelTests.test_mismatch) ... ok
+test_missing_dependency (test_smv.ModelTests.test_missing_dependency) ... ok
+test_missing_identity (test_smv.ModelTests.test_missing_identity) ... ok
+test_missing_lc (test_smv.ModelTests.test_missing_lc) ... ok
+test_missing_name (test_smv.ModelTests.test_missing_name) ... ok
+test_multiple_parents (test_smv.ModelTests.test_multiple_parents) ... ok
+test_no_binding (test_smv.ModelTests.test_no_binding) ... ok
+test_no_input_repair (test_smv.ModelTests.test_no_input_repair) ... ok
+test_orphan_lc (test_smv.ModelTests.test_orphan_lc) ... ok
+test_policy_is_separate_from_model_validity (test_smv.ModelTests.test_policy_is_separate_from_model_validity) ... ok
+test_policy_schema (test_smv.ModelTests.test_policy_schema) ... ok
+test_service_binding (test_smv.ModelTests.test_service_binding) ... ok
+test_shuffling_is_invariant (test_smv.ModelTests.test_shuffling_is_invariant) ... ok
+test_structure_and_lc_mutation (test_smv.ModelTests.test_structure_and_lc_mutation) ... ok
+test_structure_mutation_changes_finding (test_smv.ModelTests.test_structure_mutation_changes_finding) ... ok
+test_unknown_child (test_smv.ModelTests.test_unknown_child) ... ok
+test_unknown_fields_and_missing_keys (test_smv.ModelTests.test_unknown_fields_and_missing_keys) ... ok
+test_unresolved_valid_uuid (test_smv.ModelTests.test_unresolved_valid_uuid) ... ok
+
+----------------------------------------------------------------------
+Ran 45 tests in 8.613s
+
+OK
