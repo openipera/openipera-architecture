@@ -1,0 +1,13 @@
+# SMV: DENIED
+
+```json
+[
+  {
+    "code": "UNRESOLVED_AUTOMATION",
+    "message": "Atomic Node automation binding unresolved in VCS",
+    "node_id": "an-disk",
+    "automation_name": "Provision Disk",
+    "automation_id": "11111111-2222-3333-4444-555555555555"
+  }
+]
+```

@@ -1,0 +1,6 @@
+{
+  "automation_id": "f15db5bf-ddea-566f-9f5c-2ac081794a5f",
+  "automation_name": "Create CI",
+  "artifact_path": "poc-03/automation/artifacts/an-register-ci.py",
+  "execution_type": "python-demo"
+}

@@ -1,0 +1,59 @@
+{
+  "result": "PASS",
+  "cases": [
+    {
+      "case": "baseline",
+      "status": "VALID",
+      "registry_commit": "de7dc01244a43cb68dfcfea5f5b6d5b098ac8885"
+    },
+    {
+      "case": "lc-only",
+      "status": "VALID",
+      "registry_commit": "de7dc01244a43cb68dfcfea5f5b6d5b098ac8885"
+    },
+    {
+      "case": "structure-and-lc",
+      "status": "VALID",
+      "registry_commit": "de7dc01244a43cb68dfcfea5f5b6d5b098ac8885"
+    },
+    {
+      "case": "unresolved-uuid",
+      "status": "DENIED",
+      "registry_commit": "de7dc01244a43cb68dfcfea5f5b6d5b098ac8885"
+    },
+    {
+      "case": "binding-only",
+      "status": "VALID",
+      "registry_commit": "d5cefcfb275f67b23d2a3f9c691202ff7311f815"
+    }
+  ],
+  "unchanged_source_sha256": {
+    "runtime/smv.py": "f2af3cc91fd19a80b1d8f7c3b6a71f5da9def94e96d7b10541292eb6674f7376",
+    "model/lifecycle-cards.json": "5b38ed00f6267b1f3c69fdcf203295b16dfe7b3af2d6b350bb656cbdb70d284a",
+    "model/sm-dag.json": "c41be45b9bfcd99c0063a5ebf4c9a19c6b7797fc0f2615744b3f5519a92e4014",
+    "automation/.DS_Store": "f93446904f9caf13aa04a320e6be9182f58bb27a673e55b30bd9d08e40859ba3",
+    "automation/artifacts/an-boot.py": "6f91668dd76fb3122f92436cd1afaf055ce7bfc222a4a4b31ee4f9cc5bff444b",
+    "automation/artifacts/an-cpu.py": "dda45c0197594b11972216c628a91745a0dab4aba70206653e98babc57db7fc9",
+    "automation/artifacts/an-cyberark.py": "1cbc7374f3d435335b03308c677f83769342bab45e9281c31da39fd83cac63c1",
+    "automation/artifacts/an-deploy-vm.py": "903d63490a47e4b3a33ce05a6ca62dd9e74db7ffd6e55a114e6134eb5b3b94e9",
+    "automation/artifacts/an-disk.py": "abb08cf8d1fab169d1b4b266625e51ec224fcd0e095855d801c58bcaef5f0cb9",
+    "automation/artifacts/an-dns.py": "65a29c111fcaff9cc5c1d7ac263546ed42300734d013133e516ea6685ae1770a",
+    "automation/artifacts/an-domain.py": "cd7a0988978c7ba89bd2da01bb91c65fb52f24de73a1b5d4f684918ccd3f402b",
+    "automation/artifacts/an-ip.py": "7d09896b2ec3af43206e982f2818737d6268a628a28f60f3d7f8de00378e7ed2",
+    "automation/artifacts/an-memory.py": "f52d01cadb634d7756c44646b11aae035a7fd9930938b813530a38b900b51fd9",
+    "automation/artifacts/an-register-ci.py": "ecb9e7e1d529e6f0a1481d4b701a1427e2a97ba2d42fda2995749201268b0f96",
+    "automation/artifacts/an-validate.py": "99562dc7c2f380113445645782dbdeee70aa07e12fa2839310924d60c529a909",
+    "automation/records/2124882e-62b0-5f25-9753-ec915164a1c5.json": "71df3b5ec07f133983dc32d9544094c8574ab6a08c8b98cbc752bbbd2ca508a7",
+    "automation/records/271817c4-99f6-5b24-9da0-0db3e508f6a5.json": "957bf2a4044ce5b7de0c0ca06534a7b0810feba7aff45a082868049e33ed9cef",
+    "automation/records/2873ad87-1d8d-5f6c-b130-df639ed139a0.json": "45400c2d7f79c6f04680c5c38f477d1a36ecdc695e4e64abad13470dc8dd93fa",
+    "automation/records/39c45414-d3c4-5596-964d-3f7821a645e9.json": "cda5ef7c7cd156f4bbfbed33b77cf107ffb59800651ab4ae797d85cb90295f28",
+    "automation/records/54af18cc-31eb-5c4a-804d-d68a1caea269.json": "73f330464d11164861cd638635088f70d5b75be340d5d50c0a745bd060432dd5",
+    "automation/records/708d3532-08e4-5db8-aced-e1b5ef647006.json": "6c0e58733155be405dbcd4863cc9f2559fbc09dc4f2459187bb1ea6f70d89969",
+    "automation/records/ac242887-89b7-55b0-b1d8-500c57748d16.json": "4b80a9659e18e939bfd85e1b25233317c06ff78e35ad5e60eaec8189e9379c91",
+    "automation/records/c348ea21-fa84-5209-b3e0-34241c2b652e.json": "cebfc12edffde5e693ce8159cfc2d57c4f178f769eb6924419309fcba31dc4da",
+    "automation/records/d2bf2f4e-8b53-5942-ade4-75796bc252c9.json": "5e52eec8d33ee4b78769d0ad4df5900fdc2f35ce60c19ccfdd815c932e329fc1",
+    "automation/records/ecf32e26-53b4-58ad-bff4-d070a50846ec.json": "e72a7cec07a65fd2ad491b0c66031e41677184ce31c7cde9c4e77a0b86384633",
+    "automation/records/f15db5bf-ddea-566f-9f5c-2ac081794a5f.json": "e6ab88ae2c22264d1e29418f464d6a3977f60fabe7a7e30785adf8d4f67f5572"
+  },
+  "note": "Registry commits are isolated test commits preserved in automation-snapshots.bundle."
+}

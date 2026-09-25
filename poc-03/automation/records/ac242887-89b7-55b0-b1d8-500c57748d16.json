@@ -1,0 +1,6 @@
+{
+  "automation_id": "ac242887-89b7-55b0-b1d8-500c57748d16",
+  "automation_name": "Onboard Account",
+  "artifact_path": "poc-03/automation/artifacts/an-cyberark.py",
+  "execution_type": "python-demo"
+}

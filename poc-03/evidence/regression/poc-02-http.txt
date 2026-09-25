@@ -1,0 +1,6 @@
+PASS baseline: 932c991ca9c94e088286f09b2c5c9928 -> 932c991ca9c94e088286f09b2c5c9928-execution-dag.md
+PASS new_atomic_node: 88345c38fbfd4324937af8905d7103e4 -> 88345c38fbfd4324937af8905d7103e4-execution-dag.md
+PASS new_cross_service_dependency: 94334f6b1b4a480e890f7e9ac74afbba -> 94334f6b1b4a480e890f7e9ac74afbba-execution-dag.md
+PASS missing_reference: 50a92332c3664a8581e139f02f7d8944 -> 50a92332c3664a8581e139f02f7d8944-execution-dag.md
+PASS cycle: b93b58d5ac58436a827a890734175855 -> b93b58d5ac58436a827a890734175855-execution-dag.md
+PASS: all graph and mutation checks; exact baseline restored; runtime and bindings unchanged

@@ -12,9 +12,9 @@ External model drives execution without hard-coded workflow.
 POC-02 — demonstrated by its recorded validation
 Distributed dependency declarations dynamically derive an Execution DAG.
         ↓
-POC-03 — next experiment; not implemented or proven here
-Service decomposition and service dependencies are modeled independently
-while the Service Model Validator derives the Execution DAG.
+POC-03 — demonstrated within its documented realization semantics
+Independent SMV validates decomposition, Lifecycle Cards and Git-held UUID bindings
+and derives an Execution DAG without executing automation.
 ```
 
 ## Experiments
@@ -23,7 +23,7 @@ while the Service Model Validator derives the Execution DAG.
 |---|---|---|
 | [POC-01](poc-01/README.md) | External model drives execution; model-only changes alter the derived plan. | Preserves its original schema, service request, automation bindings, and tests. |
 | [POC-02](poc-02/README.md) | Distributed dependency declarations derive an inspectable Execution DAG. | Demonstrated dependency derivation; later review identified that decomposition and dependency semantics were not sufficiently separated. Its original model is preserved. |
-| POC-03 (planned) | Independently model decomposition and dependencies while deriving execution. | A new hypothesis, not an implemented or validated result. No implementation directory is created yet. |
+| [POC-03](poc-03/README.md) | Independent SMV validates separate decomposition, LCs and VCS automation UUIDs, then derives execution structure. | Includes denial and mutation evidence; no automation execution. Its realization rules and MVM example defects are documented for review. |
 
 ## Experimental record principle
 
@@ -43,7 +43,7 @@ Hypothesis → POC → Evidence → Learning → Next Hypothesis
 - `docs/` contains architecture and specifications that apply across experiments:
   - [Functional Architecture Requirements](docs/IPERA_FUNCTIONAL_ARCHITECTURE_REQUIREMENTS.md)
   - [Minimum Viable Service Model](docs/IPERA_Minimum_Viable_Service_Model.md)
-- `poc-01/` and `poc-02/` each contain their own executable experiment and documentation.
+- `poc-01/`, `poc-02/`, and `poc-03/` each contain their own independent experiment and documentation.
 - Evidence remains with its generating POC. Historical validation notes are preserved
   as records of their original runs, including statements about the checkout at that time.
 - [Reorganization record](docs/REPOSITORY_REORGANIZATION.md) identifies source commits,

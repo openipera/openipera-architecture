@@ -1,0 +1,6 @@
+{
+  "automation_id": "271817c4-99f6-5b24-9da0-0db3e508f6a5",
+  "automation_name": "Allocate IP",
+  "artifact_path": "poc-03/automation/artifacts/an-ip.py",
+  "execution_type": "python-demo"
+}

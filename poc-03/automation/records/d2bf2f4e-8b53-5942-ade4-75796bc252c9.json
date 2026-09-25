@@ -1,0 +1,6 @@
+{
+  "automation_id": "d2bf2f4e-8b53-5942-ade4-75796bc252c9",
+  "automation_name": "Configure CPU",
+  "artifact_path": "poc-03/automation/artifacts/an-cpu.py",
+  "execution_type": "python-demo"
+}

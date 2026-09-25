@@ -1,0 +1,215 @@
+[
+  {
+    "lc_id": "lc-gpc",
+    "node_id": "gpc",
+    "service_dependencies": [],
+    "automation_name": null,
+    "automation_id": null
+  },
+  {
+    "lc_id": "lc-compute",
+    "node_id": "compute",
+    "service_dependencies": [],
+    "automation_name": null,
+    "automation_id": null
+  },
+  {
+    "lc_id": "lc-vm",
+    "node_id": "vm",
+    "service_dependencies": [
+      "storage",
+      "network",
+      "cpu",
+      "memory"
+    ],
+    "automation_name": null,
+    "automation_id": null
+  },
+  {
+    "lc_id": "lc-cpu",
+    "node_id": "cpu",
+    "service_dependencies": [],
+    "automation_name": null,
+    "automation_id": null
+  },
+  {
+    "lc_id": "lc-an-cpu",
+    "node_id": "an-cpu",
+    "service_dependencies": [],
+    "automation_name": "Configure CPU",
+    "automation_id": "d2bf2f4e-8b53-5942-ade4-75796bc252c9"
+  },
+  {
+    "lc_id": "lc-memory",
+    "node_id": "memory",
+    "service_dependencies": [],
+    "automation_name": null,
+    "automation_id": null
+  },
+  {
+    "lc_id": "lc-an-memory",
+    "node_id": "an-memory",
+    "service_dependencies": [],
+    "automation_name": "Configure Memory",
+    "automation_id": "c348ea21-fa84-5209-b3e0-34241c2b652e"
+  },
+  {
+    "lc_id": "lc-an-deploy-vm",
+    "node_id": "an-deploy-vm",
+    "service_dependencies": [],
+    "automation_name": "Deploy VM",
+    "automation_id": "39c45414-d3c4-5596-964d-3f7821a645e9"
+  },
+  {
+    "lc_id": "lc-storage",
+    "node_id": "storage",
+    "service_dependencies": [],
+    "automation_name": null,
+    "automation_id": null
+  },
+  {
+    "lc_id": "lc-an-disk",
+    "node_id": "an-disk",
+    "service_dependencies": [],
+    "automation_name": "Provision Disk",
+    "automation_id": "2124882e-62b0-5f25-9753-ec915164a1c5"
+  },
+  {
+    "lc_id": "lc-network",
+    "node_id": "network",
+    "service_dependencies": [],
+    "automation_name": null,
+    "automation_id": null
+  },
+  {
+    "lc_id": "lc-allocate-ip",
+    "node_id": "allocate-ip",
+    "service_dependencies": [],
+    "automation_name": null,
+    "automation_id": null
+  },
+  {
+    "lc_id": "lc-an-ip",
+    "node_id": "an-ip",
+    "service_dependencies": [],
+    "automation_name": "Allocate IP",
+    "automation_id": "271817c4-99f6-5b24-9da0-0db3e508f6a5"
+  },
+  {
+    "lc_id": "lc-register-dns",
+    "node_id": "register-dns",
+    "service_dependencies": [
+      "allocate-ip"
+    ],
+    "automation_name": null,
+    "automation_id": null
+  },
+  {
+    "lc_id": "lc-an-dns",
+    "node_id": "an-dns",
+    "service_dependencies": [],
+    "automation_name": "Register DNS",
+    "automation_id": "2873ad87-1d8d-5f6c-b130-df639ed139a0"
+  },
+  {
+    "lc_id": "lc-boot",
+    "node_id": "boot",
+    "service_dependencies": [
+      "vm"
+    ],
+    "automation_name": null,
+    "automation_id": null
+  },
+  {
+    "lc_id": "lc-an-boot",
+    "node_id": "an-boot",
+    "service_dependencies": [],
+    "automation_name": "Power On VM",
+    "automation_id": "54af18cc-31eb-5c4a-804d-d68a1caea269"
+  },
+  {
+    "lc_id": "lc-validate",
+    "node_id": "validate",
+    "service_dependencies": [
+      "boot"
+    ],
+    "automation_name": null,
+    "automation_id": null
+  },
+  {
+    "lc_id": "lc-an-validate",
+    "node_id": "an-validate",
+    "service_dependencies": [],
+    "automation_name": "Run VM Validation",
+    "automation_id": "708d3532-08e4-5db8-aced-e1b5ef647006"
+  },
+  {
+    "lc_id": "lc-identity",
+    "node_id": "identity",
+    "service_dependencies": [],
+    "automation_name": null,
+    "automation_id": null
+  },
+  {
+    "lc_id": "lc-domain",
+    "node_id": "domain",
+    "service_dependencies": [
+      "validate"
+    ],
+    "automation_name": null,
+    "automation_id": null
+  },
+  {
+    "lc_id": "lc-an-domain",
+    "node_id": "an-domain",
+    "service_dependencies": [],
+    "automation_name": "Join Domain",
+    "automation_id": "ecf32e26-53b4-58ad-bff4-d070a50846ec"
+  },
+  {
+    "lc_id": "lc-security",
+    "node_id": "security",
+    "service_dependencies": [],
+    "automation_name": null,
+    "automation_id": null
+  },
+  {
+    "lc_id": "lc-cyberark",
+    "node_id": "cyberark",
+    "service_dependencies": [
+      "domain"
+    ],
+    "automation_name": null,
+    "automation_id": null
+  },
+  {
+    "lc_id": "lc-an-cyberark",
+    "node_id": "an-cyberark",
+    "service_dependencies": [],
+    "automation_name": "Onboard Account",
+    "automation_id": "ac242887-89b7-55b0-b1d8-500c57748d16"
+  },
+  {
+    "lc_id": "lc-cmdb",
+    "node_id": "cmdb",
+    "service_dependencies": [],
+    "automation_name": null,
+    "automation_id": null
+  },
+  {
+    "lc_id": "lc-register-ci",
+    "node_id": "register-ci",
+    "service_dependencies": [
+      "cyberark"
+    ],
+    "automation_name": null,
+    "automation_id": null
+  },
+  {
+    "lc_id": "lc-an-register-ci",
+    "node_id": "an-register-ci",
+    "service_dependencies": [],
+    "automation_name": "Create CI",
+    "automation_id": "f15db5bf-ddea-566f-9f5c-2ac081794a5f"
+  }
+]

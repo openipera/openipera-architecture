@@ -1,0 +1,6 @@
+{
+  "automation_id": "c348ea21-fa84-5209-b3e0-34241c2b652e",
+  "automation_name": "Configure Memory",
+  "artifact_path": "poc-03/automation/artifacts/an-memory.py",
+  "execution_type": "python-demo"
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "experiment": "poc-01",
+    "unit": "PASS",
+    "live_http": "PASS",
+    "isolated_copy": true
+  },
+  {
+    "experiment": "poc-02",
+    "unit": "PASS",
+    "live_http": "PASS",
+    "isolated_copy": true
+  }
+]

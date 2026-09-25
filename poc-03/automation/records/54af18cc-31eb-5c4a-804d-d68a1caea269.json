@@ -1,0 +1,6 @@
+{
+  "automation_id": "54af18cc-31eb-5c4a-804d-d68a1caea269",
+  "automation_name": "Power On VM",
+  "artifact_path": "poc-03/automation/artifacts/an-boot.py",
+  "execution_type": "python-demo"
+}

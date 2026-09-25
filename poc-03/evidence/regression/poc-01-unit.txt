@@ -1,0 +1,11 @@
+test_atomic_node_is_not_callable (test_engine.ContractTests.test_atomic_node_is_not_callable) ... ok
+test_cycle_and_missing_reference_rejected (test_engine.ContractTests.test_cycle_and_missing_reference_rejected) ... ok
+test_failed_dependency_blocks_dependents (test_engine.ContractTests.test_failed_dependency_blocks_dependents) ... ok
+test_hash_mismatch_and_escape_rejected (test_engine.ContractTests.test_hash_mismatch_and_escape_rejected) ... ok
+test_no_embedded_commands (test_engine.ContractTests.test_no_embedded_commands) ... ok
+test_shared_dependency_executes_once (test_engine.ContractTests.test_shared_dependency_executes_once) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.002s
+
+OK

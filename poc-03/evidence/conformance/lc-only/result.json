@@ -1,0 +1,893 @@
+{
+  "status": "VALID",
+  "nodes": [
+    {
+      "node_id": "allocate-ip",
+      "name": "Allocate IP",
+      "node_type": "service",
+      "lc_id": "lc-allocate-ip",
+      "role": "service_complete",
+      "architectural_paths": [
+        [
+          "gpc",
+          "network",
+          "allocate-ip"
+        ]
+      ]
+    },
+    {
+      "node_id": "an-boot",
+      "name": "Power On VM",
+      "node_type": "atomic",
+      "lc_id": "lc-an-boot",
+      "role": "action",
+      "architectural_paths": [
+        [
+          "gpc",
+          "boot",
+          "an-boot"
+        ]
+      ],
+      "automation": {
+        "automation_id": "54af18cc-31eb-5c4a-804d-d68a1caea269",
+        "automation_name": "Power On VM",
+        "artifact_path": "poc-03/automation/artifacts/an-boot.py",
+        "execution_type": "python-demo",
+        "commit": "de7dc01244a43cb68dfcfea5f5b6d5b098ac8885",
+        "record_path": "poc-03/automation/records/54af18cc-31eb-5c4a-804d-d68a1caea269.json",
+        "artifact_sha256": "6f91668dd76fb3122f92436cd1afaf055ce7bfc222a4a4b31ee4f9cc5bff444b"
+      }
+    },
+    {
+      "node_id": "an-cpu",
+      "name": "Configure CPU",
+      "node_type": "atomic",
+      "lc_id": "lc-an-cpu",
+      "role": "action",
+      "architectural_paths": [
+        [
+          "gpc",
+          "compute",
+          "cpu",
+          "an-cpu"
+        ]
+      ],
+      "automation": {
+        "automation_id": "d2bf2f4e-8b53-5942-ade4-75796bc252c9",
+        "automation_name": "Configure CPU",
+        "artifact_path": "poc-03/automation/artifacts/an-cpu.py",
+        "execution_type": "python-demo",
+        "commit": "de7dc01244a43cb68dfcfea5f5b6d5b098ac8885",
+        "record_path": "poc-03/automation/records/d2bf2f4e-8b53-5942-ade4-75796bc252c9.json",
+        "artifact_sha256": "dda45c0197594b11972216c628a91745a0dab4aba70206653e98babc57db7fc9"
+      }
+    },
+    {
+      "node_id": "an-cyberark",
+      "name": "Onboard Account",
+      "node_type": "atomic",
+      "lc_id": "lc-an-cyberark",
+      "role": "action",
+      "architectural_paths": [
+        [
+          "gpc",
+          "security",
+          "cyberark",
+          "an-cyberark"
+        ]
+      ],
+      "automation": {
+        "automation_id": "ac242887-89b7-55b0-b1d8-500c57748d16",
+        "automation_name": "Onboard Account",
+        "artifact_path": "poc-03/automation/artifacts/an-cyberark.py",
+        "execution_type": "python-demo",
+        "commit": "de7dc01244a43cb68dfcfea5f5b6d5b098ac8885",
+        "record_path": "poc-03/automation/records/ac242887-89b7-55b0-b1d8-500c57748d16.json",
+        "artifact_sha256": "1cbc7374f3d435335b03308c677f83769342bab45e9281c31da39fd83cac63c1"
+      }
+    },
+    {
+      "node_id": "an-deploy-vm",
+      "name": "Deploy VM",
+      "node_type": "atomic",
+      "lc_id": "lc-an-deploy-vm",
+      "role": "action",
+      "architectural_paths": [
+        [
+          "gpc",
+          "compute",
+          "vm",
+          "an-deploy-vm"
+        ]
+      ],
+      "automation": {
+        "automation_id": "39c45414-d3c4-5596-964d-3f7821a645e9",
+        "automation_name": "Deploy VM",
+        "artifact_path": "poc-03/automation/artifacts/an-deploy-vm.py",
+        "execution_type": "python-demo",
+        "commit": "de7dc01244a43cb68dfcfea5f5b6d5b098ac8885",
+        "record_path": "poc-03/automation/records/39c45414-d3c4-5596-964d-3f7821a645e9.json",
+        "artifact_sha256": "903d63490a47e4b3a33ce05a6ca62dd9e74db7ffd6e55a114e6134eb5b3b94e9"
+      }
+    },
+    {
+      "node_id": "an-disk",
+      "name": "Provision Disk",
+      "node_type": "atomic",
+      "lc_id": "lc-an-disk",
+      "role": "action",
+      "architectural_paths": [
+        [
+          "gpc",
+          "storage",
+          "an-disk"
+        ]
+      ],
+      "automation": {
+        "automation_id": "2124882e-62b0-5f25-9753-ec915164a1c5",
+        "automation_name": "Provision Disk",
+        "artifact_path": "poc-03/automation/artifacts/an-disk.py",
+        "execution_type": "python-demo",
+        "commit": "de7dc01244a43cb68dfcfea5f5b6d5b098ac8885",
+        "record_path": "poc-03/automation/records/2124882e-62b0-5f25-9753-ec915164a1c5.json",
+        "artifact_sha256": "abb08cf8d1fab169d1b4b266625e51ec224fcd0e095855d801c58bcaef5f0cb9"
+      }
+    },
+    {
+      "node_id": "an-dns",
+      "name": "Register DNS",
+      "node_type": "atomic",
+      "lc_id": "lc-an-dns",
+      "role": "action",
+      "architectural_paths": [
+        [
+          "gpc",
+          "network",
+          "register-dns",
+          "an-dns"
+        ]
+      ],
+      "automation": {
+        "automation_id": "2873ad87-1d8d-5f6c-b130-df639ed139a0",
+        "automation_name": "Register DNS",
+        "artifact_path": "poc-03/automation/artifacts/an-dns.py",
+        "execution_type": "python-demo",
+        "commit": "de7dc01244a43cb68dfcfea5f5b6d5b098ac8885",
+        "record_path": "poc-03/automation/records/2873ad87-1d8d-5f6c-b130-df639ed139a0.json",
+        "artifact_sha256": "65a29c111fcaff9cc5c1d7ac263546ed42300734d013133e516ea6685ae1770a"
+      }
+    },
+    {
+      "node_id": "an-domain",
+      "name": "Join Domain",
+      "node_type": "atomic",
+      "lc_id": "lc-an-domain",
+      "role": "action",
+      "architectural_paths": [
+        [
+          "gpc",
+          "identity",
+          "domain",
+          "an-domain"
+        ]
+      ],
+      "automation": {
+        "automation_id": "ecf32e26-53b4-58ad-bff4-d070a50846ec",
+        "automation_name": "Join Domain",
+        "artifact_path": "poc-03/automation/artifacts/an-domain.py",
+        "execution_type": "python-demo",
+        "commit": "de7dc01244a43cb68dfcfea5f5b6d5b098ac8885",
+        "record_path": "poc-03/automation/records/ecf32e26-53b4-58ad-bff4-d070a50846ec.json",
+        "artifact_sha256": "cd7a0988978c7ba89bd2da01bb91c65fb52f24de73a1b5d4f684918ccd3f402b"
+      }
+    },
+    {
+      "node_id": "an-ip",
+      "name": "Allocate IP",
+      "node_type": "atomic",
+      "lc_id": "lc-an-ip",
+      "role": "action",
+      "architectural_paths": [
+        [
+          "gpc",
+          "network",
+          "allocate-ip",
+          "an-ip"
+        ]
+      ],
+      "automation": {
+        "automation_id": "271817c4-99f6-5b24-9da0-0db3e508f6a5",
+        "automation_name": "Allocate IP",
+        "artifact_path": "poc-03/automation/artifacts/an-ip.py",
+        "execution_type": "python-demo",
+        "commit": "de7dc01244a43cb68dfcfea5f5b6d5b098ac8885",
+        "record_path": "poc-03/automation/records/271817c4-99f6-5b24-9da0-0db3e508f6a5.json",
+        "artifact_sha256": "7d09896b2ec3af43206e982f2818737d6268a628a28f60f3d7f8de00378e7ed2"
+      }
+    },
+    {
+      "node_id": "an-memory",
+      "name": "Configure Memory",
+      "node_type": "atomic",
+      "lc_id": "lc-an-memory",
+      "role": "action",
+      "architectural_paths": [
+        [
+          "gpc",
+          "compute",
+          "memory",
+          "an-memory"
+        ]
+      ],
+      "automation": {
+        "automation_id": "c348ea21-fa84-5209-b3e0-34241c2b652e",
+        "automation_name": "Configure Memory",
+        "artifact_path": "poc-03/automation/artifacts/an-memory.py",
+        "execution_type": "python-demo",
+        "commit": "de7dc01244a43cb68dfcfea5f5b6d5b098ac8885",
+        "record_path": "poc-03/automation/records/c348ea21-fa84-5209-b3e0-34241c2b652e.json",
+        "artifact_sha256": "f52d01cadb634d7756c44646b11aae035a7fd9930938b813530a38b900b51fd9"
+      }
+    },
+    {
+      "node_id": "an-register-ci",
+      "name": "Create CI",
+      "node_type": "atomic",
+      "lc_id": "lc-an-register-ci",
+      "role": "action",
+      "architectural_paths": [
+        [
+          "gpc",
+          "cmdb",
+          "register-ci",
+          "an-register-ci"
+        ]
+      ],
+      "automation": {
+        "automation_id": "f15db5bf-ddea-566f-9f5c-2ac081794a5f",
+        "automation_name": "Create CI",
+        "artifact_path": "poc-03/automation/artifacts/an-register-ci.py",
+        "execution_type": "python-demo",
+        "commit": "de7dc01244a43cb68dfcfea5f5b6d5b098ac8885",
+        "record_path": "poc-03/automation/records/f15db5bf-ddea-566f-9f5c-2ac081794a5f.json",
+        "artifact_sha256": "ecb9e7e1d529e6f0a1481d4b701a1427e2a97ba2d42fda2995749201268b0f96"
+      }
+    },
+    {
+      "node_id": "an-validate",
+      "name": "Run VM Validation",
+      "node_type": "atomic",
+      "lc_id": "lc-an-validate",
+      "role": "action",
+      "architectural_paths": [
+        [
+          "gpc",
+          "validate",
+          "an-validate"
+        ]
+      ],
+      "automation": {
+        "automation_id": "708d3532-08e4-5db8-aced-e1b5ef647006",
+        "automation_name": "Run VM Validation",
+        "artifact_path": "poc-03/automation/artifacts/an-validate.py",
+        "execution_type": "python-demo",
+        "commit": "de7dc01244a43cb68dfcfea5f5b6d5b098ac8885",
+        "record_path": "poc-03/automation/records/708d3532-08e4-5db8-aced-e1b5ef647006.json",
+        "artifact_sha256": "99562dc7c2f380113445645782dbdeee70aa07e12fa2839310924d60c529a909"
+      }
+    },
+    {
+      "node_id": "boot",
+      "name": "Boot VM",
+      "node_type": "service",
+      "lc_id": "lc-boot",
+      "role": "service_complete",
+      "architectural_paths": [
+        [
+          "gpc",
+          "boot"
+        ]
+      ]
+    },
+    {
+      "node_id": "cmdb",
+      "name": "CMDB",
+      "node_type": "service",
+      "lc_id": "lc-cmdb",
+      "role": "service_complete",
+      "architectural_paths": [
+        [
+          "gpc",
+          "cmdb"
+        ]
+      ]
+    },
+    {
+      "node_id": "compute",
+      "name": "Compute",
+      "node_type": "service",
+      "lc_id": "lc-compute",
+      "role": "service_complete",
+      "architectural_paths": [
+        [
+          "gpc",
+          "compute"
+        ]
+      ]
+    },
+    {
+      "node_id": "cpu",
+      "name": "CPU",
+      "node_type": "service",
+      "lc_id": "lc-cpu",
+      "role": "service_complete",
+      "architectural_paths": [
+        [
+          "gpc",
+          "compute",
+          "cpu"
+        ]
+      ]
+    },
+    {
+      "node_id": "cyberark",
+      "name": "Register with CyberArk",
+      "node_type": "service",
+      "lc_id": "lc-cyberark",
+      "role": "service_complete",
+      "architectural_paths": [
+        [
+          "gpc",
+          "security",
+          "cyberark"
+        ]
+      ]
+    },
+    {
+      "node_id": "domain",
+      "name": "Register with Domain",
+      "node_type": "service",
+      "lc_id": "lc-domain",
+      "role": "service_complete",
+      "architectural_paths": [
+        [
+          "gpc",
+          "identity",
+          "domain"
+        ]
+      ]
+    },
+    {
+      "node_id": "gpc",
+      "name": "General Purpose Compute",
+      "node_type": "service",
+      "lc_id": "lc-gpc",
+      "role": "service_complete",
+      "architectural_paths": [
+        [
+          "gpc"
+        ]
+      ]
+    },
+    {
+      "node_id": "identity",
+      "name": "Identity",
+      "node_type": "service",
+      "lc_id": "lc-identity",
+      "role": "service_complete",
+      "architectural_paths": [
+        [
+          "gpc",
+          "identity"
+        ]
+      ]
+    },
+    {
+      "node_id": "memory",
+      "name": "Memory",
+      "node_type": "service",
+      "lc_id": "lc-memory",
+      "role": "service_complete",
+      "architectural_paths": [
+        [
+          "gpc",
+          "compute",
+          "memory"
+        ]
+      ]
+    },
+    {
+      "node_id": "network",
+      "name": "Network",
+      "node_type": "service",
+      "lc_id": "lc-network",
+      "role": "service_complete",
+      "architectural_paths": [
+        [
+          "gpc",
+          "network"
+        ]
+      ]
+    },
+    {
+      "node_id": "register-ci",
+      "name": "Register CI in CMDB",
+      "node_type": "service",
+      "lc_id": "lc-register-ci",
+      "role": "service_complete",
+      "architectural_paths": [
+        [
+          "gpc",
+          "cmdb",
+          "register-ci"
+        ]
+      ]
+    },
+    {
+      "node_id": "register-dns",
+      "name": "Register DNS",
+      "node_type": "service",
+      "lc_id": "lc-register-dns",
+      "role": "service_complete",
+      "architectural_paths": [
+        [
+          "gpc",
+          "network",
+          "register-dns"
+        ]
+      ]
+    },
+    {
+      "node_id": "security",
+      "name": "Security",
+      "node_type": "service",
+      "lc_id": "lc-security",
+      "role": "service_complete",
+      "architectural_paths": [
+        [
+          "gpc",
+          "security"
+        ]
+      ]
+    },
+    {
+      "node_id": "storage",
+      "name": "Storage",
+      "node_type": "service",
+      "lc_id": "lc-storage",
+      "role": "service_complete",
+      "architectural_paths": [
+        [
+          "gpc",
+          "storage"
+        ]
+      ]
+    },
+    {
+      "node_id": "validate",
+      "name": "Validate VM",
+      "node_type": "service",
+      "lc_id": "lc-validate",
+      "role": "service_complete",
+      "architectural_paths": [
+        [
+          "gpc",
+          "validate"
+        ]
+      ]
+    },
+    {
+      "node_id": "vm",
+      "name": "VM",
+      "node_type": "service",
+      "lc_id": "lc-vm",
+      "role": "service_complete",
+      "architectural_paths": [
+        [
+          "gpc",
+          "compute",
+          "vm"
+        ]
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "allocate-ip",
+      "target": "an-dns",
+      "reasons": [
+        "prerequisite for terminal action of register-dns"
+      ]
+    },
+    {
+      "source": "allocate-ip",
+      "target": "network",
+      "reasons": [
+        "child completion"
+      ]
+    },
+    {
+      "source": "allocate-ip",
+      "target": "register-dns",
+      "reasons": [
+        "required service completion"
+      ]
+    },
+    {
+      "source": "an-boot",
+      "target": "boot",
+      "reasons": [
+        "child completion"
+      ]
+    },
+    {
+      "source": "an-cpu",
+      "target": "cpu",
+      "reasons": [
+        "child completion"
+      ]
+    },
+    {
+      "source": "an-cyberark",
+      "target": "cyberark",
+      "reasons": [
+        "child completion"
+      ]
+    },
+    {
+      "source": "an-deploy-vm",
+      "target": "vm",
+      "reasons": [
+        "child completion"
+      ]
+    },
+    {
+      "source": "an-disk",
+      "target": "storage",
+      "reasons": [
+        "child completion"
+      ]
+    },
+    {
+      "source": "an-dns",
+      "target": "register-dns",
+      "reasons": [
+        "child completion"
+      ]
+    },
+    {
+      "source": "an-domain",
+      "target": "domain",
+      "reasons": [
+        "child completion"
+      ]
+    },
+    {
+      "source": "an-ip",
+      "target": "allocate-ip",
+      "reasons": [
+        "child completion"
+      ]
+    },
+    {
+      "source": "an-memory",
+      "target": "memory",
+      "reasons": [
+        "child completion"
+      ]
+    },
+    {
+      "source": "an-register-ci",
+      "target": "register-ci",
+      "reasons": [
+        "child completion"
+      ]
+    },
+    {
+      "source": "an-validate",
+      "target": "validate",
+      "reasons": [
+        "child completion"
+      ]
+    },
+    {
+      "source": "boot",
+      "target": "an-validate",
+      "reasons": [
+        "prerequisite for terminal action of validate"
+      ]
+    },
+    {
+      "source": "boot",
+      "target": "gpc",
+      "reasons": [
+        "child completion"
+      ]
+    },
+    {
+      "source": "boot",
+      "target": "validate",
+      "reasons": [
+        "required service completion"
+      ]
+    },
+    {
+      "source": "cmdb",
+      "target": "gpc",
+      "reasons": [
+        "child completion"
+      ]
+    },
+    {
+      "source": "compute",
+      "target": "gpc",
+      "reasons": [
+        "child completion"
+      ]
+    },
+    {
+      "source": "cpu",
+      "target": "an-deploy-vm",
+      "reasons": [
+        "prerequisite for terminal action of vm"
+      ]
+    },
+    {
+      "source": "cpu",
+      "target": "compute",
+      "reasons": [
+        "child completion"
+      ]
+    },
+    {
+      "source": "cpu",
+      "target": "vm",
+      "reasons": [
+        "required service completion"
+      ]
+    },
+    {
+      "source": "cyberark",
+      "target": "an-register-ci",
+      "reasons": [
+        "prerequisite for terminal action of register-ci"
+      ]
+    },
+    {
+      "source": "cyberark",
+      "target": "register-ci",
+      "reasons": [
+        "required service completion"
+      ]
+    },
+    {
+      "source": "cyberark",
+      "target": "security",
+      "reasons": [
+        "child completion"
+      ]
+    },
+    {
+      "source": "domain",
+      "target": "an-cyberark",
+      "reasons": [
+        "prerequisite for terminal action of cyberark"
+      ]
+    },
+    {
+      "source": "domain",
+      "target": "cyberark",
+      "reasons": [
+        "required service completion"
+      ]
+    },
+    {
+      "source": "domain",
+      "target": "identity",
+      "reasons": [
+        "child completion"
+      ]
+    },
+    {
+      "source": "identity",
+      "target": "gpc",
+      "reasons": [
+        "child completion"
+      ]
+    },
+    {
+      "source": "memory",
+      "target": "an-deploy-vm",
+      "reasons": [
+        "prerequisite for terminal action of vm"
+      ]
+    },
+    {
+      "source": "memory",
+      "target": "compute",
+      "reasons": [
+        "child completion"
+      ]
+    },
+    {
+      "source": "memory",
+      "target": "vm",
+      "reasons": [
+        "required service completion"
+      ]
+    },
+    {
+      "source": "network",
+      "target": "an-deploy-vm",
+      "reasons": [
+        "prerequisite for terminal action of vm"
+      ]
+    },
+    {
+      "source": "network",
+      "target": "gpc",
+      "reasons": [
+        "child completion"
+      ]
+    },
+    {
+      "source": "network",
+      "target": "vm",
+      "reasons": [
+        "required service completion"
+      ]
+    },
+    {
+      "source": "register-ci",
+      "target": "cmdb",
+      "reasons": [
+        "child completion"
+      ]
+    },
+    {
+      "source": "register-dns",
+      "target": "network",
+      "reasons": [
+        "child completion"
+      ]
+    },
+    {
+      "source": "security",
+      "target": "gpc",
+      "reasons": [
+        "child completion"
+      ]
+    },
+    {
+      "source": "storage",
+      "target": "an-deploy-vm",
+      "reasons": [
+        "prerequisite for terminal action of vm"
+      ]
+    },
+    {
+      "source": "storage",
+      "target": "gpc",
+      "reasons": [
+        "child completion"
+      ]
+    },
+    {
+      "source": "storage",
+      "target": "vm",
+      "reasons": [
+        "required service completion"
+      ]
+    },
+    {
+      "source": "validate",
+      "target": "an-domain",
+      "reasons": [
+        "prerequisite for terminal action of domain"
+      ]
+    },
+    {
+      "source": "validate",
+      "target": "domain",
+      "reasons": [
+        "required service completion"
+      ]
+    },
+    {
+      "source": "validate",
+      "target": "gpc",
+      "reasons": [
+        "child completion"
+      ]
+    },
+    {
+      "source": "vm",
+      "target": "an-boot",
+      "reasons": [
+        "prerequisite for terminal action of boot"
+      ]
+    },
+    {
+      "source": "vm",
+      "target": "boot",
+      "reasons": [
+        "required service completion"
+      ]
+    },
+    {
+      "source": "vm",
+      "target": "compute",
+      "reasons": [
+        "child completion"
+      ]
+    }
+  ],
+  "layers": [
+    [
+      "an-cpu",
+      "an-disk",
+      "an-ip",
+      "an-memory"
+    ],
+    [
+      "allocate-ip",
+      "cpu",
+      "memory",
+      "storage"
+    ],
+    [
+      "an-dns"
+    ],
+    [
+      "register-dns"
+    ],
+    [
+      "network"
+    ],
+    [
+      "an-deploy-vm"
+    ],
+    [
+      "vm"
+    ],
+    [
+      "an-boot",
+      "compute"
+    ],
+    [
+      "boot"
+    ],
+    [
+      "an-validate"
+    ],
+    [
+      "validate"
+    ],
+    [
+      "an-domain"
+    ],
+    [
+      "domain"
+    ],
+    [
+      "an-cyberark",
+      "identity"
+    ],
+    [
+      "cyberark"
+    ],
+    [
+      "an-register-ci",
+      "security"
+    ],
+    [
+      "register-ci"
+    ],
+    [
+      "cmdb"
+    ],
+    [
+      "gpc"
+    ]
+  ]
+}

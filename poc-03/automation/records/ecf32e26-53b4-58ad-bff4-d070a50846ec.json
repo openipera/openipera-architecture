@@ -1,0 +1,6 @@
+{
+  "automation_id": "ecf32e26-53b4-58ad-bff4-d070a50846ec",
+  "automation_name": "Join Domain",
+  "artifact_path": "poc-03/automation/artifacts/an-domain.py",
+  "execution_type": "python-demo"
+}
