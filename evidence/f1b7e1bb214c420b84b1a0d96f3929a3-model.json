@@ -1,0 +1,75 @@
+{
+  "nodes": [
+    {
+      "service": "Compute",
+      "node": "AN-DeployVM",
+      "dependencies": []
+    },
+    {
+      "service": "Compute",
+      "node": "AN-ConfigureCPU",
+      "dependencies": [
+        "Compute.AN-DeployVM"
+      ]
+    },
+    {
+      "service": "Storage",
+      "node": "AN-ProvisionDisk",
+      "dependencies": []
+    },
+    {
+      "service": "Compute",
+      "node": "AN-ConfigureDisk",
+      "dependencies": [
+        "Compute.AN-DeployVM",
+        "Storage.AN-ProvisionDisk"
+      ]
+    },
+    {
+      "service": "Network",
+      "node": "AN-AllocateIP",
+      "dependencies": []
+    },
+    {
+      "service": "Network",
+      "node": "AN-RegisterDNS",
+      "dependencies": [
+        "Network.AN-AllocateIP"
+      ]
+    },
+    {
+      "service": "Compute",
+      "node": "AN-ConfigureIP",
+      "dependencies": [
+        "Compute.AN-DeployVM",
+        "Network.AN-RegisterDNS"
+      ]
+    },
+    {
+      "service": "Identity",
+      "node": "AN-JoinDomain",
+      "dependencies": [
+        "Compute.AN-DeployVM",
+        "Network.AN-RegisterDNS"
+      ]
+    },
+    {
+      "service": "Compute",
+      "node": "AN-ValidateVM",
+      "dependencies": [
+        "Compute.AN-ConfigureCPU",
+        "Compute.AN-ConfigureDisk",
+        "Compute.AN-ConfigureIP",
+        "Identity.AN-JoinDomain",
+        "Compute.AN-ConfigureMemory"
+      ]
+    },
+    {
+      "service": "Compute",
+      "node": "AN-ConfigureMemory",
+      "dependencies": [
+        "Compute.AN-DeployVM"
+      ]
+    }
+  ]
+}

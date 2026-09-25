@@ -1,3 +1,8 @@
 __pycache__/
+# Runtime evidence is local/transient
 evidence/*
+
+# Human-inspectable POC evidence is retained
+!evidence/*-model.json
+!evidence/*-execution-dag.md
 !evidence/.gitkeep
