@@ -1,7 +1,203 @@
 # IPERA Demonstration Project
 
-This repository preserves a progression of IPERA architectural experiments. POC-01,
-POC-02, and subsequent POCs test distinct hypotheses; they are **not successive
+## What This Repository Is
+
+This repository is not a collection of independent automation experiments.
+
+It is the working architectural record of the **IPERA Service Model** as that model is developed, challenged, experimentally validated, and refined.
+
+The architecture is being developed iteratively:
+
+```text
+ARCHITECTURAL HYPOTHESIS
+          │
+          ▼
+        MODEL
+          │
+          ▼
+         POC
+          │
+          ▼
+       EVIDENCE
+          │
+          ▼
+       LEARNING
+          │
+          ├──────────────► validates the model
+          │
+          └──────────────► changes the model
+                              │
+                              ▼
+                       NEXT HYPOTHESIS
+```
+
+A completed POC is therefore an **experimental record**, not a software release. When an experiment exposes a new architectural question, the previous POC is preserved and a new experiment tests the refined hypothesis.
+
+**The model drives the experiments. The experiments produce evidence. The evidence refines the model.**
+
+### The Service Model
+
+At its current stage of development, the IPERA Service Model separates architectural decomposition, service realization knowledge, and automation implementation identity into distinct structures:
+
+```text
+┌─────────────────────────┐   ┌─────────────────────────┐   ┌─────────────────────────┐
+│         SM-DAG          │   │      LC REGISTRY        │   │   AUTOMATION REGISTRY   │
+│                         │   │                         │   │                         │
+│ Service Architect       │   │ Domain / Service SME    │   │ Automation Capability   │
+│                         │   │                         │   │                         │
+│ Service                 │   │ lc_id                   │   │ automation_id (UUID)    │
+│   │                     │   │ node_id                 │   │                         │
+│   ├── Service           │   │ service_dependencies    │   │ implementation          │
+│   │     │               │   │                         │   │ version / commit        │
+│   │     └── Atomic Node │   │ automation_name         │   │ path / entrypoint       │
+│   │                     │   │ automation_id           │   │ provenance              │
+│   └── Service           │   │                         │   │                         │
+│                         │   │                         │   │                         │
+│ "What does the service  │   │ "What is required to   │   │ "What implementation   │
+│  decompose into?"       │   │  realize the service?" │   │  satisfies this ID?"    │
+└────────────┬────────────┘   └────────────┬────────────┘   └────────────┬────────────┘
+             │                             │                             │
+             │ node_id / lc_id             │ automation_id               │
+             └──────────────┬──────────────┴─────────────────────────────┘
+                            │
+                            ▼
+                   SERVICE MODEL VALIDATOR
+                            SMV
+```
+
+These structures have deliberately different responsibilities.
+
+The **SM-DAG** expresses architectural decomposition: what the Service Architect believes the service consists of. Its edges mean **decomposes into**. It contains Service Nodes down to Atomic Nodes and does not encode execution workflow.
+
+The **Lifecycle Card Registry** expresses realization knowledge authored by Domain and Service SMEs. Service-node Lifecycle Cards identify `service_dependencies`. Atomic-node Lifecycle Cards terminate service dependency resolution and instead bind the Atomic Node to an automation capability through an immutable `automation_id`.
+
+The **Automation Registry** resolves that symbolic automation identity to an external implementation. The Service Model therefore identifies the required automation capability without embedding executable automation or its physical implementation into the model.
+
+Conceptually:
+
+```text
+SERVICE
+   │
+   │ decomposes into
+   ▼
+SERVICE
+   │
+   │ decomposes into
+   ▼
+ATOMIC NODE
+   │
+   │ automation_id
+   ▼
+AUTOMATION REGISTRY
+   │
+   ▼
+AUTOMATION IMPLEMENTATION
+```
+
+### Two Independent Authorities
+
+The SM-DAG and Lifecycle Cards are independently authored.
+
+```text
+       SERVICE ARCHITECT                DOMAIN / SERVICE SME
+              │                                │
+              │ decomposes                     │ composes
+              ▼                                ▼
+           SM-DAG                        Lifecycle Cards
+              \                                /
+               \                              /
+                └────────────┬───────────────┘
+                             ▼
+                            SMV
+                    Validate + Reconcile
+                         + Compile
+                             │
+                             ▼
+                       Execution DAG
+                      Derived Realization
+```
+
+The Service Architect works **top-down**, decomposing cross-domain service intent.
+
+Domain and Service SMEs work **bottom-up**, describing what is required to realize capabilities within their domains.
+
+Where those independently authored assertions meet, the SMV can compare them:
+
+```text
+SM-DAG        Lifecycle Card        Result
+------        --------------        ------
+
+ YES               YES             CORROBORATED
+
+ YES                NO             UNCORROBORATED
+
+  NO               YES             UNMODELED
+
+  NO                NO             No asserted relationship
+```
+
+Agreement provides corroboration.
+
+Disagreement provides information.
+
+**A discrepancy is information before it is an error.**
+
+The SMV does not silently modify either authoritative source to make the model agree. Policy and governance determine the disposition of reported discrepancies.
+
+### From Service Knowledge to Execution
+
+The Service Model is **source**, not workflow.
+
+The SMV validates the independently authored model, resolves its symbolic references, reports discrepancies, and compiles a derived Execution DAG.
+
+The resulting architecture follows a deliberate separation:
+
+```text
+SM-DAG + Lifecycle Cards
+          SOURCE
+             │
+             ▼
+            SMV
+          COMPILE
+             │
+             ▼
+       Execution DAG
+  COMPILED REPRESENTATION
+             │
+             ▼
+        Orchestrator
+           LINK
+             │
+             ▼
+    Executable Pipeline
+             │
+             ▼
+    Execution Capability
+           RUN
+             │
+             ▼
+      State / Evidence
+```
+
+The **Execution DAG is derived output**, not persistent architectural truth and not the executable pipeline itself.
+
+The Orchestrator performs the linker responsibility, resolving the symbolic automation identities to implementations and assembling the executable pipeline.
+
+Execution capabilities then run that linked work.
+
+This produces the foundational IPERA separation:
+
+> **IPERA separates service knowledge from compilation, compilation from linking, and linking from execution.**
+
+The POCs in this repository exist to determine whether these architectural assertions survive implementation.
+
+They should therefore be read as a progression of architectural experiments:
+
+```text
+HYPOTHESIS → POC → EVIDENCE → LEARNING → NEXT HYPOTHESIS
+```
+
+Earlier POCs are intentionally preserved when later experiments refine or invalidate an earlier assumption. The history of the experiments is part of the architectural evidence.POC-01, POC-02, and subsequent POCs test distinct hypotheses; they are **not successive
 software releases**. Each experiment keeps its own model, runtime, tests, artifacts,
 configuration, documentation, and available evidence.
 
