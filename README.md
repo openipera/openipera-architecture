@@ -96,7 +96,7 @@ AUTOMATION IMPLEMENTATION
 
 ### Two Independent Authorities
 
-The SM-DAG and Lifecycle Cards are independently authored.
+The SM-DAG and Lifecycle Cards contain independently authored **assertions**. Their identities are not independently invented: creation of an SM-DAG node instantiates its companion Lifecycle Card before the SME authors realization content.
 
 ```text
        SERVICE ARCHITECT                DOMAIN / SERVICE SME
@@ -241,6 +241,7 @@ Hypothesis → POC → Evidence → Learning → Next Hypothesis
 - `docs/` contains architecture and specifications that apply across experiments:
   - [Functional Architecture Requirements](docs/IPERA_FUNCTIONAL_ARCHITECTURE_REQUIREMENTS.md)
   - [Minimum Viable Service Model](docs/IPERA_Minimum_Viable_Service_Model.md)
+  - [Service Model Authoring Rules](docs/IPERA_SERVICE_MODEL_AUTHORING_RULES.md)
   - [Service Model Compilation Architecture](docs/IPERA_Service_Model_Compilation_Architecture.md)
 - `poc-01/`, `poc-02/`, `poc-03/`, and `poc-04/` each contain their own independent experiment and documentation.
 - Evidence remains with its generating POC. Historical validation notes are preserved

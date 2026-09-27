@@ -161,6 +161,58 @@ SM-DAG Node
 Lifecycle Card
 ```
 
+### Creation Precedence
+
+Service-model construction has an explicit precedence.
+
+> **A Service Model node MUST exist before realization knowledge for that node can be authored. Creation of an SM-DAG node MUST instantiate exactly one companion Lifecycle Card stub identified by the same `lc_id` referenced by the node.**
+
+At creation time, the companion LC is intentionally only a stub:
+
+```json
+{
+  "lc_id": "lc-storage"
+}
+```
+
+The stub establishes identity and association only. It does not yet assert realization semantics and is not yet a compile-valid Lifecycle Card.
+
+A Domain or Service SME subsequently authors the realization content of that already-created companion LC. The SME does not independently create an LC and then attempt to associate it with a Service Node by name.
+
+Conceptually:
+
+```text
+Service Architect
+      │
+      │ creates node
+      ▼
+SM-DAG Node
+      │
+      │ atomically instantiates lc_id
+      ▼
+Companion LC Stub
+      │
+      │ SME authors realization knowledge
+      ▼
+Completed Lifecycle Card
+```
+
+This establishes the governing precedence:
+
+```text
+SERVICE EXISTS
+      ↓
+COMPANION LC EXISTS
+      ↓
+REALIZATION KNOWLEDGE IS AUTHORED
+```
+
+There is no Lifecycle Card, in the architectural sense, for a service-model construct that does not exist.
+
+The Service Architect is authoritative for decomposition. Domain and Service SMEs are authoritative for realization assertions. Those assertions remain independent even though the companion LC object is instantiated as a consequence of node creation.
+
+> **Authority over an assertion is not authority over creation of the object containing that assertion.**
+
 The LC describes realization semantics associated with the node.
 
 In the Minimum Viable Service Model, the LC contains:
@@ -182,9 +234,11 @@ Service Nodes only. It records the Domain or Service SME's independent assertion
 what services are required for realization. Atomic Node LCs contain an empty list;
 service dependency resolution terminates at their automation boundary.
 
-The SM-DAG is authored by the Service Architect from the top down. LCs are authored
-by Domain or Service SMEs from the bottom up. A dependency that matches direct or
-transitive decomposition may be intentional corroboration, not redundant data.
+The SM-DAG is authored by the Service Architect from the top down. Companion LC
+objects are instantiated with their SM-DAG nodes; the realization assertions within
+those LCs are authored by Domain or Service SMEs from the bottom up. A dependency
+that matches direct or transitive decomposition may be intentional corroboration,
+not redundant data.
 
 `automation_name` provides the human-readable name of automation associated with an Atomic Node.
 
@@ -548,6 +602,18 @@ The governing rule is:
 The Service Model Validator MUST reject structurally or semantically invalid models.
 
 At minimum, the following conditions are invalid.
+
+### Orphan Lifecycle Card
+
+```text
+Lifecycle Card exists
+No SM-DAG node references its lc_id
+
+DENIED:
+Lifecycle Card has no corresponding Service Model node.
+```
+
+A Lifecycle Card MUST NOT be independently created for a service-model construct that does not exist.
 
 ### Missing Lifecycle Card
 
@@ -996,7 +1062,23 @@ provided the architectural boundaries and authoritative sources remain preserved
 
 ## 18. Authoring Rule
 
-The governing authoring rule is:
+Service-model construction MUST follow the precedence defined in Section 5:
+
+```text
+DEFINE NODE
+    ↓
+INSTANTIATE COMPANION LC STUB
+    ↓
+AUTHOR LC REALIZATION CONTENT
+    ↓
+BIND ATOMIC NODE TO AUTOMATION, WHEN APPLICABLE
+    ↓
+VALIDATE / COMPILE
+```
+
+An SME populates the companion LC created for an existing node; the SME does not create a free-standing LC and rely on naming conventions or later matching to associate it with the graph.
+
+The governing semantic authoring rule is:
 
 > **Model service truth. Do not author execution order.**
 
