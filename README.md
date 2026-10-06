@@ -12,7 +12,7 @@ IPERA separates the knowledge required to realize infrastructure services from t
 
 ## IPERA Reference Architecture
 
-**<<<<<<<<<< IPERA REFERENCE ARCHITECTURE GRAPHIC HERE >>>>>>>>>>**
+![Infrastructure Platform Engineering Reference Architecture (IPERA)](images/ipera-reference-architecture.png)
 
 The **IPERA Reference Architecture** is the capability view: **what must exist**.
 
@@ -33,7 +33,7 @@ Products may implement more than one IPERA capability. The architectural respons
 
 ## IPE Model
 
-**<<<<<<<<<< IPE MODEL GRAPHIC HERE >>>>>>>>>>**
+![IPE Model](images/ipe-model.png)
 
 The **IPE Model** is the behavioral view: **how the capabilities work together to realize a service**.
 
