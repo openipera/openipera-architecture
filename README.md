@@ -4,19 +4,74 @@
 
 **OpenIPE Architecture** is the working home of the **Infrastructure Platform Engineering Reference Architecture (IPERA)**.
 
-IPERA separates the knowledge required to realize infrastructure services from the automation that implements them. That knowledge can then be compiled into a complete realization when a service is requested.
+IPERA separates the knowledge required to realize infrastructure services from the automation that implements them, and defines the capabilities that turn enterprise intent into governed, consumable infrastructure services.
 
 > **The Service Model is knowledge, not workflow. If you want the workflow, compile it.**
 
 ---
 
-## Architecture at a Glance
+## IPERA Reference Architecture
 
-**<<<<<<<<<< IPERA ARCHITECTURE GRAPHIC HERE >>>>>>>>>>**
+**<<<<<<<<<< IPERA REFERENCE ARCHITECTURE GRAPHIC HERE >>>>>>>>>>**
 
-The end-to-end realization is an **output** of the Service Model, not an input to it.
+The **IPERA Reference Architecture** is the capability view: **what must exist**.
 
-IPERA separates service knowledge, compilation, governance and orchestration, execution, and evidence into distinct architectural responsibilities. Products may implement more than one responsibility without changing those boundaries.
+Its central capability stack is:
+
+- **Enterprise Services** — governed service catalog offerings and service contracts.
+- **Service Realization** — Service Model, dependency resolution, compilation, and the Service Object Graph (SOG).
+- **Orchestration** — consumes the SOG, links it into the native pipeline semantics of the selected orchestration platform, and coordinates execution.
+- **Automation** — reusable automation capabilities, automation engines, and APIs that perform discrete infrastructure operations.
+- **Control Planes** — management interfaces to infrastructure and platform services.
+- **Infrastructure Domains** — consumable resources including compute, network, storage, virtualization, hyperscalers, GPU infrastructure, and future technologies.
+
+**Governance, Security & Compliance** and **Observability** are cross-cutting capabilities spanning the architecture.
+
+Products may implement more than one IPERA capability. The architectural responsibilities remain distinct even when a product spans them.
+
+---
+
+## IPE Model
+
+**<<<<<<<<<< IPE MODEL GRAPHIC HERE >>>>>>>>>>**
+
+The **IPE Model** is the behavioral view: **how the capabilities work together to realize a service**.
+
+    Enterprise Intent / Service Contract
+                  ↓
+             Service Model
+                  ↓
+           Resolve (Compile)
+                  ↓
+       Service Object Graph (SOG)
+                  ↓
+          Orchestrate (Link)
+                  ↓
+          Executable Pipeline
+                  ↓
+               Execute
+
+### Compile
+
+Compilation recursively resolves the requested service and its dependencies into a fully realized, ordered **Service Object Graph (SOG)**.
+
+The compiler determines what must execute and the dependency-constrained order in which it may execute, including opportunities for parallel execution.
+
+### Service Object Graph
+
+The **SOG** is the platform-independent, point-in-time compiled representation of a specific service realization. It contains the fully resolved service graph, execution dependencies, symbolic automation calls, and realization provenance.
+
+### Link
+
+The orchestrator consumes the SOG and dynamically constructs an executable pipeline by translating the SOG's already-derived execution semantics into the native semantics of the selected orchestration platform.
+
+**Linking does not determine service dependencies or execution order; it translates them.**
+
+### Execute
+
+The selected platform executes the dynamically constructed pipeline and dispatches the realizing automation.
+
+> **The compiler determines what must execute and the dependency-constrained order in which it may execute. The linker determines how that already-compiled graph is represented and executed by a particular orchestration platform.**
 
 ---
 
@@ -49,27 +104,25 @@ This keeps service knowledge independent of implementation details and allows au
 
 ---
 
-## Compilation and the EX-DAG
+## Realization Provenance
 
-**<<<<<<<<<< COMPILATION / EX-DAG GRAPHIC HERE >>>>>>>>>>**
+The Service Model is living, current knowledge. A compiled realization is a point-in-time artifact.
 
-A service request is resolved through the Service Model and compiled into an **Execution DAG (EX-DAG)**.
-
-The EX-DAG is a derived, point-in-time representation of the proposed realization. It is not independently authored architectural truth.
-
-If the Service Model cannot resolve the requested service to realizable capabilities, compilation fails.
+The SOG preserves the exact source and implementation provenance required to understand the realization that was compiled, even as the live Service Model and automation implementations continue to evolve.
 
 > **IPERA does not freeze the Service Model. It freezes the provenance of each realization.**
 
+If the Service Model cannot resolve a requested service to realizable capabilities, compilation fails.
+
 ---
 
-## Governance, Orchestration, and Execution
+## Governance
 
-The EX-DAG provides the derived realization to downstream governance and orchestration capabilities.
+Governance evaluates whether a valid proposed realization may proceed. It does not define Service Model decomposition or rediscover execution dependencies.
 
-Governance determines whether a valid proposed realization may proceed. Orchestration coordinates the permitted realization. Execution capabilities perform the work.
+The SOG must therefore be consumable by external governance mechanisms and expose, or provide references to, sufficient context for the proposed realization to be evaluated.
 
-IPERA defines these architectural responsibilities and integration boundaries without prescribing a particular policy engine, orchestrator, automation platform, or implementation technology.
+IPERA defines this architectural contract without prescribing a particular policy engine, approval mechanism, policy language, or implementation technology.
 
 ---
 
@@ -94,9 +147,7 @@ The demonstration and experiments test the architecture. They do not define it.
 
 IPERA is developed as an evidence-driven reference architecture:
 
-```text
-HYPOTHESIS → MODEL → POC → EVIDENCE → LEARNING → NEXT HYPOTHESIS
-```
+    HYPOTHESIS → MODEL → POC → EVIDENCE → LEARNING → NEXT HYPOTHESIS
 
 A completed POC is an **experimental record**, not a software release. When evidence changes the architecture, the earlier experiment is preserved rather than rewritten to agree with the new model.
 
@@ -105,7 +156,7 @@ A completed POC is an **experimental record**, not a software release. When evid
 | Experiment | Architectural question |
 |---|---|
 | [POC-01](poc-01/README.md) | Can an external service model drive execution without a hard-coded workflow? |
-| [POC-02](poc-02/README.md) | Can distributed dependency declarations dynamically derive an inspectable Execution DAG? |
+| [POC-02](poc-02/README.md) | Can distributed dependency declarations dynamically derive an inspectable execution graph? |
 | [POC-03](poc-03/README.md) | Can an independent validator verify decomposition, Lifecycle Cards, and automation bindings while deriving execution structure? |
 | [POC-04](poc-04/README.md) | What happens when architect decomposition and SME realization assertions are treated as independent authorities and compared during compilation? |
 
@@ -115,7 +166,7 @@ A completed POC is an **experimental record**, not a software release. When evid
 
 ## IPERA Engine
 
-The repository reserves space for an experimental **IPERA Engine** exploring service resolution, validation, compilation, EX-DAG generation, and related architectural capabilities.
+The repository reserves space for an experimental **IPERA Engine** exploring Service Model resolution, validation, compilation, SOG generation, and related architectural capabilities.
 
 Its exact scope and name remain intentionally open.
 
@@ -125,19 +176,17 @@ Its exact scope and name remain intentionally open.
 
 ## Repository Organization
 
-```text
-openipe-architecture/
-│
-├── README.md
-├── docs/                   # architecture and specifications
-├── poc-01/                 # preserved experimental records
-├── poc-02/
-├── poc-03/
-├── poc-04/
-├── ...
-├── engine/                 # future IPERA Engine
-└── demonstration/          # future integrated reference demonstration
-```
+    openipe-architecture/
+    │
+    ├── README.md
+    ├── docs/                   # architecture and specifications
+    ├── poc-01/                 # preserved experimental records
+    ├── poc-02/
+    ├── poc-03/
+    ├── poc-04/
+    ├── ...
+    ├── engine/                 # future IPERA Engine
+    └── demonstration/          # future integrated reference demonstration
 
 ---
 
