@@ -1,205 +1,206 @@
-# OpenIPE Architecture
+# OpenIPERA
+## Open Infrastructure Platform Engineering Reference Architecture
 
-## Infrastructure Platform Engineering Reference Architecture (IPERA)
+**OpenIPERA models the system. Orchestration and automation operate the system.**
 
-**OpenIPE Architecture** is the working home of the **Infrastructure Platform Engineering Reference Architecture (IPERA)**.
+## What OpenIPERA Is — and What It Is Not
 
-IPERA separates the knowledge required to realize infrastructure services from the automation that implements them, and defines the capabilities that turn enterprise intent into governed, consumable infrastructure services.
+**OpenIPERA is not another workflow engine, automation framework, or sophisticated way to construct and manage predefined workflows using platforms such as Ansible Automation Platform (AAP), Spacelift, or similar technologies.**
 
-> **The Service Model is knowledge, not workflow. If you want the workflow, compile it.**
+OpenIPERA addresses a fundamentally different problem: how to represent, preserve, validate, and operationalize the knowledge required to deliver and sustain IT services.
 
----
+Infrastructure automation has become increasingly sophisticated. Yet the knowledge governing what must be automated, why, in what order, under which policies, and subject to which operational obligations remains fragmented across people, documentation, service catalogs, scripts, and technology platforms.
+
+We have become very good at automating individual activities without necessarily understanding the complete system those activities serve.
+
+**OpenIPERA separates knowledge of the system from the mechanisms used to operate it.**
+
+## The Fundamental Idea
+
+Consider what happens when an IT Operations organization receives a new business requirement. Before it becomes an operational service, the organization must determine:
+
+- Which services and infrastructure capabilities are required?
+- What dependencies exist between them?
+- Which approvals, policies, and organizational obligations must be satisfied?
+- Which operations must be performed, and in what order?
+- Which requirements can be satisfied concurrently?
+- How will the resulting service be validated?
+- How will monitoring, logging, status, security, and compliance be established?
+- What conditions must remain satisfied throughout the service's operational life?
+
+These are not simply workflow steps. They represent the collective knowledge, dependencies, and contractual obligations governing the operational system.
+
+**The Service Object Graph (SOG) is a mathematical representation of everything an IT Operations organization must accomplish and sustain to fully operationalize a new business need.**
+
+It makes explicit **what must be true, what must happen, and what must remain true** for a service to exist and operate successfully.
+
+The SOG is not an automation script or executable workflow. It is a compiled, dependency-resolved, contract-bearing model of the required service and its lifecycle, independent of the technologies used to satisfy its requirements.
 
 ## IPERA Reference Architecture
 
 ![Infrastructure Platform Engineering Reference Architecture (IPERA)](images/ipera-reference-architecture.png)
 
-The **IPERA Reference Architecture** is the capability view: **what must exist**.
+The reference architecture identifies the capabilities required to turn enterprise intent into governed, operational services. Products may implement more than one capability; architectural responsibilities remain distinct.
 
-Its central capability stack is:
-
-- **Enterprise Services** — governed service catalog offerings and service contracts.
-- **Service Realization** — Service Model, dependency resolution, compilation, and the Service Object Graph (SOG).
-- **Orchestration** — consumes the SOG, links it into the native pipeline semantics of the selected orchestration platform, and coordinates execution.
-- **Automation** — reusable automation capabilities, automation engines, and APIs that perform discrete infrastructure operations.
-- **Control Planes** — management interfaces to infrastructure and platform services.
-- **Infrastructure Domains** — consumable resources including compute, network, storage, virtualization, hyperscalers, GPU infrastructure, and future technologies.
-
-**Governance, Security & Compliance** and **Observability** are cross-cutting capabilities spanning the architecture.
-
-Products may implement more than one IPERA capability. The architectural responsibilities remain distinct even when a product spans them.
-
----
-
-## IPE Model
+## From Knowledge to Realization
 
 ![IPE Model](images/ipe-model.png)
 
-The **IPE Model** is the behavioral view: **how the capabilities work together to realize a service**.
+```text
+Enterprise Intent / Service Contract
+                 |
+      SM-DAG + Lifecycle Cards
+          + Automation Registry
+                 |
+       Service Model Validator
+                 |
+           Compiler
+                 |
+     Service Object Graph (SOG)
+                 |
+     Orchestration / Linking
+                 |
+       Execution Platform(s)
+                 |
+         Automation / APIs
+```
 
-    Enterprise Intent / Service Contract
-                  ↓
-             Service Model
-                  ↓
-           Resolve (Compile)
-                  ↓
-       Service Object Graph (SOG)
-                  ↓
-          Orchestrate (Link)
-                  ↓
-          Executable Pipeline
-                  ↓
-               Execute
+### 1. Service Model DAG (SM-DAG)
 
-### Compile
+The SM-DAG describes the system in terms of services, their decomposition, and dependencies:
 
-Compilation recursively resolves the requested service and its dependencies into a fully realized, ordered **Service Object Graph (SOG)**.
+- **Service Nodes (SNs)** represent services and their relationships.
+- **Atomic Nodes (ANs)** represent terminal units of service decomposition and the boundary to automation capabilities.
 
-The compiler determines what must execute and the dependency-constrained order in which it may execute, including opportunities for parallel execution.
+A node describes its direct relationships without restating the internal decomposition of other services. The SM-DAG is **knowledge, not workflow**.
 
-### Service Object Graph
+### 2. Lifecycle Cards (LCs)
 
-The **SOG** is the platform-independent, point-in-time compiled representation of a specific service realization. It contains the fully resolved service graph, execution dependencies, symbolic automation calls, and realization provenance.
+A Lifecycle Card accompanies each node and defines its contractual requirements. These can include prerequisites, service dependencies, approvals, policies, validation criteria, operational obligations, and lifecycle conditions.
 
-### Link
+Dependencies are not restricted to infrastructure. A service may depend on a **Policy Engine**, **Approval**, **Monitoring**, **Logging**, or **Status** service, irrespective of which organization or technology fulfills that contract.
 
-The orchestrator consumes the SOG and dynamically constructs an executable pipeline by translating the SOG's already-derived execution semantics into the native semantics of the selected orchestration platform.
+Lifecycle Cards also carry versioned references and provenance; at Atomic Nodes they may identify the relevant automation symbolically.
 
-**Linking does not determine service dependencies or execution order; it translates them.**
+### 3. Automation Registry
 
-### Execute
+The Automation Registry resolves symbolic automation identities to implementations and preserves their provenance. Service knowledge need not embed the implementation of an operation.
 
-The selected platform executes the dynamically constructed pipeline and dispatches the realizing automation.
+### 4. Service Model Validator (SMV)
 
-> **The compiler determines what must execute and the dependency-constrained order in which it may execute. The linker determines how that already-compiled graph is represented and executed by a particular orchestration platform.**
+The SMV verifies graph integrity, node references, dependency relationships, and automation registry bindings under the applicable model rules. Invalid or unresolved models cannot be compiled as valid realizations.
 
----
+### 5. Compiler
 
-## Service Model
+The compiler resolves the validated SM-DAG, Lifecycle Cards, and associated registry information into the **Service Object Graph**.
 
-**<<<<<<<<<< SERVICE MODEL GRAPHIC HERE — SM-DAG / LC / AUTOMATION REGISTRY >>>>>>>>>>**
+It does not execute operations or construct platform-specific workflows. It produces the coherent, dependency-resolved representation of what is required to realize and sustain the requested service, including its contractual obligations.
 
-The Service Model separates three forms of knowledge.
+### 6. Service Object Graph (SOG)
 
-### SM-DAG
+The SOG is the central compiled artifact of OpenIPERA: a **point-in-time, contract-bearing mathematical representation** of the operational system for a requested realization.
 
-The **Service Model DAG (SM-DAG)** expresses architectural decomposition. It contains two node types:
+It preserves resolved service relationships, dependencies, lifecycle obligations, satisfaction conditions, automation references, and provenance. Dependencies define constraints and permissible concurrency, not necessarily a single fixed sequential workflow.
 
-- **Service Node (SN)** — represents a service capability and may decompose into other SNs or ANs.
-- **Atomic Node (AN)** — terminal point in service decomposition and the boundary to an automation capability.
+**A dependency need not be an executable operation.** It may be an external approval, a policy decision, or an operational service whose contractual condition must be satisfied.
 
-SM-DAG relationships are local. A node knows its direct relationships, not the internal decomposition of the services to which it connects.
+The SOG is authoritative for the compiled realization and its lifecycle obligations, while the living Service Model remains the source of current service knowledge.
 
-### Lifecycle Card
+### 7. Orchestration
 
-A **Lifecycle Card (LC)** is the companion realization knowledge associated with every SN and AN.
+An orchestration implementation consumes the SOG and coordinates satisfaction of its requirements. An adapter or linker translates applicable constraints into the selected platform's native execution mechanisms without redefining the service model.
 
-The LC describes what is required to realize its service. At an AN, that knowledge terminates in a symbolic automation identity.
+**Linking translates requirements; it does not invent service dependencies or become a second authority.**
 
-### Automation Registry
+### 8. Automation
 
-The **Automation Registry** resolves symbolic automation identity to a concrete automation implementation.
+Automation performs discrete operations where operations are necessary. AAP, Terraform, APIs, scripts, and other capabilities may contribute to realization. They are implementations, not authoritative repositories of service knowledge.
 
-This keeps service knowledge independent of implementation details and allows automation to evolve without rewriting service intent.
+## A Service Is More Than Its Provisioning Workflow
 
----
+Consider a request for a new virtual machine. Provisioning compute, storage, networking, and an operating system does not necessarily make it an operational service.
 
-## Realization Provenance
+Its contract may also require security policy compliance, organizational approval, identity integration, secrets management, CMDB registration, monitoring and alerting, centralized logging, status reporting, validation, and ongoing compliance.
 
-The Service Model is living, current knowledge. A compiled realization is a point-in-time artifact.
+Some obligations involve automation. Others are satisfied through external services or conditions that must remain true over time.
 
-The SOG preserves the exact source and implementation provenance required to understand the realization that was compiled, even as the live Service Model and automation implementations continue to evolve.
+**All are part of the service's operational contract.** OpenIPERA models those obligations, carries them into the SOG, and lets orchestration coordinate their satisfaction without requiring one tool to own them all.
 
-> **IPERA does not freeze the Service Model. It freezes the provenance of each realization.**
+## Architectural Independence
 
-If the Service Model cannot resolve a requested service to realizable capabilities, compilation fails.
+**Knowledge of the system must exist independently of the tools that execute it.**
 
----
+The SM-DAG, Lifecycle Cards, compiler, SOG, orchestration capabilities, and automation implementations are modular. They need not reside on the same platform.
 
-## Governance
+Replacing an automation engine should not require redefining the service. Replacing an orchestrator should not require reconstructing service dependencies. Replacing a service management product should not inherently change the operational service model.
 
-Governance evaluates whether a valid proposed realization may proceed. It does not define Service Model decomposition or rediscover execution dependencies.
+Changes to actual services, relationships, or contracts may require model changes. Implementation technology changes alone should not.
 
-The SOG must therefore be consumable by external governance mechanisms and expose, or provide references to, sufficient context for the proposed realization to be evaluated.
+## Realization Provenance and Governance
 
-IPERA defines this architectural contract without prescribing a particular policy engine, approval mechanism, policy language, or implementation technology.
+The Service Model is living knowledge; each compiled SOG is a point-in-time artifact. The SOG preserves source and implementation provenance so a realization can be understood after definitions evolve.
 
----
+**OpenIPERA does not freeze the Service Model. It freezes the provenance of each realization.**
 
-## Functional Architecture
+Governance may evaluate whether a proposed realization can proceed and whether its contractual obligations are satisfied. OpenIPERA does not prescribe a policy engine, approval system, or policy language.
 
-**<<<<<<<<<< LAYERED REQUIREMENTS GRAPHIC HERE >>>>>>>>>>**
+## Functional Architecture and Specifications
 
-The normative architecture is defined in the architecture and specification documents under `docs/`.
-
-Current documents include:
+The normative technical specifications live under `docs/`:
 
 - [Functional Architecture Requirements](docs/IPERA_FUNCTIONAL_ARCHITECTURE_REQUIREMENTS.md)
 - [Minimum Viable Service Model](docs/IPERA_Minimum_Viable_Service_Model.md)
 - [Service Model Authoring Rules](docs/IPERA_SERVICE_MODEL_AUTHORING_RULES.md)
 - [Service Model Compilation Architecture](docs/IPERA_Service_Model_Compilation_Architecture.md)
 
-The demonstration and experiments test the architecture. They do not define it.
-
----
+The demonstration and experiments test the architecture; they do not define it.
 
 ## Architecture Through Experimentation
 
-IPERA is developed as an evidence-driven reference architecture:
-
-    HYPOTHESIS → MODEL → POC → EVIDENCE → LEARNING → NEXT HYPOTHESIS
-
-A completed POC is an **experimental record**, not a software release. When evidence changes the architecture, the earlier experiment is preserved rather than rewritten to agree with the new model.
-
-> **The model drives the experiments. The experiments produce evidence. The evidence refines the model.**
+```text
+HYPOTHESIS → MODEL → POC → EVIDENCE → LEARNING → NEXT HYPOTHESIS
+```
 
 | Experiment | Architectural question |
 |---|---|
 | [POC-01](poc-01/README.md) | Can an external service model drive execution without a hard-coded workflow? |
-| [POC-02](poc-02/README.md) | Can distributed dependency declarations dynamically derive an inspectable execution graph? |
-| [POC-03](poc-03/README.md) | Can an independent validator verify decomposition, Lifecycle Cards, and automation bindings while deriving execution structure? |
-| [POC-04](poc-04/README.md) | What happens when architect decomposition and SME realization assertions are treated as independent authorities and compared during compilation? |
+| [POC-02](poc-02/README.md) | Can distributed dependency declarations derive an inspectable execution graph? |
+| [POC-03](poc-03/README.md) | Can an independent validator verify decomposition, Lifecycle Cards, and automation bindings? |
+| [POC-04](poc-04/README.md) | What happens when architectural decomposition and realization assertions are compared during compilation? |
 
-> **A completed POC is an experimental record. A new architectural hypothesis creates a new POC rather than rewriting the previous experiment.**
-
----
+Completed POCs are experimental records, not software releases. New hypotheses create new experiments rather than rewriting earlier evidence.
 
 ## IPERA Engine
 
-The repository reserves space for an experimental **IPERA Engine** exploring Service Model resolution, validation, compilation, SOG generation, and related architectural capabilities.
+The repository reserves `engine/` for experimental implementation of validation, resolution, compilation, SOG generation, and related capabilities. Its scope remains open.
 
-Its exact scope and name remain intentionally open.
-
-> **The engine implements the architecture. The engine does not define the architecture.**
-
----
+**The engine implements the architecture. The engine does not define the architecture.**
 
 ## Repository Organization
 
-    openipe-architecture/
-    │
-    ├── README.md
-    ├── docs/                   # architecture and specifications
-    ├── poc-01/                 # preserved experimental records
-    ├── poc-02/
-    ├── poc-03/
-    ├── poc-04/
-    ├── ...
-    ├── engine/                 # future IPERA Engine
-    └── demonstration/          # future integrated reference demonstration
+```text
+openipe-architecture/
+├── README.md
+├── images/            # architecture graphics
+├── docs/              # architecture and specifications
+├── poc-01/            # preserved experimental records
+├── poc-02/
+├── poc-03/
+├── poc-04/
+├── engine/            # experimental engine
+└── demonstration/     # integrated reference demonstration
+```
 
----
+## Why This Matters
 
-## What IPERA Is Not
+Traditional automation begins by defining a workflow and organizing operations around it. OpenIPERA begins with knowledge of the operational system and **derives execution from that knowledge**.
 
-IPERA is not another infrastructure automation product, a requirement to replace existing tools, a prescribed orchestrator or policy engine, a manually authored universal workflow, or an AI dependency.
+The objective is not to replace existing platforms, but to provide the independently maintained model that allows them to operate as parts of a coherent system.
 
-It is a reference architecture for making infrastructure service knowledge **explicit, composable, compilable, governable, and executable** using replaceable implementation technologies.
+## Governing Principle
 
----
+**OpenIPERA models the system. Orchestration and automation operate the system.**
 
-## Status
+**Workflows are derived from knowledge of the system. Knowledge of the system is not derived from workflows.**
 
-IPERA is under active development. Architectural assertions are expected to be challenged through experimentation and refined when the evidence requires it.
-
-**OpenIPE treats architecture as a hypothesis to be tested, not a diagram to be defended.**
+OpenIPERA is an evolving, evidence-driven reference architecture: **architecture is a hypothesis to be tested, not a diagram to be defended.**
