@@ -16,7 +16,7 @@ This is the canonical terminology reference for the OpenIPE architecture reposit
 | **SM-DAG** | Service Model Directed Acyclic Graph | Authoritative service-decomposition/dependency graph; source input to validation and compilation, **not** an executable workflow. |
 | **SMV** | Service Model Validator | Independently callable **validation subsystem of the OpenIPERA compiler**; validates bounded modules or request dependency closures. |
 | **SN** | Service Node | Nonterminal modeled service that decomposes into subordinate service or atomic nodes. |
-| **SOG** | Service Operations Graph | Compiler-generated graph representing operations, dependencies, and milestones necessary to realize a requested service; consumed by external orchestration. |
+| **SOG** | Service Object Graph | Compiler-generated graph representing operations, dependencies, and milestones necessary to realize a requested service; consumed by external orchestration. |
 | **SOM** | Service Object Model | Authoritative modeled service objects and relationships accessed through a replaceable SOM adapter; **not** the compiled SOG. |
 
 ## Industry acronyms and product names
