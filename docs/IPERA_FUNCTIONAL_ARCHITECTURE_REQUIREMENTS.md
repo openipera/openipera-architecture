@@ -12,6 +12,12 @@ IPERA intentionally applies established architectural patterns—including decla
 
 Kubernetes and Kubernetes Resource Orchestrator (KRO) provide useful contemporary examples of these patterns at the resource-composition level. IPERA applies analogous patterns at a broader service abstraction.
 
+## IPERA Functional Architecture
+
+![IPERA Functional Architecture](../images/ipe-model.png)
+
+The diagram illustrates the functional layers and boundaries of IPERA. Component responsibilities and interfaces are specified in [Section 3: Functional Components](#3-functional-components). The image title will be updated separately; the existing asset is retained until that replacement is available.
+
 ---
 
 ## Critical Architectural Distinction: Service Model ≠ Execution Model
