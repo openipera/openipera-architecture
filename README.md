@@ -146,8 +146,9 @@ Governance may evaluate whether a proposed realization can proceed and whether i
 
 ## Functional Architecture and Specifications
 
-The normative technical specifications live under `docs/`:
+The normative technical specifications and terminology reference live under `docs/`:
 
+- [Acronyms and Abbreviations — IPERA-specific and industry terminology](docs/ACRONYMS.md)
 - [Functional Architecture Requirements](docs/IPERA_FUNCTIONAL_ARCHITECTURE_REQUIREMENTS.md)
 - [Minimum Viable Service Model](docs/IPERA_Minimum_Viable_Service_Model.md)
 - [Service Model Authoring Rules](docs/IPERA_SERVICE_MODEL_AUTHORING_RULES.md)
