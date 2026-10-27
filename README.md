@@ -44,8 +44,6 @@ The reference architecture identifies the capabilities required to turn enterpri
 
 ## From Knowledge to Realization
 
-![IPE Model](images/ipe-model.png)
-
 ```text
 Enterprise Intent / Service Contract
                  |
