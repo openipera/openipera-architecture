@@ -255,30 +255,30 @@ The SMV enforces published service-model rules but neither authors nor relaxes t
 The Service Model defines service intent, composition, dependencies, and operational obligations. The Automation Domain maintains the implementations that fulfill terminal obligations. **The Atomic Node (AN) and its associated specialized Lifecycle Card (LC) establish the governed interface between these domains.** The AN remains a terminal service-model node; its LC declares an automation binding by reference, without embedding executable code.
 
 ```text
-                           SERVICE MODEL DOMAIN
+                                     SERVICE MODEL DOMAIN
 
-       STRUCTURAL DECOMPOSITION                ASSOCIATED SERVICE KNOWLEDGE
-              (North–South)                           (East–West)
+       STRUCTURAL DECOMPOSITION                              ASSOCIATED SERVICE KNOWLEDGE
+              (North–South)                                         (East–West)
 
 
-                         Create VM (SN) -------- Lifecycle Card (LC)
-                         /                              |
-                        v              v                 +-- Service Dependencies
-              Provision VM (SN)    Configure OS (SN)     |    +-- Allocate IP (SN)
-                  /                      |              |    +-- Configure DNS (SN)
-                 v        v               v              |    +-- Storage (SN)
-           Create VM   Attach Disk    Configure OS       |    +-- Network (SN)
-              (AN)        (AN)           (AN)            |
-                |                                        +-- Operational Obligations
-                |                                             +-- Observability
-                |                                             +-- Health Verification
-                |                                             +-- Governance / Approvals
+                         Create VM (SN) ------------------------ Lifecycle Card (LC)
+                         /            \                                   |
+                        v              v                                  +-- Service Dependencies
+              Provision VM (SN)    Configure OS (SN)                       |    +-- Allocate IP (SN)
+                  /      \                |                               |    +-- Configure DNS (SN)
+                 v        v               v                                |    +-- Storage (SN)
+           Create VM   Attach Disk    Configure OS                          |    +-- Network (SN)
+              (AN)        (AN)           (AN)                               |
+                |                                                          +-- Operational Obligations
+                |                                                               +-- Observability
+                |                                                               +-- Health Verification
+                |                                                               +-- Governance / Approvals
                 |
                 |  Terminal service obligation
                 |
                 v
 SERVICE MODEL   |
-========================== AN Lifecycle Card (LC) ==========================
+========================== AN Lifecycle Card (LC) ============================================
 AUTOMATION      |            Governed Automation Binding
                 |                    (UUID)
                 |
@@ -296,7 +296,7 @@ AUTOMATION      |            Governed Automation Binding
         Target / Control Plane
 
 
-                            AUTOMATION DOMAIN
+                                     AUTOMATION DOMAIN
 ```
 
 **North–south** edges express structural decomposition of Service Nodes into subordinate SNs and terminal ANs. **East–west** associations connect nodes to their Lifecycle Cards and associated service knowledge. Every SN and AN has its own LC; only the representative **Create VM (AN)** is traced through the automation boundary in this diagram.
