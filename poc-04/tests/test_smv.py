@@ -63,6 +63,10 @@ class ModelTests(unittest.TestCase):
             self.run_model()
         self.assertEqual(exc.exception.diagnostic['code'], code, exc.exception.diagnostic)
 
+    def test_easter_egg_is_inert(self):
+        self.assertEqual(easter_egg('VALID'), 'AN-FMT-001: Validation: No human intervened.')
+        self.assertEqual(easter_egg('DENIED'), 'AN-FMT-001: Human intervention may now be required.')
+
     def test_baseline_independent_oracle(self):
         dag = self.run_model()
         oracle = read_json((ROOT / 'tests/oracle.json').read_bytes())
