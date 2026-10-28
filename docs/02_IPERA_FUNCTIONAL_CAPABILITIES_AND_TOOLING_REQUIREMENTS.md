@@ -2,15 +2,17 @@
 
 ## 1. Purpose
 
-IPERA defines an architectural model for realizing and operating enterprise services through declarative service models, dependency-aware orchestration, and reusable automation.
+**OpenIPERA is an open implementation of the Infrastructure Platform Engineering Reference Architecture (IPERA)**, an architectural approach to engineering enterprise infrastructure services as explicit, dependency-aware operational systems.
 
-IPERA specifies **functional capabilities and contracts rather than mandatory products**. An implementation may use any technology that satisfies the functional requirements and architectural boundaries defined here.
+The idea behind IPERA is straightforward: enterprise infrastructure services should be defined by what they require, how they depend on one another, and what obligations must be satisfied to make them operational—not by the workflows someone happened to write to provision them.
 
-Opinionated solutions identify technologies believed capable of satisfying a particular IPERA role. They are implementation options, not architectural dependencies.
+Consider Kubernetes Resource Orchestrator (KRO). KRO demonstrates how complex resource requirements can be abstracted behind a declarative interface, allowing the underlying system to resolve and manage the necessary resource relationships. IPERA builds on similar architectural principles but applies them at the enterprise infrastructure service level, where realizing a service may involve multiple technology domains, operational control planes, governance requirements, and automation platforms.
 
-IPERA intentionally applies established architectural patterns—including declarative intent, abstraction through contracts, dependency graphs, reconciliation, desired versus observed state, and separation of intent from implementation—at the enterprise-service level.
+IPERA accomplishes this by separating authoritative service knowledge from the mechanisms used to execute it. Service models describe composition, dependencies, and operational obligations. A Service Model Compiler validates and resolves those models into a request-specific **Service Object Graph (SOG)**, representing what must be accomplished to fully operationalize the requested service. Orchestration and automation platforms then determine how to carry out that realization.
 
-Kubernetes and Kubernetes Resource Orchestrator (KRO) provide useful contemporary examples of these patterns at the resource-composition level. IPERA applies analogous patterns at a broader service abstraction.
+This distinction is fundamental. **OpenIPERA is not another workflow engine or automation framework.** Its purpose is to make enterprise service realization a consequence of an authoritative service model rather than a collection of independently maintained workflows.
+
+This document identifies the functional capabilities required to implement IPERA, establishes the responsibilities and boundaries of those capabilities, and maps them to opinionated tooling choices. These choices are examples of technologies that may fulfill the requirements, not mandatory architectural dependencies. Existing enterprise tooling can participate wherever it satisfies the defined capabilities and contracts.
 
 ## IPERA Functional Architecture
 
