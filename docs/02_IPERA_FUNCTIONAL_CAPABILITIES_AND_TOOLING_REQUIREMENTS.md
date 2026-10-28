@@ -205,18 +205,44 @@ Any implementation that satisfies the compiler's published functional contracts 
 
 **OpenIPERA's value lies in the architectural contracts and the separation of responsibilities—not in ownership of a particular compiler implementation.**
 
-### 4.1 Compiler Operations and Validation Boundaries
+### 4.1 Stage 1 — Service Model Validation (SMV)
 
-| Operation | Scope parameter | Resolution parameter | Required behavior |
-|---|---|---|---|
-| **Validate** | SM-DAG module | **local** | Check module-internal structural and semantic integrity; identify external references without requiring their full resolution |
-| **Validate** | SM-DAG module | **resolved** | Check module integrity and the applicable dependency closure against the authoritative SOM |
-| **Validate** | Service request | **resolved** | Validate the complete service-request dependency closure and report whether required modeled capabilities and bindings are satisfiable |
-| **Compile** | Service request | **resolved (mandatory)** | Validate the same immutable model snapshot used for dependency resolution, then emit the SOG or a structured failure/partial-realization diagnostic; never silently repair invalid input |
+The **Service Model Validator (SMV) is Stage 1 of the Service Model Compiler**. Validation is intrinsic to compilation, not an optional preliminary step. As with classical FORTRAN, Pascal, C, and C++ compilers, source checking can be invoked independently without producing object code; a subsequent compilation nevertheless performs its own validation before code generation. Similarly, OpenIPERA supports independent SMV invocation without generating a Service Object Graph (SOG), but **every Compile invocation MUST perform Stage 1 validation before Stage 2 SOG generation**, regardless of any previous validation result.
 
-The **SMV is a named, independently callable capability within the compiler**, not a peer microservice. Validation can stop before SOG generation. The compiler must distinguish **invalid model references** from **validly modeled but unavailable or unimplemented capabilities**, reporting the latter as realization gaps rather than silently treating them as implemented.
+The SMV is a named, independently callable **logical component of the compiler**, not a required separate deployment or peer microservice. It performs one operation: **validate a caller-specified scope of the Service Model DAG (SM-DAG) against published OpenIPERA rules and return a structured Validation Result**. The caller decides when to invoke it. The SMV does not monitor edits, initiate validation, define the rules, or modify the model.
 
-A module's **local** validation is not evidence that a complete service request can be realized. Every compilation uses **resolved** validation over the request's applicable dependency closure, with the requested boundary, examined closure, authoritative revision, and diagnostics included in its result.
+### 4.1.1 Validation Scopes
+
+| Validation Scope | Scope | Invocation (illustrative) | Responsibility | Output |
+|---|---|---|---|---|
+| **Object Validation** | **Single Object Only** — one SN, AN, or LC | `SMV.Validate(OBJECT, object_id)` | Check the specified object's internal structure, required attributes, and local semantic consistency. No calling context or external reference resolution is implied. | Validation Result |
+| **Service Validation** | Complete service dependency closure rooted at `SERVICE_ID` | `SMV.Validate(SERVICE, service_id)` | Apply object validation throughout the resolved closure **and** verify applicable references, object associations, dependencies, and graph constraints. | Validation Result |
+| **SM-DAG Validation** | Entire authoritative SM-DAG | `SMV.Validate(ALL)` | Apply the same published rules to all authoritative objects and relationships, including graph-wide integrity. | Validation Result |
+
+These invocations illustrate a functional contract, not a prescribed API syntax or transport. **Scope determines what is examined; it does not select a different validator or a different rule set.** Rules involving relationships become evaluable as the selected scope expands. For example, a locally consistent SN may pass Object Validation even if a declared external dependency does not exist; this PASS makes no claim about graph integrity.
+
+A service closure is a **graph**, not necessarily a tree: dependencies may be shared. The SMV must detect invalid references and cycles while resolving and validating the requested closure, rather than assuming that the closure is already valid.
+
+### 4.1.2 Validation Result
+
+Every invocation returns the same structured Validation Result contract, including the requested scope and target (where applicable), authoritative model revision or snapshot identity, evaluated objects and relationships, applicable rules, status, and actionable diagnostics identifying affected objects, references, or relationships.
+
+| Status | Meaning |
+|---|---|
+| **PASS** | Validation completed for the identified scope and model revision with no applicable rule violations. |
+| **FAIL** | Validation completed and identified one or more violations of published OpenIPERA rules. |
+| **ERROR** | Validation could not be completed reliably, such as because an authoritative source was unavailable or validation itself failed. Conformance has **not** been established. |
+
+An incomplete evaluation MUST NOT return PASS. A PASS certifies **only the evaluated scope at the identified model revision**; Object Validation does not certify a service closure, and Service Validation does not certify the entire SM-DAG. An ERROR is not evidence that the model itself violates a rule.
+
+### 4.1.3 Compilation Gate and Boundaries
+
+The compiler exposes two conceptual operations:
+
+- **Validate:** Invoke Stage 1 for a caller-specified scope and return its Validation Result; do not generate a SOG.
+- **Compile:** Resolve a consistent authoritative model snapshot for the requested service, invoke Stage 1 **Service Validation** against that snapshot, and proceed to Stage 2 SOG generation **only on PASS**. Stage 2 MUST consume the same model snapshot validated by Stage 1. A FAIL or ERROR prevents SOG generation and returns a structured diagnostic.
+
+The SMV enforces published service-model rules but neither authors nor relaxes them. It does not approve changes, orchestrate workflows, execute automation, or silently repair invalid input. The compiler must distinguish **invalid model references** from **validly modeled but unavailable or unimplemented capabilities**, reporting the latter as realization gaps rather than silently treating them as implemented.
 
 `*` **Conditional fit:** Named products are examples, not declarations of conformance. Actual suitability depends on supported interfaces, integration semantics, and deployment configuration.
 
