@@ -86,27 +86,17 @@ The IPERA Service Model describes enterprise infrastructure services through exp
 **The DAG is fundamental:** an upper-level Service Node depends on subordinate nodes by virtue of the directed graph itself. Structural dependencies are inherent in those edges and are not restated in Lifecycle Cards. Separately, an LC may declare dependencies on other modeled services outside its node's structural decomposition. The Service Model Compiler resolves both forms of dependency when deriving the Service Object Graph (SOG). Neither form of dependency requires a referenced service to be independently callable.
 
 ```text
-                  Create VM (SN)
-                  /            \
-                 v              v
-       Provision VM (SN)    Configure OS (SN)
-           /      \                |
-          v        v               v
-    Create VM   Attach Disk    Configure OS
-       (AN)        (AN)           (AN)
+                         Create VM (SN) -------- Lifecycle Card (LC)
+                         /            \                  |
+                        v              v                 +-- requires: Allocate IP (SN)
+              Provision VM (SN)    Configure OS (SN)      +-- requires: Configure DNS (SN)
+                  /      \                |
+                 v        v               v
+           Create VM   Attach Disk    Configure OS
+              (AN)        (AN)           (AN)
 
-    Solid arrows = structural dependencies
-                   (inherent in the SM-DAG)
-
-    Create VM (SN)
-         |
-         +-- Lifecycle Card (LC)
-                  |
-                  +-- requires: Allocate IP (SN)
-                  +-- requires: Configure DNS (SN)
-
-    LC references = additional service dependencies
-                    (not structural decomposition)
+    Downward arrows = structural dependencies (SM-DAG edges)
+    LC 'requires'   = additional service dependencies (not DAG edges)
 ```
 
 ### 2.1 Service Model Constructs
