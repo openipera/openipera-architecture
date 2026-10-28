@@ -18,49 +18,64 @@ This document identifies the functional capabilities required to implement IPERA
 
 ![IPERA Functional Architecture](../images/ipe-model.png)
 
-The diagram illustrates the functional layers and boundaries of IPERA. Component responsibilities and interfaces are specified in [Section 3: Functional Components](#3-functional-components). The image title will be updated separately; the existing asset is retained until that replacement is available.
+The diagram illustrates the functional capabilities and architectural boundaries of IPERA, from the authoritative Service Model DAG (SM-DAG) through compilation, orchestration, and automation execution. Each capability has a distinct responsibility, allowing existing enterprise tooling to participate without assuming ownership of the service model or redefining its semantics. Section 3 identifies these capabilities, their responsibilities, and their architectural boundaries.
 
 ---
 
 ## Critical Architectural Distinction: Service Model ≠ Execution Model
 
-> **The IPERA Service Dependency DAG is part of the authoritative Service Model. It is NOT an orchestration workflow and MUST NOT be owned by an execution or orchestration platform merely because that platform represents workflows as DAGs.**
+The **Service Model DAG (SM-DAG)** is authoritative service knowledge, not an orchestration workflow. It describes how services are composed and decomposed into Service Nodes (SNs) and terminal Atomic Nodes (ANs), and which services depend on others. Lifecycle Cards (LCs) and the automation registry supply the associated obligations, governance context, and executable bindings. None of these structures should be confused with a workflow authored for a particular execution engine.
 
-The Service Dependency DAG describes **what a service is**: its decomposition, relationships, dependencies, lifecycle constructs, and bindings.
+When a service is requested, the **Service Model Compiler**, including its Service Model Validator (SMV), validates the relevant model, resolves its dependency closure, and derives a request-specific **Service Object Graph (SOG)**. The SOG expresses what must be accomplished to operationalize the service: dependencies, obligations, service-completion milestones, ordering constraints, and allowable parallelism. It is a compiled representation of the required realization, **not an executable workflow**.
 
-The **Dependency-Aware, Model-Driven Orchestrator** consumes and navigates this persistent model for a particular service request. Through graph consumption and traversal, it resolves dependencies and dynamically constructs a dependency-aware **runtime execution plan / pipeline**.
+The **DAG orchestrator** consumes the SOG and translates its semantics into an executable pipeline for its chosen engine. Automation execution capabilities then perform the bound actions against the appropriate control planes and return results and evidence. The orchestrator does not need to interpret the authoritative service model or invent service dependencies; that work belongs to the compiler.
 
 ```text
-AUTHORITATIVE SERVICE MODEL                  RUNTIME EXECUTION
+AUTHORITATIVE SERVICE KNOWLEDGE          COMPILED CONTRACT              RUNTIME REALIZATION
 
 Service Model Repository
-          │
-          │ owns
-          ▼
-Service Dependency DAG ────────────────────► Orchestrator
-                     consumed / traversed by     │
-                                                 │ dynamically constructs
-                                                 ▼
-                                       Execution Plan / Pipeline
+  ├── Service Model DAG (SM-DAG)
+  │     ├── Service Nodes (SNs)
+  │     └── Atomic Nodes (ANs)
+  ├── Lifecycle Cards (LCs)
+  └── Automation Registry
+               │
+               │ authoritative inputs
+               ▼
+       Service Model Compiler
+         (including SMV)
+       Validate • Resolve • Compile
+               │
+               │ produces
+               ▼
+       Service Object Graph (SOG) ───────► DAG Orchestrator
+       Request-specific obligations       Translate SOG into
+       and dependency semantics           engine-native pipeline
                                                  │
                                                  ▼
-                                        Execution Capabilities
+                                        Automation Execution
+                                                 │
+                                                 ▼
+                                        Control Planes / Services
+                                                 │
+                                                 ▼
+                                        Results / Evidence / Feedback
 ```
 
-> **The Service Dependency DAG is persistent service knowledge. The execution pipeline is an ephemeral realization of that knowledge.**
+The distinction matters because the service model can evolve independently of any particular orchestration or automation product. A compiled SOG captures the obligations and dependency semantics for a specific request at a particular point in time; the execution pipeline is the engine-specific realization of that compiled contract.
 
 The following requirements apply to every IPERA implementation:
 
-- The orchestrator MUST NOT become the authoritative repository for service dependencies.
-- A workflow defined in AAP, Airflow, or another orchestration product MUST NOT become the authoritative definition of the service.
-- The Service Model Repository MUST remain authoritative regardless of orchestration technology selected.
-- Replacing the orchestrator MUST NOT require redefining the logical service model.
-- An IPERA orchestrator is required to be **dependency-aware and model-driven**; it is not required to provide a particular native DAG-authoring mechanism.
-- How an orchestrator internally represents the resulting execution plan is an implementation detail.
+- The Service Model Repository remains authoritative for service composition and dependencies. Neither the compiler nor an orchestration or execution platform may silently redefine them.
+- The compiler is responsible for validating the relevant service knowledge and producing the SOG. The orchestrator must not assume those compilation responsibilities.
+- The orchestrator consumes the SOG and builds or coordinates an executable pipeline without becoming the authoritative owner of service definitions.
+- Workflows in AAP, Airflow, Argo, or another platform must not become the authoritative definition of a service.
+- Replacing an orchestration or automation product must not require redefining the SM-DAG or changing the architectural semantics of the SOG.
+- The orchestrator's internal pipeline representation and the execution capability's implementation mechanisms remain product-specific choices.
 
 ### Architectural Conformance Test
 
-> **If replacing the orchestration platform requires rebuilding the authoritative definition of the service and its dependencies, service-model responsibility has leaked into the orchestration layer and the implementation does not conform to this IPERA separation of responsibilities.**
+> **If replacing the orchestration platform requires rebuilding the authoritative service model or changing the meaning of the compiled SOG, orchestration-specific concerns have leaked across the architectural boundary. The implementation does not conform to IPERA's separation of responsibilities.**
 
 ---
 
