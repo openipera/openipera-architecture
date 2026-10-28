@@ -242,6 +242,8 @@ The compiler exposes two conceptual operations:
 - **Validate:** Invoke Stage 1 for a caller-specified scope and return its Validation Result; do not generate a SOG.
 - **Compile:** Resolve a consistent authoritative model snapshot for the requested service, invoke Stage 1 **Service Validation** against that snapshot, and proceed to Stage 2 SOG generation **only on PASS**. Stage 2 MUST consume the same model snapshot validated by Stage 1. A FAIL or ERROR prevents SOG generation and returns a structured diagnostic.
 
+**Automation-binding boundary:** The SMV validates the structural and semantic integrity of automation bindings declared by Atomic Nodes, including required Lifecycle Card fields, identifier format, and any required authoritative registry relationship. It does **not** resolve, inspect, or verify the existence, availability, correctness, or executability of the referenced automation code or artifacts. Those checks belong to subsequent realization stages. **Model validity does not establish implementation availability or execution success.**
+
 The SMV enforces published service-model rules but neither authors nor relaxes them. It does not approve changes, orchestrate workflows, execute automation, or silently repair invalid input. The compiler must distinguish **invalid model references** from **validly modeled but unavailable or unimplemented capabilities**, reporting the latter as realization gaps rather than silently treating them as implemented.
 
 `*` **Conditional fit:** Named products are examples, not declarations of conformance. Actual suitability depends on supported interfaces, integration semantics, and deployment configuration.
