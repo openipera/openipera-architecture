@@ -140,6 +140,29 @@ A capability becomes a Service Catalog offering when it is exposed through a gov
 
 ## 3. Required Tooling Capabilities
 
+### 3.1 Architectural Boundaries and Capability Separation
+
+OpenIPERA defines tooling capabilities according to distinct architectural responsibilities and authority boundaries, rather than products, deployment components, or implementation technologies. This separation preserves the independence of service modeling, compilation, orchestration, and execution while allowing individual products to fulfill multiple capabilities. **Nine required capabilities do not imply nine separate tools.**
+
+Governance, security, approvals, control planes, and infrastructure domains are cross-cutting architectural obligations and integration boundaries, as shown in the functional architecture diagram, rather than additional tooling capabilities. Kubernetes packaging, northbound APIs, SOM adapters, and deployment topology are implementation concerns and do not independently constitute tooling capabilities.
+
+### 3.2 Compiler / Linker / Loader / Runtime Analogy
+
+Traditional computing architectures separate the transformation of source code into executable instructions into distinct responsibilities. A **compiler** translates source code into an intermediate representation, a **linker** assembles the required components into an executable, a **loader** prepares that executable for execution, and the **runtime** provides the environment in which it operates. Although modern development platforms frequently combine these functions, their separation remains a useful architectural principle.
+
+OpenIPERA applies a similar separation of responsibilities to enterprise infrastructure service realization:
+
+| Traditional Computing | OpenIPERA | Architectural Responsibility |
+|---|---|---|
+| **Compiler** | Service Model Compiler | Transforms authoritative service knowledge into a Service Object Graph (SOG). |
+| **Linker** | DAG Orchestrator | Transforms the compiled SOG into an executable realization pipeline. |
+| **Loader** | CI/CD Platform | Qualifies, packages, and deploys automation implementations for execution. |
+| **Runtime** | Automation Execution Capability | Executes automation implementations against infrastructure and domain control planes. |
+
+The analogy illustrates **architectural responsibilities, not a mandatory execution sequence or a one-to-one mapping of products**. A single technology may implement multiple responsibilities without eliminating the boundaries between them.
+
+### 3.3 Required Tooling Capabilities and Opinionated Solutions
+
 The following table identifies the tooling capabilities required to implement IPERA. **Functional Responsibilities** define what each capability must accomplish; **Explicit Non-Responsibilities** establish its architectural boundary. A product may provide multiple capabilities, but doing so does not transfer authority between them. APIs, adapters, validation modes, and deployment topology are features or implementation details of these capabilities, not additional tooling categories.
 
 **Required assessment guidance.** This table identifies candidate solutions and records **capability-specific architectural qualification**, not deployment status. Assess each candidate against both its **Functional Responsibilities** and **Explicit Non-Responsibilities**, using demonstrated behavior or independently verifiable evidence. A product's presence, reputation, or advertised features alone do not establish conformance. Status definitions: **Vetting** (blue) — candidate under evaluation; evidence is insufficient to establish fit. **Provisional** (yellow) — credible capability fit, with specific outstanding architectural verification. **Vetted** (green) — evidence establishes fit for the stated capability and boundaries. Qualification is specific to each candidate-capability pairing. Identify capability gaps before assuming new products are needed; configuration, integration, extension, or development may close them. Actual solution selections, implementation progress, and production validation belong in the separately maintained [OpenIPERA Implementation Registry](08_OPENIPERA_IMPLEMENTATION_REGISTRY.md), organized by implementation beginning with the Reference Implementation.
@@ -156,11 +179,7 @@ The following table identifies the tooling capabilities required to implement IP
 | **State / Evidence Capability** | • Record service-realization outcomes.<br>• Preserve execution evidence and realization provenance.<br>• Correlate evidence with requests, services, and atomic actions.<br>• Support verification of completed realization obligations. | Does not define the authoritative service model or independently determine required service dependencies. | ![Vetting](../images/status-vetting-blue.svg) Existing enterprise state and evidence platforms |
 | **Operational Feedback / Observability** | • Collect operational telemetry.<br>• Observe service health and availability.<br>• Detect operational events and state changes.<br>• Identify deviations from expected operational conditions.<br>• Supply evidence for ongoing lifecycle assurance. | Does not author the SM-DAG, compile SOGs, or independently define service composition. | ![Vetting](../images/status-vetting-blue.svg) Existing enterprise monitoring, telemetry, and AIOps platforms |
 
-**Compiler / Linker / Loader / Runtime analogy.** OpenIPERA's Service Model Compiler produces the Service Object Graph (SOG), analogous to a compiler producing object code. The DAG Orchestrator acts as a linker, transforming the SOG into an executable realization pipeline. CI/CD is analogous to a loader, preparing and deploying qualified automation implementations for execution. The Automation Execution Capability provides the runtime that invokes those implementations against target infrastructure and control planes. As with traditional computing, these are distinct responsibilities even when a single product implements several of them. The analogy describes architectural roles rather than a literal, mandatory execution sequence.
-
-Governance, security, approvals, control planes, and infrastructure domains remain cross-cutting architectural obligations and integration boundaries, as shown in the functional architecture diagram. Kubernetes packaging, northbound APIs, SOM adapters, and reference deployment choices are addressed in implementation requirements rather than treated as separate tooling capabilities.
-
-### 3.1 Compiler Operations and Validation Boundaries
+### 3.4 Compiler Operations and Validation Boundaries
 
 | Operation | Scope parameter | Resolution parameter | Required behavior |
 |---|---|---|---|
