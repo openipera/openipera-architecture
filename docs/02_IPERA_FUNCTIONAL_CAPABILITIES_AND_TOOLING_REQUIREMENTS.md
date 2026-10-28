@@ -252,36 +252,58 @@ The SMV enforces published service-model rules but neither authors nor relaxes t
 
 ## 5. Separation of Service Model and Automation
 
-```text
-                 SERVICE DOMAIN
+The Service Model defines service intent, composition, dependencies, and operational obligations. The Automation Domain maintains the implementations that fulfill terminal obligations. **The Atomic Node (AN) and its associated specialized Lifecycle Card (LC) establish the governed interface between these domains.** The AN remains a terminal service-model node; its LC declares an automation binding by reference, without embedding executable code.
 
-                Service Deck
-                     │
-              Lifecycle Card
-                     │
-                Atomic Node
-                     │
-             automation binding
-                     │
-─────────────────────┼────────────────────
-                     │
-              AUTOMATION DOMAIN
-                     │
-                     ▼
-          Version-Controlled Artifact
-                     │
-              Execution Contract
-                     │
-                     ▼
-            Execution Capability
-                     │
-        API / CLI / SDK / Provider
-                     │
-                     ▼
-            Target / Control Plane
+```text
+                           SERVICE MODEL DOMAIN
+
+       STRUCTURAL DECOMPOSITION                ASSOCIATED SERVICE KNOWLEDGE
+              (North–South)                           (East–West)
+
+
+                         Create VM (SN) -------- Lifecycle Card (LC)
+                         /                              |
+                        v              v                 +-- Service Dependencies
+              Provision VM (SN)    Configure OS (SN)     |    +-- Allocate IP (SN)
+                  /                      |              |    +-- Configure DNS (SN)
+                 v        v               v              |    +-- Storage (SN)
+           Create VM   Attach Disk    Configure OS       |    +-- Network (SN)
+              (AN)        (AN)           (AN)            |
+                |                                        +-- Operational Obligations
+                |                                             +-- Observability
+                |                                             +-- Health Verification
+                |                                             +-- Governance / Approvals
+                |
+                |  Terminal service obligation
+                |
+                v
+SERVICE MODEL   |
+========================== AN Lifecycle Card (LC) ==========================
+AUTOMATION      |            Governed Automation Binding
+                |                    (UUID)
+                |
+                v
+         Automation Registry
+                |
+                |  Resolves governed identity
+                v
+      Version-Controlled Artifact
+                |
+                v
+     Automation Execution Capability
+                |
+                v
+        Target / Control Plane
+
+
+                            AUTOMATION DOMAIN
 ```
 
-The AN crosses the boundary **by reference**, not by containing automation.
+**North–south** edges express structural decomposition of Service Nodes into subordinate SNs and terminal ANs. **East–west** associations connect nodes to their Lifecycle Cards and associated service knowledge. Every SN and AN has its own LC; only the representative **Create VM (AN)** is traced through the automation boundary in this diagram.
+
+**The AN Lifecycle Card is a specialized LC.** Unlike an SN's LC, it declares the governed automation binding for a terminal service obligation. Its placement *on* the boundary expresses its interface role, not a transfer of metadata ownership: the AN and its LC remain authoritative Service Model constructs.
+
+The Automation Registry resolves the governed automation identity to an independently maintained implementation. Neither the AN nor its LC contains executable automation. Consistent with Section 4.1, SMV validation establishes the binding's model conformance, **not** the existence, availability, correctness, or executability of the referenced automation implementation.
 
 ---
 
