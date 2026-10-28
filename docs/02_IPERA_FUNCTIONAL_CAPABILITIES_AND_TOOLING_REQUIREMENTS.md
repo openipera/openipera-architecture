@@ -264,21 +264,21 @@ The Service Model defines service intent, composition, dependencies, and operati
                          Create VM (SN) ------------------------ Lifecycle Card (LC)
                          /            \                                   |
                         v              v                                  +-- Service Dependencies
-              Provision VM (SN)    Configure OS (SN)                       |    +-- Allocate IP (SN)
+              Provision VM (SN)    Configure OS (SN)                      |    +-- Allocate IP (SN)
                   /      \                |                               |    +-- Configure DNS (SN)
-                 v        v               v                                |    +-- Storage (SN)
-           Create VM   Attach Disk    Configure OS                          |    +-- Network (SN)
-              (AN)        (AN)           (AN)                               |
-                |                                                          +-- Operational Obligations
-                |                                                               +-- Observability
-                |                                                               +-- Health Verification
-                |                                                               +-- Governance / Approvals
+                 v        v               v                               |    +-- Storage (SN)
+           Create VM   Attach Disk    Configure OS                        |    +-- Network (SN)
+              (AN)        (AN)           (AN)                             |
+                |                                                         +-- Operational Obligations
+                |                                                              +-- Observability
+                |                                                              +-- Health Verification
+                |                                                              +-- Governance / Approvals
                 |
                 |  Terminal service obligation
                 |
                 v
 SERVICE MODEL   |
-========================== AN Lifecycle Card (LC) ============================================
+========================== AN Lifecycle Card (LC) =================================================
 AUTOMATION      |            Governed Automation Binding
                 |                    (UUID)
                 |
