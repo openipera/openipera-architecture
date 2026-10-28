@@ -345,29 +345,30 @@ Invoking a callable SN submits a request under its Service Contract. It does not
 3. **Service decomposition terminates at Atomic Nodes (ANs).**
 4. **Every SN and AN has an associated Lifecycle Card (LC).**
 5. **AN Lifecycle Cards declare governed automation bindings; executable code remains external.**
+7. **Only AN Lifecycle Cards may reference external automation implementations.**
 
 ### Invocation and Contracts
 
 6. **Independent callability requires a versioned, machine-consumable Service Contract.**
-7. **Invocation selects an SM-DAG entry point; it does not alter dependencies.**
+8. **Invocation selects an SM-DAG entry point; it does not alter dependencies.**
 
 ### Validation and Compilation
 
-8. **Every compilation MUST pass SMV validation before SOG generation.**
-9. **SMV results apply only to the evaluated scope and model revision.**
-10. **Validation and compilation MUST use the same model snapshot.**
-11. **SMV validates binding conformance, not automation availability or correctness.**
-12. **The SOG represents service-realization obligations independently of orchestration engines.**
+9. **Every compilation MUST pass SMV validation before SOG generation.**
+10. **SMV results apply only to the evaluated scope and model revision.**
+11. **Validation and compilation MUST use the same model snapshot.**
+12. **SMV validates binding conformance, not automation availability or correctness.**
+13. **The SOG represents service-realization obligations independently of orchestration engines.**
 
 ### Orchestration and Execution
 
-13. **Orchestrators consume SOGs; they do not derive service composition from the SM-DAG.**
-14. **Execution pipelines are derived artifacts, never authoritative service definitions.**
-15. **Automation executes governed obligations; it does not define service composition.**
+14. **Orchestrators consume SOGs; they do not derive service composition from the SM-DAG.**
+15. **Execution pipelines are derived artifacts, never authoritative service definitions.**
+16. **Automation executes governed obligations; it does not define service composition.**
 
 ### Implementation Independence
 
-16. **IPERA defines functional contracts, not mandatory products.**
+17. **IPERA defines functional contracts, not mandatory products.**
 
 ---
 
