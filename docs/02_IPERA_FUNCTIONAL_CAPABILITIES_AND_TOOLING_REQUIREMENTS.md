@@ -341,16 +341,18 @@ Invoking a callable SN submits a request under its Service Contract. It does not
 ### Service Model Authority
 
 1. **The SM-DAG is authoritative and exists independently of service requests.**
-2. **Downstream components MUST NOT redefine service composition.**
-3. **Service decomposition terminates at Atomic Nodes (ANs).**
-4. **Every SN and AN has an associated Lifecycle Card (LC).**
-5. **AN Lifecycle Cards declare governed automation bindings; executable code remains external.**
-6. **Only AN Lifecycle Cards may reference external automation implementations.**
+   - No other IPERA component may define, modify, or supersede its service composition or dependencies.
+2. **Service decomposition terminates at Atomic Nodes (ANs).**
+3. **Every SN and AN has an associated Lifecycle Card (LC).**
+4. **AN Lifecycle Cards declare governed automation bindings; executable code remains external.**
+5. **Only AN Lifecycle Cards may reference external automation implementations.**
 
-### Invocation and Contracts
+### Invocation and APIs
 
-7. **Independent callability requires a versioned, machine-consumable Service Contract.**
-8. **Invocation selects an SM-DAG entry point; it does not alter dependencies.**
+6. **Independent service callability requires a versioned, machine-consumable Service Contract.**
+   - Every independently callable service MUST expose a governed service API.
+7. **Invocation selects an SM-DAG entry point; it does not alter dependencies.**
+8. **IPERA components MUST expose versioned APIs at their defined architectural interfaces.**
 
 ### Validation and Compilation
 
