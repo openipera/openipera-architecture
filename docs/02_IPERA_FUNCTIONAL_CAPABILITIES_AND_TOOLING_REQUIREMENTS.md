@@ -79,154 +79,47 @@ The following requirements apply to every IPERA implementation:
 
 ---
 
-## 2. Core Architectural Principles
+## 2. Service Model Constructs and Properties
 
-### 2.1 Service Dependency DAG
+The IPERA Service Model describes enterprise infrastructure services through explicit constructs and relationships. The **Service Model DAG (SM-DAG)** consists of Service Nodes (SNs), terminal Atomic Nodes (ANs), and directed structural relationships. Lifecycle Cards (LCs), Service Contracts, and automation registry entries provide associated service knowledge; they are not vertices in the SM-DAG.
 
-The decomposed enterprise service model forms a persistent **Service Dependency DAG**.
+**The DAG is fundamental:** an upper-level Service Node depends on subordinate nodes by virtue of the directed graph itself. Structural dependencies are inherent in those edges and are not restated in Lifecycle Cards. Separately, an LC may declare dependencies on other modeled services outside its node's structural decomposition. The Service Model Compiler resolves both forms of dependency when deriving the Service Object Graph (SOG). Neither form of dependency requires a referenced service to be independently callable.
 
-The DAG exists independently of any individual service request or execution pipeline.
+### 2.1 Service Model Constructs
 
-The DAG represents:
+| Construct | Definition | Architectural characteristics |
+|---|---|---|
+| **Service Model DAG (SM-DAG)** | Directed acyclic graph of service composition and structural dependencies. | Authoritative service knowledge, not an executable workflow or pipeline. |
+| **Service Node (SN)** | A service construct that may decompose into subordinate SNs or ANs. | May be independently callable or participate only as part of another service. |
+| **Atomic Node (AN)** | Terminal service construct representing an obligation fulfilled through automation. | Last service construct before automation; has no subordinate nodes or independent service dependencies. |
+| **Lifecycle Card (LC)** | Associated metadata describing a node's obligations, governance properties, and additional service requirements. | Not a graph vertex; declares requirements but does not adjudicate or enforce authorization. |
+| **Service Contract** | Machine-consumable definition of how an independently callable SN can be requested. | Defines consumption semantics, distinct from catalog publication and authorization. |
+| **Automation Registry Entry** | Maps a governed automation identity to its current implementation. | Implementation remains external to the Service Model and is not embedded in an AN. |
 
-- service decomposition;
-- dependencies between services;
-- Lifecycle Cards associated with services;
-- Atomic Nodes associated with lifecycle actions;
-- callable service contracts where applicable;
-- bindings between Atomic Nodes and automation artifacts.
+### 2.2 Service Model Properties and Constraints
 
-The Service Dependency DAG is **not an execution workflow**.
+| Property | Applies to | Requirement |
+|---|---|---|
+| **Persistent identity** | SN, AN | A stable identity distinguishes the logical construct from its name, placement, or implementation. |
+| **Node type** | SN, AN | Distinguishes decomposable SNs from terminal ANs. |
+| **Structural dependencies** | SM-DAG, SN | Directed parent-to-subordinate edges inherently express the parent's dependencies. This is why the Service Model is a DAG. |
+| **LC-declared service dependencies** | LC | An LC may reference additional required services elsewhere in the model. These references are distinct from structural decomposition and do not make referenced services callable. |
+| **Terminality** | AN | An AN has no children or independently declared service dependencies; its associated LC identifies its automation binding. |
+| **Lifecycle association** | SN, AN, LC | Every modeled node has exactly one associated LC, and each LC belongs to one node. |
+| **Callability** | SN | Explicit property determining whether a service can be requested independently; participation in the graph does not imply callability. |
+| **Service Contract** | Callable SN | Required for independent consumption; specifies inputs, outputs/status, parameters and constraints, contract version, and invocation/interface binding. |
+| **Governance properties** | LC | May declare approval, authorization, policy, and observability requirements without assigning enforcement to IPERA. |
+| **Automation binding** | AN-associated LC | References automation by governed identity; the registry resolves its current implementation. Executable code is not embedded in an AN. |
+| **Object evolution** | SN, AN, LC, Service Contract | Definitions can evolve while preserving logical identity. Detailed versioning and compatibility requirements remain to be defined. |
+| **Model integrity** | SM-DAG and associated knowledge | Structural graph must be acyclic; references and node/LC associations must resolve; terminal paths must end in ANs with valid automation bindings. |
 
----
+### 2.3 Service Consumption and Authority
 
-### 2.2 Dynamic Execution
+**Not every Service Node is independently callable.** A non-Atomic Service Node intended for independent consumption **MUST** define a machine-consumable Service Contract. Other Service Nodes can participate in decomposition or satisfy LC-declared dependencies without exposing a callable interface. A request for a callable service through IPERA still requires the compiler to derive its complete modeled obligations; callability does not permit substituting a manually assembled workflow for model resolution.
 
-When a service is requested, the orchestrator:
+Callability, catalog publication, and authorization are distinct. The Service Model describes whether a service is callable and defines its contract. An enterprise catalog may publish that capability through a governed interface, including a catalog intended only for IT Operations. Enterprise catalog, identity, and governance systems control exposure and determine who may invoke it. Lifecycle Cards may declare authorization requirements, but **IPERA does not adjudicate authorization**.
 
-```text
-Service Request
-      │
-      ▼
-Service Dependency DAG
-      │
-      │ navigate
-      ▼
-Relevant Services / LCs / ANs
-      │
-      │ resolve
-      ▼
-Automation Bindings
-      │
-      ▼
-Dynamic Execution Pipeline
-      │
-      ▼
-Execution
-```
-
-The orchestrator **navigates an existing DAG**. It does not construct the Service Dependency DAG.
-
-The resulting execution pipeline is an ephemeral realization of a particular request and must not become the authoritative representation of the service.
-
----
-
-### 2.3 Service Contracts
-
-Not every node in the Service Dependency DAG must be independently callable.
-
-A non-Atomic service node that is intended to be independently consumed MUST define a machine-consumable **Service Contract**.
-
-The contract defines, at minimum:
-
-- input specification/schema;
-- required and optional parameters;
-- parameter constraints/defaults where appropriate;
-- outputs/status;
-- contract version;
-- invocation/interface binding.
-
-Different abstraction levels may therefore expose different contracts.
-
-For example:
-
-```text
-General Purpose Compute
-    │
-    │ Consumer-facing contract
-    │ "Give me compute suitable for this workload"
-    ▼
-Compute Service
-    │
-    │ Infrastructure-facing contract
-    │ "Give me a VM with these specifications"
-    ▼
-Lifecycle Cards
-    │
-    ▼
-Atomic Nodes
-```
-
-A caller entering the graph at `Compute Service` may therefore supply implementation-specific parameters that a consumer entering at `General Purpose Compute` neither knows nor needs to know.
-
----
-
-### 2.4 Atomic Nodes
-
-An **Atomic Node (AN)** is the lowest-level service construct within IPERA.
-
-> **The Atomic Node is the last service construct before automation begins.**
-
-An AN represents a discrete lifecycle action and binds that action to an external, version-controlled automation artifact.
-
-An Atomic Node:
-
-- describes the modeled action;
-- contains the binding/reference necessary to locate its automation implementation;
-- does **not** contain executable automation.
-
-Conceptually:
-
-```text
-Lifecycle Card
-      │
-      ▼
-Atomic Node
-      │
-      │ automation binding
-      ▼
-Versioned Artifact
-      │
-      ▼
-Executable Command / Automation
-      │
-      ▼
-Execution Capability
-```
-
-The automation artifact may contain something as simple as a command or as complex as Terraform/OpenTofu, Ansible content, Python, PowerShell, or domain-specific automation.
-
----
-
-### 2.5 Programmatic Interfaces
-
-Any IPERA component or service capability that must be invoked by another component MUST expose an appropriate machine-consumable interface.
-
-Such interfaces may include:
-
-- REST APIs;
-- GraphQL;
-- event/message interfaces;
-- SDKs;
-- CLIs;
-- providers/plugins;
-- other deterministic programmatic mechanisms.
-
-Participation in the Service Dependency DAG does **not** itself require a service node to expose an API.
-
-Callable service nodes must expose a Service Contract and invocation binding.
-
-Atomic Nodes do not themselves expose service APIs. They bind modeled lifecycle actions to automation artifacts that are executed through an appropriate execution capability.
+A capability becomes a Service Catalog offering when it is exposed through a governed catalog interface. Publication does not alter its structural or LC-declared dependencies.
 
 ---
 
