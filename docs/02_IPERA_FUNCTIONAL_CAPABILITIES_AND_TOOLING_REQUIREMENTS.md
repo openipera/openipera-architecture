@@ -338,29 +338,49 @@ Invoking a callable SN submits a request under its Service Contract. It does not
 
 ## 7. Architectural Invariants
 
-1. **The Service Dependency DAG exists independently of a service request.**
+The following invariants define architectural boundaries that every conforming IPERA implementation MUST preserve. They are independent of specific repositories, orchestration engines, automation platforms, and deployment products.
 
-2. **The orchestrator navigates the Service Dependency DAG; it does not create it.**
+### Service Model Authority
 
-3. **The execution pipeline is dynamically derived from the service model and is not itself the authoritative service definition.**
+1. **The Service Model DAG (SM-DAG) exists independently of any service request or invocation.** It is an authoritative, persistent model of service composition and dependencies, not a workflow generated for a particular request.
 
-4. **The Atomic Node is the final service-model construct before automation.**
+2. **The Service Model authority owns the SM-DAG.** Neither the compiler, orchestrator, nor automation execution capability may redefine its logical service composition. Replacing a downstream component MUST NOT require remodeling the authoritative service.
 
-5. **Atomic Nodes bind to externally versioned automation artifacts; they do not contain executable automation.**
+3. **Service decomposition terminates at Atomic Nodes (ANs).** Service Nodes (SNs) may decompose into SNs and ANs; an AN is a terminal service-model obligation, not executable automation.
 
-6. **A callable non-AN service node exposes a versioned Service Contract appropriate to its level of abstraction.**
+4. **Every SN and AN has an associated Lifecycle Card (LC).** LCs express governed service knowledge and obligations; they are not steps in the structural decomposition path.
 
-7. **Not every node in the Service Dependency DAG must be callable.**
+5. **The AN Lifecycle Card defines the governed automation binding at the Service Model / Automation boundary.** The AN and its LC remain Service Model constructs. The LC declares the automation identity; the Automation Domain independently resolves that identity to an implementation. Neither the AN nor its LC contains executable automation.
 
-8. **Any capability that is invoked programmatically must provide an appropriate machine-consumable interface.**
+### Invocation and Contracts
 
-9. **Execution mechanisms execute modeled intent; they do not determine service composition.**
+6. **Callability is an explicit property of a service interface, not a consequence of graph membership.** An independently callable SN exposes an appropriate machine-consumable, versioned Service Contract. An internal SN may participate in dependencies without exposing a consumer-facing invocation contract.
 
-10. **IPERA defines functional contracts, not mandatory products.**
+7. **Invocation selects an entry point into the same authoritative SM-DAG.** It MUST NOT modify service composition, bypass validation, or create a separate execution path. Publication in a service catalog and authorization to invoke are governed separately from graph membership.
 
-11. **The Service Model Repository owns the authoritative Service Dependency DAG and MUST remain authoritative regardless of orchestration technology. Replacing the orchestrator MUST NOT require redefining the logical service model.**
+### Validation and Compilation
 
-12. **The orchestrator MUST consume and traverse the persistent service model and dynamically construct dependency-aware execution. Native DAG authoring is not an IPERA requirement; the internal representation of the execution plan is an implementation detail.**
+8. **Every compilation includes Service Model Validator (SMV) validation as Stage 1.** The compiler MUST NOT generate a Service Object Graph (SOG) from a model that has not passed validation for the applicable service dependency closure.
+
+9. **Validation results are scoped and revision-specific.** An SMV PASS certifies only the objects and relationships evaluated at the stated scope and model revision; it does not certify unrelated graph regions or later revisions.
+
+10. **Compilation operates on a consistent model snapshot.** Stage 2 MUST derive the SOG from the same validated model revision consumed by Stage 1, without silently substituting changed service definitions or dependencies.
+
+11. **SMV validates model and binding conformance, not automation execution readiness.** A valid automation UUID or registry reference does not establish that implementation code exists, is available, is correct, or will execute successfully.
+
+12. **The SOG is the compiler-derived, engine-independent representation of the obligations required to realize the requested service.** It is derived from the applicable SM-DAG dependency closure and does not replace the authoritative SM-DAG.
+
+### Orchestration and Execution
+
+13. **The DAG Orchestrator consumes the SOG; it does not author or traverse the authoritative SM-DAG to determine service composition.** Its responsibility is to construct a dependency-aware executable workflow from the compiler's output.
+
+14. **Execution pipelines are derived artifacts, not authoritative service definitions.** Neither an orchestrator's native DAG nor a static automation workflow may supersede the SM-DAG or redefine the meaning of the SOG.
+
+15. **Automation execution capabilities execute governed obligations; they do not determine service composition.** Implementations and target/control planes remain independently replaceable behind their governed bindings and execution contracts.
+
+### Implementation Independence
+
+16. **IPERA specifies architectural responsibilities and functional contracts, not mandatory products.** Repository, compiler, orchestration, and automation implementations may vary provided the foregoing boundaries and invariants are preserved.
 
 ---
 
