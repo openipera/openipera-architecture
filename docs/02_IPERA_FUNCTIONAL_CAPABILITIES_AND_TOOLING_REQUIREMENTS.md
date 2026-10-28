@@ -309,36 +309,30 @@ The Automation Registry resolves the governed automation identity to an independ
 
 ## 6. Service Invocation Model
 
-The same Service Dependency DAG may support multiple entry points.
+**Callability defines where a consumer may enter the authoritative Service Model DAG (SM-DAG).** It does not define service decomposition, alter dependencies, or establish an alternate execution path. A Service Node (SN) is independently callable only when it exposes an appropriate machine-consumable Service Contract.
 
-For example:
+The same SM-DAG can support multiple independent entry points:
 
 ```text
-                  General Purpose Compute
-                    [Callable Contract]
-                           │
-              ┌────────────┼────────────┐
-              ▼            ▼            ▼
-           Compute       Network     Identity
-        [Callable]      [Callable]    [Internal]
-              │
-              ▼
-        Lifecycle Cards
-              │
-              ▼
-         Atomic Nodes
-              │
-              ▼
-          Automation
+                  General Purpose Compute (SN)
+                      [Callable Contract]
+                               |
+                 +-------------+-------------+
+                 |             |             |
+                 v             v             v
+             Compute        Network       Identity
+               (SN)           (SN)          (SN)
+            [Callable]      [Internal]    [Internal]
+                 |
+                 v
+          Subordinate SNs / ANs
 ```
 
-A general consumer may request **General Purpose Compute** using a high-level contract.
+A general consumer may request **General Purpose Compute** through its high-level Service Contract. An infrastructure team may independently request **Compute** through a lower-level Service Contract with its own appropriate inputs and constraints. Both requests enter the **same authoritative SM-DAG** at different abstraction levels; each is compiled from the dependencies applicable to its requested service.
 
-An infrastructure team may independently request **Compute** using a lower-level contract containing CPU, memory, operating system, network, location and other domain-specific parameters.
+**Internal** means that an SN does not expose an independent consumer-facing invocation contract; it does **not** mean the node cannot participate in decomposition or satisfy another service's dependencies. Participation in the graph does not imply independent callability.
 
-Both requests enter the **same service model at different abstraction levels**.
-
-A node need not be callable merely because it participates in the DAG.
+Invoking a callable SN submits a request under its Service Contract. It does not directly execute automation, bypass SMV validation, or authorize a manually assembled workflow in place of the compiler-derived Service Object Graph (SOG). Catalog publication and authorization remain separate from the model's callability property, as defined in Section 2.3.
 
 ---
 
