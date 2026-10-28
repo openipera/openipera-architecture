@@ -172,14 +172,40 @@ The following table identifies the tooling capabilities required to implement IP
 | **Service Catalog** | • Publish governed service offerings.<br>• Expose applicable Service Contracts.<br>• Collect service-request parameters.<br>• Submit requests against a defined service-model entry point. | Does not author the service dependency model, compile SOGs, or construct execution pipelines. | ![Vetting](../images/status-vetting-blue.svg) ServiceNow Service Catalog<br>![Vetting](../images/status-vetting-blue.svg) Backstage |
 | **Service Model Repository** | • Maintain authoritative SM-DAGs and node definitions.<br>• Maintain associated Lifecycle Cards.<br>• Maintain declared service dependencies and Service Contracts.<br>• Maintain governed automation binding references.<br>• Preserve stable model identities and revision information. | Does not compile a request-specific SOG, execute automation, or become the orchestration engine. | ![Vetting](../images/status-vetting-blue.svg) ServiceNow (subject to model fit)<br>![Vetting](../images/status-vetting-blue.svg) demonstration etcd-backed repository |
 | **Version Control System (VCS)** | • Version automation and declarative implementation artifacts.<br>• Preserve artifact provenance and change history.<br>• Support review and controlled changes to artifacts.<br>• Provide resolvable artifact identities. | Does not define service composition, derive dependency order, or determine when automation executes. | ![Vetted](../images/status-vetted.svg) GitHub<br>![Vetted](../images/status-vetted.svg) GitLab<br>![Vetted](../images/status-vetted.svg) Bitbucket |
-| **Service Model Compiler (including SMV)** | • Validate service-model structural and semantic integrity.<br>• Validate Lifecycle Card associations and references.<br>• Resolve applicable service dependency closure.<br>• Resolve applicable Lifecycle Card operational obligations.<br>• Derive the deterministic, request-specific Service Object Graph (SOG).<br>• Identify invalid references and unmet realization requirements distinctly.<br>• Produce diagnostics and preserve compilation provenance. | Does not author the authoritative service model, construct engine-native workflows, execute automation, or reconcile observed infrastructure state. | ![Provisional](../images/status-provisional.svg) OpenIPERA |
+| **Service Model Compiler (including SMV)** | • Validate service-model structural and semantic integrity.<br>• Validate Lifecycle Card associations and references.<br>• Resolve applicable service dependency closure.<br>• Resolve applicable Lifecycle Card operational obligations.<br>• Derive the deterministic, request-specific Service Object Graph (SOG).<br>• Identify invalid references and unmet realization requirements distinctly.<br>• Produce diagnostics and preserve compilation provenance. | Does not author the authoritative service model, construct engine-native workflows, execute automation, or reconcile observed infrastructure state. | ![Provisional](../images/status-provisional.svg) OpenIPERA Compiler |
 | **CI/CD Platform** | • Validate automation and platform implementation artifacts.<br>• Test implementation artifacts.<br>• Package and publish qualified artifacts.<br>• Promote approved implementations.<br>• Enforce engineering quality gates. | Does not own the service model, compile request-specific SOGs, or serve as the runtime service orchestrator. | ![Vetted](../images/status-vetted.svg) GitHub Actions<br>![Vetted](../images/status-vetted.svg) GitLab CI/CD<br>![Vetted](../images/status-vetted.svg) Jenkins<br>![Vetted](../images/status-vetted.svg) Tekton |
 | **DAG Orchestrator** | • Consume the compiled SOG.<br>• Construct an engine-native executable pipeline.<br>• Preserve compiled dependency and obligation semantics.<br>• Coordinate execution progress, failures, and outcomes.<br>• Report realization execution status and results. | Does not independently rediscover or redefine service composition, alter the SOG's dependency semantics, or own domain automation. | ![Provisional](../images/status-provisional.svg) Apache Airflow<br>![Provisional](../images/status-provisional.svg) Argo<br>![Vetting](../images/status-vetting-blue.svg) Spacelift (integration fit to be verified) |
 | **Automation Execution Capability** | • Accept resolved automation bindings and execution context.<br>• Invoke automation implementations against target control planes.<br>• Return execution status and outputs.<br>• Produce execution evidence. | Does not determine service composition, compile SOGs, or independently construct the end-to-end realization plan. | ![Vetted](../images/status-vetted.svg) Ansible/AAP<br>![Vetted](../images/status-vetted.svg) Terraform/OpenTofu<br>![Vetting](../images/status-vetting-blue.svg) Spacelift execution facilities<br>![Vetted](../images/status-vetted.svg) Python<br>![Vetted](../images/status-vetted.svg) PowerShell |
 | **State / Evidence Capability** | • Record service-realization outcomes.<br>• Preserve execution evidence and realization provenance.<br>• Correlate evidence with requests, services, and atomic actions.<br>• Support verification of completed realization obligations. | Does not define the authoritative service model or independently determine required service dependencies. | ![Vetting](../images/status-vetting-blue.svg) Existing enterprise state and evidence platforms |
 | **Operational Feedback / Observability** | • Collect operational telemetry.<br>• Observe service health and availability.<br>• Detect operational events and state changes.<br>• Identify deviations from expected operational conditions.<br>• Supply evidence for ongoing lifecycle assurance. | Does not author the SM-DAG, compile SOGs, or independently define service composition. | ![Vetting](../images/status-vetting-blue.svg) Existing enterprise monitoring, telemetry, and AIOps platforms |
 
-### 3.4 Compiler Operations and Validation Boundaries
+## 5. Service Model Compiler — Functional Requirements
+
+The preceding section identifies nine distinct tooling capabilities required to implement OpenIPERA. Most can be fulfilled by existing technologies, subject to their conformance with defined architectural responsibilities and boundaries. One capability, however, distinguishes OpenIPERA from conventional infrastructure automation architectures: the **Service Model Compiler**.
+
+Three foundational principles establish its purpose and architectural position.
+
+**1. OpenIPERA bridges documented service intent and service realization. Nothing more.**
+
+OpenIPERA provides the architectural mechanism for translating authoritative, documented service intent into the operational obligations necessary to realize that intent. The Service Model Compiler is central to this translation, producing a deterministic, request-specific Service Object Graph (SOG) from the Service Model DAG (SM-DAG) and its associated Lifecycle Cards.
+
+**OpenIPERA does not replace service catalogs, orchestration engines, automation platforms, or infrastructure control planes.** It connects these capabilities through explicit architectural contracts, allowing each to retain its existing responsibilities.
+
+**2. To our knowledge, no equivalent implementation is currently under development.**
+
+Existing technologies provide sophisticated service catalogs, infrastructure automation, workflow orchestration, and operational management. However, we have not identified an independently available implementation—or a publicly documented development effort—that performs the specific translation required by OpenIPERA: compiling authoritative service intent into a deterministic representation of the operational obligations necessary for service realization.
+
+This is a statement of our present knowledge, not a claim that no comparable technology could exist.
+
+**3. The Service Model Compiler is not special infrastructure. It is another interchangeable architectural component.**
+
+Although the compiler is essential to OpenIPERA's architectural proposition, **its implementation has no privileged status**. It is designed to be modular, replaceable, and independently implementable—another building block within Infrastructure Platform Engineering (IPE), IPERA, and OpenIPERA.
+
+Any implementation that satisfies the compiler's published functional contracts and architectural boundaries should be capable of replacing the OpenIPERA Compiler reference implementation without requiring changes to the authoritative service model or downstream realization capabilities.
+
+**OpenIPERA's value lies in the architectural contracts and the separation of responsibilities—not in ownership of a particular compiler implementation.**
+
+### 4.1 Compiler Operations and Validation Boundaries
 
 | Operation | Scope parameter | Resolution parameter | Required behavior |
 |---|---|---|---|
@@ -196,7 +222,7 @@ A module's **local** validation is not evidence that a complete service request 
 
 ---
 
-## 4. Separation of Service Model and Automation
+## 5. Separation of Service Model and Automation
 
 ```text
                  SERVICE DOMAIN
@@ -231,7 +257,7 @@ The AN crosses the boundary **by reference**, not by containing automation.
 
 ---
 
-## 5. Service Invocation Model
+## 6. Service Invocation Model
 
 The same Service Dependency DAG may support multiple entry points.
 
@@ -266,7 +292,7 @@ A node need not be callable merely because it participates in the DAG.
 
 ---
 
-## 6. Architectural Invariants
+## 7. Architectural Invariants
 
 1. **The Service Dependency DAG exists independently of a service request.**
 
@@ -294,7 +320,7 @@ A node need not be callable merely because it participates in the DAG.
 
 ---
 
-## 7. Open Architectural Question: State / Evidence / Observability / Reconciliation
+## 8. Open Architectural Question: State / Evidence / Observability / Reconciliation
 
 This area remains open for architecture review with Rob. The KRO comparison highlights the need for further consideration of:
 
