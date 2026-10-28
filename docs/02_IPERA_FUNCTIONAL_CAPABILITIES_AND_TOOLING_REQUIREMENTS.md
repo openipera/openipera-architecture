@@ -179,7 +179,7 @@ The following table identifies the tooling capabilities required to implement IP
 | **State / Evidence Capability** | • Record service-realization outcomes.<br>• Preserve execution evidence and realization provenance.<br>• Correlate evidence with requests, services, and atomic actions.<br>• Support verification of completed realization obligations. | Does not define the authoritative service model or independently determine required service dependencies. | ![Vetting](../images/status-vetting-blue.svg) Existing enterprise state and evidence platforms |
 | **Operational Feedback / Observability** | • Collect operational telemetry.<br>• Observe service health and availability.<br>• Detect operational events and state changes.<br>• Identify deviations from expected operational conditions.<br>• Supply evidence for ongoing lifecycle assurance. | Does not author the SM-DAG, compile SOGs, or independently define service composition. | ![Vetting](../images/status-vetting-blue.svg) Existing enterprise monitoring, telemetry, and AIOps platforms |
 
-## 5. Service Model Compiler — Functional Requirements
+## 4. Service Model Compiler — Functional Requirements
 
 The preceding section identifies nine distinct tooling capabilities required to implement OpenIPERA. Most can be fulfilled by existing technologies, subject to their conformance with defined architectural responsibilities and boundaries. One capability, however, distinguishes OpenIPERA from conventional infrastructure automation architectures: the **Service Model Compiler**.
 
