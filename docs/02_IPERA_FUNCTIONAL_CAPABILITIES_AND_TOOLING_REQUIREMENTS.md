@@ -90,13 +90,13 @@ The IPERA Service Model describes enterprise infrastructure services through exp
                          /            \                  |
                         v              v                 +-- requires: Allocate IP (SN)
               Provision VM (SN)    Configure OS (SN)      +-- requires: Configure DNS (SN)
-                  /      \                |
-                 v        v               v
-           Create VM   Attach Disk    Configure OS
+                  /      \                |              +-- requires: Storage (SN)
+                 v        v               v              +-- requires: Monitoring (SN)
+           Create VM   Attach Disk    Configure OS        +-- requires: Network (SN)
               (AN)        (AN)           (AN)
 
     Downward arrows = structural dependencies (SM-DAG edges)
-    LC 'requires'   = additional service dependencies (not DAG edges)
+    LC 'requires'   = additional service dependencies (not structural DAG edges)
 ```
 
 ### 2.1 Service Model Constructs
