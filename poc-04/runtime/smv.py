@@ -240,6 +240,13 @@ def validate_policy(policy):
     return {'block_on': sorted(entries)}
 
 
+def easter_egg(status):
+    """Inert console flourish; never a validation result or assurance claim."""
+    if status == 'VALID':
+        return 'AN-FMT-001: Validation: No human intervened.'
+    return 'AN-FMT-001: Human intervention may now be required.'
+
+
 def render(result):
     if result['status'] == 'DENIED':
         return '# SMV: DENIED\n\n' + json.dumps(result, indent=2) + '\n'
@@ -294,6 +301,7 @@ def main():
     (args.out / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
     (args.out / 'review.md').write_text(render(result))
     print(result['status'])
+    print(easter_egg(result['status']))
     return 0 if result['status'] == 'VALID' else 2
 
 
