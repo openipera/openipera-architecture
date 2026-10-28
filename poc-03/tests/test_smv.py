@@ -12,7 +12,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'runtime'))
-from smv import Denied, derive, load_registry, read_json, render
+from smv import Denied, derive, easter_egg, load_registry, read_json, render
 
 
 def command(repo, *args):
@@ -62,6 +62,16 @@ class ModelTests(unittest.TestCase):
         with self.assertRaises(Denied) as exc:
             self.run_model()
         self.assertEqual(exc.exception.diagnostic['code'], code, exc.exception.diagnostic)
+
+    def test_easter_egg_is_inert_and_status_specific(self):
+        valid = self.run_model()
+        before = copy.deepcopy(valid)
+        self.assertEqual(easter_egg(valid['status']),
+                         'AN-FMT-001: Validation: No human intervened.')
+        self.assertEqual(easter_egg('DENIED'),
+                         'AN-FMT-001: Human intervention may now be required.')
+        self.assertEqual(valid, before)
+        self.assertNotIn('AN-FMT-001', json.dumps(valid))
 
     def test_baseline_independent_oracle(self):
         dag = self.run_model()
@@ -262,11 +272,13 @@ class GitTests(unittest.TestCase):
         out=self.repo/'valid'
         run=subprocess.run(base+['--lcs',str(ROOT/'model/lifecycle-cards.json'),'--out',str(out)],capture_output=True)
         self.assertEqual(run.returncode,0,run.stderr); self.assertEqual(read_json((out/'result.json').read_bytes())['status'],'VALID')
+        self.assertIn(b'AN-FMT-001: Validation: No human intervened.', run.stdout)
         cards=read_json((ROOT/'model/lifecycle-cards.json').read_bytes())
         next(c for c in cards if c['node_id']=='an-disk')['automation_id']='11111111-2222-3333-4444-555555555555'
         bad=self.repo/'bad.json';bad.write_text(json.dumps(cards));denied=self.repo/'denied'
         run=subprocess.run(base+['--lcs',str(bad),'--out',str(denied)],capture_output=True)
         self.assertEqual(run.returncode,2);result=read_json((denied/'result.json').read_bytes())
+        self.assertIn(b'AN-FMT-001: Human intervention may now be required.', run.stdout)
         self.assertEqual(result['diagnostics'][0]['code'],'UNRESOLVED_AUTOMATION');self.assertNotIn('nodes',result)
         run=subprocess.run(base+['--lcs',str(bad),'--out',str(out)],capture_output=True)
         self.assertNotEqual(run.returncode,0)
