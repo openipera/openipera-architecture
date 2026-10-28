@@ -4,7 +4,7 @@
 
 **OpenIPERA is an open implementation of the Infrastructure Platform Engineering Reference Architecture (IPERA)**, an architectural approach to engineering enterprise infrastructure services as explicit, dependency-aware operational systems.
 
-The idea behind IPERA is straightforward: enterprise infrastructure services should be defined by what they require, how they depend on one another, and what obligations must be satisfied to make them operational—not by the workflows someone happened to write to provision them.
+The idea behind IPERA is straightforward: enterprise infrastructure services should be defined by what they require, how they depend on one another, and what obligations must be satisfied to make them operational—not by the workflows someone happened to write to provision them. IPERA is designed to simplify enterprise infrastructure automation by eliminating the need to manually construct and maintain complex, service-specific workflows and pipelines, making complete service realization derivable from authoritative service knowledge.
 
 Consider Kubernetes Resource Orchestrator (KRO). KRO demonstrates how complex resource requirements can be abstracted behind a declarative interface, allowing the underlying system to resolve and manage the necessary resource relationships. IPERA builds on similar architectural principles but applies them at the enterprise infrastructure service level, where realizing a service may involve multiple technology domains, operational control planes, governance requirements, and automation platforms.
 
