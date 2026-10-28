@@ -345,11 +345,11 @@ Invoking a callable SN submits a request under its Service Contract. It does not
 3. **Service decomposition terminates at Atomic Nodes (ANs).**
 4. **Every SN and AN has an associated Lifecycle Card (LC).**
 5. **AN Lifecycle Cards declare governed automation bindings; executable code remains external.**
-7. **Only AN Lifecycle Cards may reference external automation implementations.**
+6. **Only AN Lifecycle Cards may reference external automation implementations.**
 
 ### Invocation and Contracts
 
-6. **Independent callability requires a versioned, machine-consumable Service Contract.**
+7. **Independent callability requires a versioned, machine-consumable Service Contract.**
 8. **Invocation selects an SM-DAG entry point; it does not alter dependencies.**
 
 ### Validation and Compilation
