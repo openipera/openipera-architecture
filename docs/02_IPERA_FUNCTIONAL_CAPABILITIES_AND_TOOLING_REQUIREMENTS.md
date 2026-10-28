@@ -89,11 +89,11 @@ The IPERA Service Model describes enterprise infrastructure services through exp
                          Create VM (SN) -------- Lifecycle Card (LC)
                          /            \                  |
                         v              v                 +-- Service Dependencies
-              Provision VM (SN)    Configure OS (SN)      |    +-- Allocate IP (SN)
+              Provision VM (SN)    Configure OS (SN)     |    +-- Allocate IP (SN)
                   /      \                |              |    +-- Configure DNS (SN)
                  v        v               v              |    +-- Storage (SN)
-           Create VM   Attach Disk    Configure OS        |    +-- Network (SN)
-              (AN)        (AN)           (AN)             |
+           Create VM   Attach Disk    Configure OS       |    +-- Network (SN)
+              (AN)        (AN)           (AN)            |
                                                          +-- Operational Obligations
                                                               +-- Observability
                                                               +-- Health Verification
