@@ -363,33 +363,34 @@ Invoking a callable SN submits a request under its Service Contract. It does not
 2. **The SM-DAG defines service-realization obligations; it does not guarantee successful realization.**
 3. **Service decomposition terminates at Atomic Nodes (ANs).**
 4. **Every SN and AN has an associated Lifecycle Card (LC).**
-5. **AN Lifecycle Cards declare governed automation bindings; executable code remains external.**
-6. **Only AN Lifecycle Cards may reference external automation implementations.**
+5. **LCs govern realization, verification, and continuing operational obligations, including acceptance criteria and required evidence.**
+6. **AN Lifecycle Cards declare governed automation bindings; executable code remains external.**
+7. **Only AN Lifecycle Cards may reference external automation implementations.**
 
 ### Invocation and APIs
 
-7. **Independent service callability requires a versioned, machine-consumable Service Contract.**
+8. **Independent service callability requires a versioned, machine-consumable Service Contract.**
    - Every independently callable service MUST expose a governed service API.
-8. **Invocation selects an SM-DAG entry point; it does not alter dependencies.**
-9. **IPERA components MUST expose versioned APIs at their defined architectural interfaces.**
+9. **Invocation selects an SM-DAG entry point; it does not alter dependencies.**
+10. **IPERA components MUST expose versioned APIs at their defined architectural interfaces.**
 
 ### Validation and Compilation
 
-10. **Every compilation MUST pass SMV validation before SOG generation.**
-11. **SMV results apply only to the evaluated scope and model revision.**
-12. **Validation and compilation MUST use the same model snapshot.**
-13. **SMV validates binding conformance, not automation availability or correctness.**
-14. **The SOG represents service-realization obligations independently of orchestration engines.**
+11. **Every compilation MUST pass SMV validation before SOG generation.**
+12. **SMV results apply only to the evaluated scope and model revision.**
+13. **Validation and compilation MUST use the same model snapshot.**
+14. **SMV validates binding conformance, not automation availability or correctness.**
+15. **The SOG represents service-realization obligations independently of orchestration engines.**
 
 ### Orchestration and Execution
 
-15. **Orchestrators consume SOGs; they do not derive service composition from the SM-DAG.**
-16. **Execution pipelines are derived artifacts, never authoritative service definitions.**
-17. **Automation executes governed obligations; it does not define service composition.**
+16. **Orchestrators consume SOGs; they do not derive service composition from the SM-DAG.**
+17. **Execution pipelines are derived artifacts, never authoritative service definitions.**
+18. **Automation executes governed obligations; it does not define service composition.**
 
 ### Implementation Independence
 
-18. **IPERA defines functional contracts, not mandatory products.**
+19. **IPERA defines functional contracts, not mandatory products.**
 
 ---
 
