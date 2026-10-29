@@ -211,7 +211,7 @@ The **Service Model Validator (SMV) is Stage 1 of the Service Model Compiler**. 
 
 The SMV is a named, independently callable **logical component of the compiler**, not a required separate deployment or peer microservice. It performs one operation: **validate a caller-specified scope of the Service Model DAG (SM-DAG) against published OpenIPERA rules and return a structured Validation Result**. The caller decides when to invoke it. The SMV does not monitor edits, initiate validation, define the rules, or modify the model.
 
-### 4.1.1 Validation Scopes
+#### 4.1.1 Validation Scopes
 
 | Validation Scope | Scope | Invocation (illustrative) | Responsibility | Output |
 |---|---|---|---|---|
@@ -223,7 +223,7 @@ These invocations illustrate a functional contract, not a prescribed API syntax 
 
 A service closure is a **graph**, not necessarily a tree: dependencies may be shared. The SMV must detect invalid references and cycles while resolving and validating the requested closure, rather than assuming that the closure is already valid.
 
-### 4.1.2 Validation Result
+#### 4.1.2 Validation Result
 
 Every invocation returns the same structured Validation Result contract, including the requested scope and target (where applicable), authoritative model revision or snapshot identity, evaluated objects and relationships, applicable rules, status, and actionable diagnostics identifying affected objects, references, or relationships.
 
@@ -235,7 +235,7 @@ Every invocation returns the same structured Validation Result contract, includi
 
 An incomplete evaluation MUST NOT return PASS. A PASS certifies **only the evaluated scope at the identified model revision**; Object Validation does not certify a service closure, and Service Validation does not certify the entire SM-DAG. An ERROR is not evidence that the model itself violates a rule.
 
-### 4.1.3 Compilation Gate and Boundaries
+#### 4.1.3 Compilation Gate and Boundaries
 
 The compiler exposes two conceptual operations:
 
@@ -245,6 +245,24 @@ The compiler exposes two conceptual operations:
 **Automation-binding boundary:** The SMV validates the structural and semantic integrity of automation bindings declared by Atomic Nodes, including required Lifecycle Card fields, identifier format, and any required authoritative registry relationship. It does **not** resolve, inspect, or verify the existence, availability, correctness, or executability of the referenced automation code or artifacts. Those checks belong to subsequent realization stages. **Model validity does not establish implementation availability or execution success.**
 
 The SMV enforces published service-model rules but neither authors nor relaxes them. It does not approve changes, orchestrate workflows, execute automation, or silently repair invalid input. The compiler must distinguish **invalid model references** from **validly modeled but unavailable or unimplemented capabilities**, reporting the latter as realization gaps rather than silently treating them as implemented.
+
+### 4.2 Stage 2 — Service Object Graph (SOG) Generation
+
+**Stage 2 transforms the validated, request-specific service dependency closure into a Service Object Graph (SOG).** It consumes the same authoritative SM-DAG snapshot and associated Lifecycle Cards that passed Stage 1; it does not independently redefine service composition or repeat model validation.
+
+The compiler resolves both structural SM-DAG dependencies and additional service dependencies declared by Lifecycle Cards. It derives the **complete set of obligations necessary to operationalize the requested service**, not merely the provisioning sequence. These obligations include realization, governance, operational readiness, monitoring, metrics, verification, and continuing assurance where required by the applicable Service Contracts, Lifecycle Cards, and policies.
+
+The resulting SOG MUST:
+
+- Represent the required service obligations and their dependency ordering, including shared dependencies.
+- Preserve the provenance of obligations and their applicable acceptance criteria and evidence requirements.
+- Identify governed automation bindings at terminal AN obligations without embedding executable code.
+- Distinguish obligations that can be bound for realization from validly modeled capabilities whose implementation is unavailable or unresolved.
+- Remain independent of any particular orchestration engine or automation platform.
+
+**The SOG specifies what must be accomplished and demonstrated; it does not itself execute work or certify successful realization.** The DAG Orchestrator consumes the SOG to construct an executable workflow. Execution and assurance capabilities subsequently produce and evaluate evidence against the declared obligations.
+
+Stage 2 returns the SOG together with its source model revision and any structured realization-gap diagnostics. The SOG is a derived artifact, never an alternate authority for service composition.
 
 `*` **Conditional fit:** Named products are examples, not declarations of conformance. Actual suitability depends on supported interfaces, integration semantics, and deployment configuration.
 
