@@ -394,23 +394,36 @@ Invoking a callable SN submits a request under its Service Contract. It does not
 
 ---
 
-## 8. Open Architectural Question: State / Evidence / Observability / Reconciliation
+## 8. Operational Assurance, Acceptance, and Responsibility Boundaries
 
-This area remains open for architecture review with Rob. The KRO comparison highlights the need for further consideration of:
+OpenIPERA compiles the obligations required to operationalize a service and supports evidence-based assessment of whether those modeled obligations appear satisfied. **Reported satisfaction is not formal service acceptance.**
 
-```text
-SPEC
-What was requested?
+| Responsibility | Architectural owner |
+|---|---|
+| Define requirements, obligations, and acceptance criteria | Service Contracts and Lifecycle Cards |
+| Validate the model and derive obligations | Service Model Compiler |
+| Represent request-specific realization obligations | Service Object Graph (SOG) |
+| Construct and manage execution, retries, recovery, and replay | Orchestrator and automation execution capabilities |
+| Supply measurements, events, and operational evidence | Observability capabilities |
+| Assess whether evidence supports satisfaction of modeled obligations | Evidence evaluation, initially human-supervised |
+| Formally accept the realized service | Authorized external party |
+| Decide and authorize corrective action | External governance, initially human |
 
-STATUS
-What currently exists?
+### 8.1 Evidence and Acceptance
 
-READINESS
-Does observed state satisfy modeled intent?
+Lifecycle Cards govern verification and continuing operational obligations, including the evidence needed to assess them. The SOG carries those obligations into realization. Observability supplies evidence of actual conditions; it does not confer acceptance authority.
 
-RECONCILIATION
-If not, what should happen?
-```
+OpenIPERA may report that **available evidence indicates all modeled obligations are satisfied**, subject to the completeness of the model and the evidence. Formal acceptance remains an explicit decision by an authorized third party. Execution completion, assessed obligation satisfaction, and service acceptance are distinct outcomes.
 
-> **Open architectural question: determine whether desired-state evaluation and reconciliation constitute a separate IPERA functional component or responsibilities distributed among the Service Model, Orchestrator, and Operational Feedback capabilities.**
+### 8.2 Reconciliation Authority
+
+Observed deviations may be reported against modeled obligations. Initially, humans assess deviations and determine whether corrective action is appropriate. Authorization and initiation of corrective action remain external governance responsibilities. OpenIPERA does not implicitly act as a reconciliation controller.
+
+### 8.3 SOG Lifecycle
+
+The SOG is a **compiled representation of obligations**, not a runtime execution record or replay mechanism. It is generated from a validated model snapshot, consumed by an orchestrator, and may be retained with source revision and compilation context for provenance and audit.
+
+Execution history, retries, recovery, and replay belong to the orchestrator and execution capabilities. Retaining a SOG does not make it an executable replay record.
+
+**Architectural boundary:** OpenIPERA defines and compiles service-realization obligations and supports evidence-based assessment of their satisfaction. Execution lifecycle management belongs to the orchestrator; formal acceptance and corrective-action authority remain external.
 
