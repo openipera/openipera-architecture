@@ -107,7 +107,7 @@ The IPERA Service Model describes enterprise infrastructure services through exp
 | **Service Model DAG (SM-DAG)** | Directed acyclic graph of service composition and structural dependencies. | Authoritative service knowledge, not an executable workflow or pipeline. |
 | **Service Node (SN)** | A service construct that may decompose into subordinate SNs or ANs. | May be independently callable or participate only as part of another service. |
 | **Atomic Node (AN)** | Terminal service construct representing an obligation fulfilled through automation. | Last service construct before automation; has no subordinate nodes or independent service dependencies. |
-| **Lifecycle Card (LC)** | Associated metadata describing a node's obligations, governance properties, and additional service requirements. | Not a graph vertex; declares requirements but does not adjudicate or enforce authorization. |
+| **Lifecycle Card (LC)** | Governs the realization, verification, and continuing operational obligations of its associated SN or AN. | Gives service structure operational meaning; defines satisfaction criteria and evidence requirements without itself executing or adjudicating outcomes. Not a graph vertex. |
 | **Service Contract** | Machine-consumable definition of how an independently callable SN can be requested. | Defines consumption semantics, distinct from catalog publication and authorization. |
 | **Automation Registry Entry** | Maps a governed automation identity to its current implementation. | Implementation remains external to the Service Model and is not embedded in an AN. |
 
