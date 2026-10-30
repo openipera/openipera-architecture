@@ -10,17 +10,15 @@ The objective is not to define a complete enterprise service ontology. The objec
 2. Describe what other services are required to realize it.
 3. Identify where service-model resolution terminates and automation begins.
 4. Validate the model independently of any orchestration platform.
-5. Derive an Execution DAG without authoring the Execution DAG itself.
+5. Compile the validated Service Model and its associated Lifecycle Cards into a Service Object Graph (SOG) representing the obligations necessary to fully operationalize the requested service.
 
 The central principle is:
 
 > **Model what is true about the service. Derive what must happen from that truth.**
 
-The Service Model describes architectural truth.
+The Service Model describes the structure and relationships of services. Lifecycle Cards define their operational obligations.
 
-The Execution DAG describes the operational consequence of that truth.
-
-They are not the same artifact.
+The compiled Service Object Graph represents the obligations necessary to fully operationalize a requested service. It is not an executable workflow.
 
 ---
 
