@@ -22,7 +22,7 @@ Consider what happens when an IT Operations organization receives a new business
 - Which services and infrastructure capabilities are required?
 - What dependencies exist between them?
 - Which approvals, policies, and organizational obligations must be satisfied?
-- Which operations must be performed, and in what order?
+- Which operational obligations must be satisfied, and what dependencies constrain their realization?
 - Which requirements can be satisfied concurrently?
 - How will the resulting service be validated?
 - How will monitoring, logging, status, security, and compliance be established?
@@ -74,11 +74,11 @@ A node describes its direct relationships without restating the internal decompo
 
 ### 2. Lifecycle Cards (LCs)
 
-A Lifecycle Card accompanies each node and defines its contractual requirements. These can include prerequisites, service dependencies, approvals, policies, validation criteria, operational obligations, and lifecycle conditions.
+The SM-DAG defines the structure and relationships of services. Lifecycle Cards give that structure operational meaning by declaring the obligations governing service realization, verification, and continued operation. Each node has an associated Lifecycle Card, whose requirements can include prerequisites, service dependencies, approvals, policies, validation criteria, and continuing operational obligations.
 
 Dependencies are not restricted to infrastructure. A service may depend on a **Policy Engine**, **Approval**, **Monitoring**, **Logging**, or **Status** service, irrespective of which organization or technology fulfills that contract.
 
-Lifecycle Cards also carry versioned references and provenance; at Atomic Nodes they may identify the relevant automation symbolically.
+Lifecycle Cards also carry versioned references and provenance. Each Atomic Node's Lifecycle Card declares its symbolic automation binding; the service model does not embed executable implementations.
 
 ### 3. Automation Registry
 
@@ -86,7 +86,7 @@ The Automation Registry resolves symbolic automation identities to implementatio
 
 ### 4. Service Model Validator (SMV)
 
-The SMV verifies graph integrity, node references, dependency relationships, and automation registry bindings under the applicable model rules. Invalid or unresolved models cannot be compiled as valid realizations.
+The SMV verifies graph integrity, node references, dependency relationships, and automation binding conformance under the applicable model rules. This validation does not establish whether an external automation implementation is available, ready, or executable. Invalid models cannot be compiled as valid realizations.
 
 ### 5. Compiler
 
@@ -140,7 +140,7 @@ The Service Model is living knowledge; each compiled SOG is a point-in-time arti
 
 **OpenIPERA does not freeze the Service Model. It freezes the provenance of each realization.**
 
-Governance may evaluate whether a proposed realization can proceed and whether its contractual obligations are satisfied. OpenIPERA does not prescribe a policy engine, approval system, or policy language.
+Governance may evaluate whether a proposed realization can proceed and whether its contractual obligations are satisfied. Execution completion, evidence indicating satisfaction of modeled obligations, and formal service acceptance are distinct: OpenIPERA can represent obligations and their supporting evidence, but acceptance remains the decision of an authorized party. OpenIPERA does not prescribe a policy engine, approval system, or policy language.
 
 ## Functional Architecture and Specifications
 
