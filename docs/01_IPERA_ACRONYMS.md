@@ -10,13 +10,13 @@ This is the canonical terminology reference for the OpenIPE architecture reposit
 | **FC** | Functional Component | Capability and responsibility boundary documented in the functional architecture table; not necessarily its own container. |
 | **IPE** | Infrastructure Platform Engineering | Engineering discipline addressed by the architecture. |
 | **IPERA** | Infrastructure Platform Engineering Reference Architecture | The architectural model and principles underlying OpenIPERA. |
-| **LC** | Lifecycle Card | Versioned metadata associated with a modeled service node; expresses obligations, governance, provenance, and applicable automation references. |
+| **LC** | Lifecycle Card | Versioned knowledge associated with a modeled service node; declares obligations for realization, verification, and continuing operation, together with governance and provenance. Atomic Node LCs declare automation bindings. |
 | **OpenIPE** | Open Infrastructure Platform Engineering | Project and repository umbrella for the open architecture effort. |
 | **OpenIPERA** | Open Infrastructure Platform Engineering Reference Architecture | Open implementation of the IPERA concepts, including model validation and SOG compilation; **not** an execution engine. |
 | **SM-DAG** | Service Model Directed Acyclic Graph | Authoritative service-decomposition/dependency graph; source input to validation and compilation, **not** an executable workflow. |
-| **SMV** | Service Model Validator | Independently callable **validation subsystem of the OpenIPERA compiler**; validates bounded modules or request dependency closures. |
+| **SMV** | Service Model Validator | Independently callable validator whose results are consumed by the compiler; supports `OBJECT`, `SERVICE` (dependency closure), and `ALL` validation scopes. |
 | **SN** | Service Node | Nonterminal modeled service that decomposes into subordinate service or atomic nodes. |
-| **SOG** | Service Object Graph | Compiler-generated graph representing operations, dependencies, and milestones necessary to realize a requested service; consumed by external orchestration. |
+| **SOG** | Service Object Graph | Compiler-generated representation of the operational obligations, service dependencies, verification requirements, and continuing lifecycle conditions necessary to fully operationalize a requested service; consumed by external orchestration. |
 | **SOM** | Service Object Model | Authoritative modeled service objects and relationships accessed through a replaceable SOM adapter; **not** the compiled SOG. |
 
 ## Industry acronyms and product names
@@ -55,8 +55,8 @@ This is the canonical terminology reference for the OpenIPE architecture reposit
 |---|---|---|
 | **SM-DAG** | The modeled service structure and its dependencies | An executable orchestration workflow |
 | **SOM** | The authoritative service-model objects and relationships | The compiled operations graph |
-| **SOG** | The operational dependency graph compiled for a particular request | The authoritative service model or an executed workflow |
-| **SMV** | Compiler-internal validation of a bounded model or request | A separately deployed execution or reconciliation service |
+| **SOG** | The compiled operational obligations and their relationships for a particular request | The authoritative service model or an executed workflow |
+| **SMV** | Independent model validation whose output the compiler consumes | Execution, implementation-readiness checking, or operational-state reconciliation |
 | **SN** | A decomposable service node | A terminal automation binding |
 | **AN** | A terminal service node with an automation binding | An independently authored end-to-end workflow |
 | **LC** | A node's lifecycle metadata and governed obligations | A workflow engine or operational state reconciler |
