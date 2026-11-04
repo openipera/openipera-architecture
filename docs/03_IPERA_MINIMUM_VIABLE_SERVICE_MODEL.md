@@ -61,37 +61,33 @@ It MUST NOT mean:
 
 Execution ordering does not belong in the SM-DAG.
 
-A simplified example:
+A simplified example of independently modeled service hierarchies:
 
 ```text
-General Purpose Compute
-   ├── Compute
-   │    └── VM
-   │         ├── CPU
-   │         └── Memory
-   ├── Storage
-   │    └── Provision Disk
-   ├── Network
-   │    ├── Allocate IP
-   │    └── Register DNS
-   ├── Identity
-   │    └── Register with Domain
-   │         └── Join Domain
-   ├── Security
-   │    └── Register with CyberArk
-   │         └── Onboard Account
-   ├── CMDB
-   │    └── Register CI in CMDB
-   │         └── Create CI
-   ├── Boot VM
-   │    └── Power On VM
-   └── Validate VM
-        └── Run VM Validation
+                         ENTERPRISE SERVICE MODEL
+
+  Compute              Storage              Network              Identity
+     |                    |                    |                     |
+     VM              Provision Disk        Allocate IP        Register with
+     |                    (AN)                (AN)               Domain
+     |                                         |                     |
+     +-- CPU                               Register DNS          Join Domain
+     |                                         (AN)                  (AN)
+     +-- Memory
+
+
+  Security                         CMDB
+     |                              |
+  Register with                Register CI
+    CyberArk                     in CMDB
+     |                              |
+  Onboard Account                Create CI
+      (AN)                         (AN)
 ```
 
-This representation says nothing about execution order.
+The columns depict independent service hierarchies, retaining the original example's decomposition relationships. The layout is illustrative; node classifications not explicitly shown are not established by this diagram. Dependencies between these services are declared in their Lifecycle Cards, not by their placement in the diagram. Boot VM and Validate VM are omitted pending separate examination of their appropriate modeling.
 
-It describes decomposition only.
+**OpenIPERA models service boundaries, not organizational boundaries.** These service hierarchies may resemble existing infrastructure ownership stacks, but their structure does not prescribe which teams, providers, or platforms fulfill them. Organizational responsibility remains relevant to governance and accountability without defining service decomposition.
 
 ---
 
