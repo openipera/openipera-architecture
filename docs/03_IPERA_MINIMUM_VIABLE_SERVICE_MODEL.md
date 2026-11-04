@@ -104,7 +104,7 @@ atomic
 
 A **Service Node** may decompose into additional service-model constructs.
 
-An **Atomic Node** is the lowest-level service-model construct. It represents the boundary at which service-model resolution terminates and executable automation begins.
+An **Atomic Node** is a terminal service-model construct with no further service decomposition. Its companion Lifecycle Card declares the binding to an external atomic automation capability.
 
 Every SM-DAG node also contains a unique `lc_id` identifying its companion Lifecycle Card.
 
@@ -133,6 +133,10 @@ Example Atomic Node:
 `node_type` is intentionally explicit.
 
 The model does not attempt to infer whether a node is atomic merely by examining other attributes. Explicit node typing improves human readability and provides an independent assertion that can be validated against the companion Lifecycle Card.
+
+Node identity is established by identifiers, not by human-readable names. Identifier collisions and invalid references are model-integrity failures; duplicate or inconsistent names do not, by themselves, invalidate a model. The SMV MAY report naming ambiguities or inconsistencies as nonfatal diagnostic warnings, taking naming scope into account. A valid model may therefore pass validation with warnings.
+
+The examples above use descriptive `node_id` values. This section does not impose UUID formatting on `node_id`; UUID-based automation binding integrity is specified separately.
 
 ---
 
