@@ -22,23 +22,20 @@ The compiled Service Object Graph represents the obligations necessary to fully 
 
 ---
 
-## 2. Three Relationships
+## 2. Two Authored Relationships
 
-The Minimum Viable Service Model distinguishes three fundamentally different relationships.
+The Minimum Viable Service Model distinguishes two independently authored relationships.
 
-| Construct | Relationship | Meaning |
+| Source | Relationship | Meaning |
 |---|---|---|
-| Service Model DAG edge | **decomposes into** | This service is structurally composed of these subordinate service-model constructs. |
-| Lifecycle Card service dependency | **depends upon service** | Realizing this service requires another service to be realized. |
-| Execution DAG edge | **must be realized before** | One realization activity must precede another as a consequence of the model. |
+| Service Model DAG edge | **decomposes into** | Defines the structural decomposition of a service. |
+| Lifecycle Card service dependency | **depends upon service** | Declares another service required to fulfill the node's obligations. |
 
-The first two relationships are authored.
+The SMV validates the consistency of these independently authored assertions. The compiler consumes the validated model and produces the Service Object Graph (SOG) for a particular realization.
 
-The third is derived.
+The SOG is a derived, ephemeral compilation artifact, not a third authored relationship or an authoritative source of service knowledge. A compiled SOG and its provenance may be retained for audit without changing that distinction.
 
-This distinction is fundamental to IPERA.
-
-A service author describes decomposition and service dependencies. The Service Model Validator derives the resulting execution relationships.
+Neither authored relationship prescribes execution sequencing.
 
 ---
 
