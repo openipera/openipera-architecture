@@ -425,7 +425,7 @@ This separation allows architectural decomposition and realization dependencies 
 
 An Atomic Node is the lowest-level service-model construct in IPERA.
 
-An Atomic Node represents a discrete lifecycle action and binds that action to an external, version-controlled automation artifact.
+An Atomic Node is a terminal service-model construct representing a discrete atomic capability. Its companion Lifecycle Card binds that capability to an external, version-controlled automation implementation.
 
 The Atomic Node does not contain executable automation.
 
@@ -466,7 +466,9 @@ For example:
 }
 ```
 
-The `automation_id` MUST resolve through an Automation Registry or equivalent binding mechanism to a valid, version-controlled automation implementation.
+The `automation_id` MUST resolve to an existing Automation Registry entry. The registry entry MUST reference an artifact that exists and can be resolved by the Service Model Validator.
+
+The SMV validates reference integrity and artifact existence. It does not interpret, validate, or execute the artifact's contents. Artifact suitability and operational correctness are responsibilities of subsequent realization and execution capabilities.
 
 Conceptually:
 
@@ -512,9 +514,9 @@ Therefore, the full architectural context of an automation reference does not ne
 For example, the model may contain:
 
 ```text
-General Purpose Compute
-   └── Storage
-        └── Provision Disk
+Storage (SN)
+   |
+   +-- Provision Disk (AN)
 ```
 
 with:
@@ -527,7 +529,7 @@ automation_id:   a8f21764-9e31-4e8c-91a5-3c572cb614ef
 A human-facing canonical representation such as:
 
 ```text
-general-purpose-compute.storage.provision-disk.provision-disk-a8f21764-9e31-4e8c-91a5-3c572cb614ef
+storage.provision-disk.provision-disk-a8f21764-9e31-4e8c-91a5-3c572cb614ef
 ```
 
 can be derived when useful.
@@ -538,7 +540,7 @@ This avoids duplicating architectural context and prevents an automation identit
 
 ### Resolution Is Not Execution
 
-Successful resolution of an `automation_id` establishes that the Atomic Node has an identifiable automation implementation.
+Successful resolution of an `automation_id` and verification that its referenced artifact exists establish binding integrity at validation time. The artifact may be an ordinary text file; its contents are not evaluated by the SMV.
 
 It does not establish that the automation will execute successfully.
 
@@ -551,9 +553,9 @@ automation_name exists
         ↓
 automation_id is a valid UUID
         ↓
-automation_id resolves
+automation_id resolves to an existing registry entry
         ↓
-binding identifies automation implementation
+referenced artifact exists and can be resolved
 ```
 
 Runtime execution establishes whether:
