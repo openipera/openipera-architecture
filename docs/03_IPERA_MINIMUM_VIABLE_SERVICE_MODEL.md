@@ -786,68 +786,66 @@ For an Atomic Node to be realizable, its companion Lifecycle Card MUST contain b
 
 ## 12. Worked Example: General Purpose Compute
 
-Consider the following decomposition:
+**General Purpose Compute (GPC)** is a reusable, cataloged Service Node with its own Lifecycle Card. It can be requested directly by an authorized consumer, such as IT Operations, or referenced as a service dependency by a higher-level service, such as an application deployment.
+
+Both paths use the same authoritative GPC service definition. A request supplies the parameters needed for a particular realization; it does not create a new GPC service definition.
+
+Conceptually:
 
 ```text
-General Purpose Compute
-   ├── Compute
-   │    └── VM
-   │         ├── CPU
-   │         └── Memory
-   ├── Storage
-   │    └── Provision Disk
-   ├── Network
-   │    ├── Allocate IP
-   │    └── Register DNS
-   ├── Identity
-   │    └── Register with Domain
-   │         └── Join Domain
-   ├── Security
-   │    └── Register with CyberArk
-   │         └── Onboard Account
-   ├── CMDB
-   │    └── Register CI in CMDB
-   │         └── Create CI
-   ├── Boot VM
-   │    └── Power On VM
-   └── Validate VM
-        └── Run VM Validation
+Higher-Level Service Request       Direct IT Ops Request
+       (e.g., Epic)                       |
+            |                             |
+            v                             |
+     General Purpose Compute <------------+
+            |
+            v
+      GPC Lifecycle Card
+            |
+            +-- Compute services
+            +-- Storage services
+            +-- Network services
+            +-- Other required services
 ```
 
-This is the SM-DAG.
+GPC is **not** the decomposition parent of Compute, Storage, Network, Identity, Security, or CMDB. Those capabilities remain in their own service hierarchies. GPC's Lifecycle Card declares the services required to realize GPC.
 
-It describes decomposition only.
-
-Representative service dependencies might include:
+For example, the SM-DAG may contain independent service hierarchies:
 
 ```text
-General Purpose Compute [Compute, Storage, Network, Identity, Security, CMDB]
+General Purpose Compute (SN)
 
-Compute [VM]
+Compute (SN)                 Storage (SN)
+   └── VM (SN)                  └── Provision Disk (AN)
+        ├── CPU (AN)
+        └── Memory (AN)
 
-VM [Storage, Network, CPU, Memory]
+Network (SN)                 Identity (SN)
+   ├── Allocate IP (AN)         └── Register with Domain (SN)
+   └── Register DNS (AN)             └── Join Domain (AN)
 
-Identity [Register with Domain]
-
-Security [Register with CyberArk]
-
-CMDB [Register CI in CMDB]
-
-Register with Domain [Validate VM]
-
-Register with CyberArk [Register with Domain]
-
-Register CI in CMDB [Validate VM]
+Security (SN)                CMDB (SN)
+   └── Register with CyberArk (SN)  └── Register CI in CMDB (SN)
+        └── Onboard Account (AN)         └── Create CI (AN)
 ```
 
-These assertions still do not define a workflow.
+Representative Lifecycle Card service dependencies may include:
 
-They define service dependencies.
+```text
+General Purpose Compute [VM, Provision Disk, Allocate IP,
+                         Register with Domain, Register with CyberArk,
+                         Register CI in CMDB]
 
-The Service Model Validator determines the resulting Execution DAG.
+Create VM [Allocate IP]
+```
+
+These are illustrative assertions, not a mandatory dependency list for every GPC contract. Dependencies are declared in Lifecycle Cards; they do not turn independently governed service hierarchies into decomposition children of GPC.
+
+The Service Model Validator checks the authored decomposition and dependencies for validity, including circular realization requirements and resolvable atomic automation bindings. The Compiler resolves the validated service model into a Service Object Graph (SOG). The Orchestrator consumes the SOG to construct executable workflows.
+
+The authored assertions describe service knowledge and realization obligations, **not a prescribed workflow**.
 
 ---
-
 ## 13. Concrete SM-DAG Representation
 
 A portion of the preceding SM-DAG could be represented as:
