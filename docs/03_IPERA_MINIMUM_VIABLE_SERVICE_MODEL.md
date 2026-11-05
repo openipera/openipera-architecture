@@ -395,23 +395,23 @@ The second authors a service dependency.
 
 Service dependencies may cross SM-DAG decomposition branches.
 
-For example:
+For example, Compute and Network are independent service hierarchies:
 
 ```text
-General Purpose Compute
-   ├── Compute
-   │    └── VM
-   ├── Storage
-   └── Network
+Compute                    Network
+   |                          |
+Virtual Machine (SN)     Allocate IP (AN)
+   |
+Create VM (AN)
 ```
 
-The VM Lifecycle Card may declare:
+The Create VM Lifecycle Card may declare:
 
 ```text
-VM [Storage, Network, CPU, Memory]
+Create VM [Allocate IP]
 ```
 
-This does not require Storage or Network to be duplicated beneath VM in the SM-DAG.
+Create VM remains under Compute, and Allocate IP remains under Network. The dependency is declared in the Create VM Lifecycle Card, not as a decomposition edge. The Compiler resolves this cross-branch dependency into the derived Service Object Graph (SOG).
 
 The SM-DAG describes decomposition.
 
