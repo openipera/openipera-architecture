@@ -597,9 +597,11 @@ automation_id: a8f21764-9e31-4e8c-91a5-3c572cb614ef
 
 is structurally consistent.
 
+An empty `service_dependencies` collection is valid for an Atomic Node but is not required; atomicity is determined by the absence of further SM-DAG decomposition, not by the absence of service dependencies.
+
 However, structural consistency does not yet establish realizability.
 
-The UUID must also resolve through the authoritative Automation Registry or equivalent binding mechanism.
+The `automation_id` MUST resolve through the authoritative Automation Registry to its referenced automation artifact. The SMV MUST reject unresolved bindings and distinguish resolution failures by their cause. It does not inspect or evaluate the artifact's contents.
 
 The governing rule is:
 
