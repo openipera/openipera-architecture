@@ -177,7 +177,7 @@ A Domain or Service SME subsequently authors the realization content of that alr
 Conceptually:
 
 ```text
-Service Architect
+Service owner / Domain SME
       │
       │ creates node
       ▼
@@ -189,7 +189,7 @@ Companion LC Stub
       │
       │ SME authors realization knowledge
       ▼
-Completed Lifecycle Card
+Validated Lifecycle Card
 ```
 
 This establishes the governing precedence:
@@ -204,7 +204,7 @@ REALIZATION KNOWLEDGE IS AUTHORED
 
 There is no Lifecycle Card, in the architectural sense, for a service-model construct that does not exist.
 
-The Service Architect is authoritative for decomposition. Domain and Service SMEs are authoritative for realization assertions. Those assertions remain independent even though the companion LC object is instantiated as a consequence of node creation.
+Service owners and Domain SMEs are authoritative for the service knowledge, decompositions, and realization assertions they author. Catalog publication authority is distinct from authorship: Platform Engineering (PE) governs the Application Service Catalog, while Infrastructure Platform Engineering (IPE) governs the Infrastructure Service Catalog. Each catalog authority controls acceptance, publication, and authoritative catalog state within its scope; it does not thereby become the author of the underlying domain assertions. These assertions remain independent even though the companion LC object is instantiated as a consequence of node creation.
 
 > **Authority over an assertion is not authority over creation of the object containing that assertion.**
 
@@ -224,20 +224,13 @@ The `lc_id` associates the Lifecycle Card with the SM-DAG node.
 
 The `node_id` provides an independent assertion of which SM-DAG node the card describes.
 
-`service_dependencies` is populated only on LCs for Service Nodes and may reference
-Service Nodes only. It records the Domain or Service SME's independent assertion of
-what services are required for realization. Atomic Node LCs contain an empty list;
-service dependency resolution terminates at their automation boundary.
+`service_dependencies` is populated on LCs for non-atomic Service Nodes and may reference any valid service-model node, including Atomic Nodes. It records the responsible service owner or SME's independent assertion of what modeled services are required for realization. Atomic Node LCs contain an empty list; service dependency resolution terminates at their automation boundary. An Atomic Node may be referenced by other nodes without acquiring dependencies of its own.
 
-The SM-DAG is authored by the Service Architect from the top down. Companion LC
-objects are instantiated with their SM-DAG nodes; the realization assertions within
-those LCs are authored by Domain or Service SMEs from the bottom up. A dependency
-that matches direct or transitive decomposition may be intentional corroboration,
-not redundant data.
+Service decompositions are authored by their responsible service owners or Domain SMEs, subject to the acceptance and authoritative-state governance of the applicable catalog. Companion LC objects are instantiated atomically with their SM-DAG nodes; realization assertions within those LCs are independently authored by the responsible SMEs. A dependency that matches direct or transitive decomposition may be intentional corroboration, not redundant data.
 
 `automation_name` provides the human-readable name of automation associated with an Atomic Node.
 
-`automation_id` provides the immutable machine identity of that automation.
+`automation_id` provides the immutable machine identity of that automation. The SMV validates the binding's structural and referential integrity, including resolution of the UUID in the automation registry. This validation does not establish that the external automation is operational, executable, or able to satisfy the service obligations. If a valid UUID resolves but `automation_name` differs from the registry's descriptive name, the SMV reports a nonfatal diagnostic warning rather than failing validation.
 
 Every Lifecycle Card MUST contain both the `automation_name` and `automation_id` keys.
 
@@ -254,6 +247,10 @@ For an Atomic Node:
 automation_name = populated
 automation_id   = populated UUID
 ```
+
+For a non-atomic Service Node, service-dependency resolution applies and automation binding is absent. For an Atomic Node, service-dependency resolution terminates and the automation binding is required. These resolution mechanisms are mutually exclusive by node type.
+
+LC completeness is a derived, version-specific result of successful SMV validation of all mandatory fields, assertions, and references applicable to its node type; it is not an authored completion status. A validated LC is not thereby operationally ready or proof of service realization.
 
 The architectural location of the Atomic Node is not encoded in either automation field. That context is already represented by the Atomic Node's location in the SM-DAG and can therefore be derived.
 
