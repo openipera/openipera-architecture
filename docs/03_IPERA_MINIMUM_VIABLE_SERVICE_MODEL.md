@@ -282,6 +282,24 @@ A minimum Atomic Node Lifecycle Card is:
 }
 ```
 
+### Valid Atomic Node Lifecycle Card with a Service Dependency
+
+The following is a **valid** Atomic Node Lifecycle Card. Although an Atomic Node is terminal in the SM-DAG decomposition hierarchy, its Lifecycle Card may declare dependencies on other modeled services, including other Atomic Nodes. These dependencies do not constitute further decomposition and are not required for every Atomic Node.
+
+```json
+{
+  "lc_id": "lc-an-create-vm",
+  "node_id": "an-create-vm",
+  "service_dependencies": [
+    "an-allocate-ip-address"
+  ],
+  "automation_name": "create-vm",
+  "automation_id": "550e8400-e29b-41d4-a716-446655440000"
+}
+```
+
+The dependency target and automation UUID shown here are illustrative; in an actual model they must resolve to a valid service-model node and registered automation capability, respectively.
+
 ### `automation_name`
 
 `automation_name` is a human-readable name for the automation capability.
