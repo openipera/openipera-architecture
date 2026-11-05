@@ -848,28 +848,20 @@ The authored assertions describe service knowledge and realization obligations, 
 ---
 ## 13. Concrete SM-DAG Representation
 
-A portion of the preceding SM-DAG could be represented as:
+The Storage service hierarchy introduced in Section 12 can be represented as:
 
 ```json
 {
-  "node_id": "general-purpose-compute",
-  "name": "General Purpose Compute",
+  "node_id": "storage",
+  "name": "Storage",
   "node_type": "service",
-  "lc_id": "lc-general-purpose-compute",
+  "lc_id": "lc-storage",
   "children": [
     {
-      "node_id": "storage",
-      "name": "Storage",
-      "node_type": "service",
-      "lc_id": "lc-storage",
-      "children": [
-        {
-          "node_id": "an-provision-disk",
-          "name": "Provision Disk",
-          "node_type": "atomic",
-          "lc_id": "lc-an-provision-disk"
-        }
-      ]
+      "node_id": "an-provision-disk",
+      "name": "Provision Disk",
+      "node_type": "atomic",
+      "lc_id": "lc-an-provision-disk"
     }
   ]
 }
@@ -878,8 +870,6 @@ A portion of the preceding SM-DAG could be represented as:
 The SM-DAG says:
 
 ```text
-General Purpose Compute
-decomposes into
 Storage
 decomposes into
 Provision Disk
@@ -888,7 +878,6 @@ Provision Disk
 It says nothing about when Provision Disk executes.
 
 ---
-
 ## 14. Concrete Lifecycle Card Registry
 
 The corresponding Lifecycle Cards could include:
