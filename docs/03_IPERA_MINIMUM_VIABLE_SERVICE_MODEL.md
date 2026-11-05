@@ -676,6 +676,14 @@ The model is allowed to be wrong.
 
 The validator is not allowed to pretend that it is right.
 
+### Circular Service-Realization Dependency
+
+The SMV MUST detect and reject circular service-realization dependencies, including cycles arising from the combination of SM-DAG decomposition relationships and Lifecycle Card service dependencies.
+
+The SMV MUST identify the participating nodes and relationships in its validation report so the model author can locate and correct the circular reference. For example, a report may show `A → B → C → A` and identify each relationship as decomposition or service dependency.
+
+Cycle detection establishes logical consistency. It does not prescribe execution order or construct an executable workflow.
+
 ### Atomic Node With No Automation Binding
 
 ```text
