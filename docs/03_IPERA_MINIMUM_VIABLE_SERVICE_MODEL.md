@@ -939,7 +939,7 @@ Register with CyberArk
 Register CI in CMDB
 ```
 
-These remain Service Nodes when they have subordinate service-model constructs.
+An action-oriented capability is a Service Node when it has further SM-DAG decomposition, or an Atomic Node when it is terminal and has an automation binding.
 
 For example:
 
@@ -957,7 +957,7 @@ Power On VM   = atomic
 
 The Boot VM Lifecycle Card may declare service dependencies.
 
-The Power On VM Lifecycle Card terminates service-model resolution and identifies automation:
+Power On VM is terminal in the SM-DAG decomposition. Its companion Lifecycle Card identifies the automation binding and may also declare service dependencies:
 
 ```json
 {
@@ -973,28 +973,26 @@ No additional `action` node type is required by the Minimum Viable Service Model
 
 ---
 
-## 15A. Independent Authority Comparison
+## 15A. Independent Validation of Service Knowledge
 
-The Service Architect authors the SM-DAG decomposition. Domain or Service SMEs
-author LC realization requirements. These are independent authorities: the same
-Service Node relationship may appear in both without being an invalid duplicate.
+The SM-DAG and Lifecycle Cards provide complementary assertions, not competing representations of the same relationships. Domain and service authors or SMEs contribute service-model decomposition, Lifecycle Card requirements, and automation knowledge under the governance of the appropriate service catalog authority (PE or IPE, as applicable).
 
-| SM-DAG | LC | SMV status | Meaning |
-|---|---|---|---|
-| YES | YES | CORROBORATED | Architecture and SME both assert the relationship. |
-| YES | NO | UNCORROBORATED | Architecture asserts a relationship the SME did not. |
-| NO | YES | UNMODELED | SME asserts a requirement absent from decomposition. |
-| NO | NO | No finding | Neither authority asserts the relationship. |
+**A Lifecycle Card's association with its Service Node is established by identity. Its service dependencies need not repeat the node's SM-DAG decomposition. The SMV validates both relationships independently and evaluates their combined consistency.**
 
-The SMV compares architectural decomposition with the corresponding Service Node
-LC in both directions. It reports discrepancies without inferring their cause or
-altering either source. A discrepancy is information before it is an error. A
-structurally valid model can contain unresolved disagreement. Governing policy
-separately determines whether a finding is informational, requires review, or
-blocks compilation. IPERA does not yet prescribe that governance policy.
+The SMV validates at least these distinct aspects:
+
+| Validation area | SMV responsibility |
+|---|---|
+| Node/LC association | Every service-model node has exactly one corresponding Lifecycle Card, with matching identities. |
+| Decomposition integrity | SM-DAG decomposition relationships are structurally valid; Atomic Nodes have no decomposition children. |
+| Dependency integrity | LC service dependencies reference valid services and do not create circular service-realization requirements, including when combined with decomposition relationships. |
+| Binding integrity | Atomic Node automation references resolve through the authoritative Automation Registry to their referenced artifacts. |
+
+A decomposition child need not be repeated in the parent node's LC `service_dependencies` collection. Conversely, an LC dependency on a service in another hierarchy does not imply that the service is a decomposition child.
+
+These checks preserve independent validation without treating the absence of duplicated assertions as a discrepancy.
 
 ---
-
 ## 16. Service Model Validator
 
 The Service Model Validator (SMV) is a reusable IPERA capability that independently evaluates an authoritative Service Model, derives the resulting Execution DAG, identifies structural inconsistencies, and renders the graph for SME review and validation before runtime orchestration.
