@@ -888,12 +888,12 @@ The corresponding Lifecycle Cards could include:
     "lc_id": "lc-general-purpose-compute",
     "node_id": "general-purpose-compute",
     "service_dependencies": [
-      "compute",
-      "storage",
-      "network",
-      "identity",
-      "security",
-      "cmdb"
+      "vm",
+      "an-provision-disk",
+      "an-allocate-ip",
+      "register-with-domain",
+      "register-with-cyberark",
+      "register-ci-in-cmdb"
     ],
     "automation_name": null,
     "automation_id": null
@@ -915,9 +915,11 @@ The corresponding Lifecycle Cards could include:
 ]
 ```
 
-The Lifecycle Cards describe realization semantics.
+The Lifecycle Cards describe realization semantics. The GPC dependencies above are illustrative service identifiers; each must correspond to an existing node in a complete, validated service model.
 
-The SM-DAG and Lifecycle Cards together constitute the minimum information required by the Service Model Validator to derive execution consequences.
+An empty `service_dependencies` collection means the Lifecycle Card declares no additional service dependencies; it does not negate decomposition relationships in the SM-DAG.
+
+The SM-DAG and Lifecycle Cards together provide the authored service knowledge validated by the Service Model Validator. The Compiler uses the validated model to derive the Service Object Graph (SOG), which represents the service-realization obligations.
 
 ---
 
