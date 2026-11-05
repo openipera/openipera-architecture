@@ -1010,58 +1010,31 @@ The SMV does not own or silently repair the authoritative model. Service authors
 The SMV remains independent of the eventual orchestration platform and can serve as a vendor-neutral model-conformance capability.
 
 ---
-## 17. Execution DAG
+## 17. Service Object Graph (SOG)
 
-The Execution DAG is compiled output from the validated Service Model. It is derived.
+The Service Object Graph (SOG) is a derived, request-specific representation of the obligations necessary to realize and operationalize a service.
 
-It is not authored, persistent architectural truth, or itself an executable
-pipeline. It contains derived realization relationships and symbolic automation
-identities for later linking.
+It is compiled from the validated Service Model, including SM-DAG decomposition, Lifecycle Card service dependencies, and applicable lifecycle obligations.
+
+The SOG is not an authored service model, a persistent source of architectural truth, or an executable workflow.
 
 It answers:
 
-> **What must happen, and in what dependency order, to realize this request?**
+> **What must be satisfied to fully realize and operationalize this service request?**
 
-The SMV derives the Execution DAG from:
+The Compiler produces the SOG. The Orchestrator consumes it and constructs executable workflows using the available execution capabilities.
 
-```text
-Service Model DAG
-        +
-Lifecycle Cards
-        +
-validated automation bindings
-```
+The SOG may represent service dependencies, atomic automation bindings, governance requirements, approvals, verification, and evidence obligations. Not every obligation must correspond to an independently executable automation step.
 
-The resulting graph may contain both Service Nodes and Atomic Nodes.
+The SOG's realization dependency relationships MUST be acyclic. The SMV detects circular requirements in the authored model before compilation; the Compiler does not silently correct them.
 
-Execution relationships are consequences of:
+The SMV verifies that atomic automation bindings are resolvable at validation time. The Orchestrator and execution layer resolve or retrieve the referenced implementations as needed for runtime execution. Successful validation does not guarantee runtime availability or operational correctness.
 
-- decomposition,
-- service dependencies,
-- Atomic Node boundaries,
-- valid automation bindings.
+The SOG may be retained as a derived artifact for provenance, audit, and replay without becoming an authoritative source of service-model truth.
 
-The Execution DAG must be acyclic.
-
-The persistent model may contain errors, including cycles.
-
-Those errors are detected during validation.
-
-The Orchestrator consumes the compiled Execution DAG, resolves the symbolic
-automation identities to implementations, links the required modules into an
-executable pipeline, and dispatches runnable work. The Execution Capability runs
-that work and returns state and evidence. The SMV validates that an automation
-identity resolves to a version-controlled capability; physical runtime linking
-is the Orchestrator's responsibility. Changing the implementation behind the same
-identity does not change Service Model truth.
-
-**Architectural separation does not require product separation. The compiler,
-linker, and runtime are distinct functional responsibilities, but a conforming
-implementation may provide multiple responsibilities within a single platform,
-provided the architectural boundaries and authoritative sources remain preserved.**
+**Architectural separation does not require product separation.** The SMV, Compiler, Orchestrator, and execution capabilities are distinct functional responsibilities, but an implementation may combine them within one platform while preserving their boundaries and authoritative sources.
 
 ---
-
 ## 18. Authoring Rule
 
 Service-model construction MUST follow the precedence defined in Section 5:
