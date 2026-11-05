@@ -995,40 +995,21 @@ These checks preserve independent validation without treating the absence of dup
 ---
 ## 16. Service Model Validator
 
-The Service Model Validator (SMV) is a reusable IPERA capability that independently evaluates an authoritative Service Model, derives the resulting Execution DAG, identifies structural inconsistencies, and renders the graph for SME review and validation before runtime orchestration.
+The Service Model Validator (SMV) is an independently callable, reusable OpenIPERA capability that evaluates an authoritative Service Model for structural and semantic consistency before compilation.
 
-The SMV is the compiler of the Service Model. It reads the independently authored
-SM-DAG and LCs, validates references and semantics, performs forward and reverse
-comparison, diagnoses disagreements, and compiles the Execution DAG when policy
-permits. It does not silently repair either authoritative source.
+The SMV consumes the independently authored SM-DAG and companion Lifecycle Cards. It validates node identities and types, node/LC associations, decomposition relationships, service dependencies, automation bindings, and the resolvability of referenced automation artifacts.
 
-The SMV:
+The SMV MUST detect circular service-realization requirements, including cycles arising from the combination of SM-DAG decomposition and LC service dependencies.
 
-- consumes the model,
-- does not own the model,
-- validates SM-DAG structure,
-- validates Lifecycle Card bindings,
-- validates node-type invariants,
-- validates service dependencies,
-- validates automation identity structure,
-- validates automation binding resolution,
-- detects missing references,
-- detects cycles,
-- derives execution relationships,
-- renders the result for human review.
+The SMV produces structured validation results identifying inconsistencies, affected nodes, relationships, and failure causes. Those results may be rendered for human review.
 
-The SMV MUST NOT silently repair semantic model errors.
+The SMV does not own or silently repair the authoritative model. Service authors and domain SMEs are responsible for authored service knowledge under the applicable catalog governance authority.
 
-Subject Matter Experts own domain truth.
+**The SMV validates; the Compiler derives the SOG; the Orchestrator constructs executable workflows.**
 
-The validator determines whether the supplied model is internally consistent and whether its declared Atomic Nodes can be resolved to identifiable automation implementations.
-
-The SMV is independent of the eventual orchestration platform.
-
-This makes it useful both as a model-validation capability and as a vendor-neutral conformance oracle.
+The SMV remains independent of the eventual orchestration platform and can serve as a vendor-neutral model-conformance capability.
 
 ---
-
 ## 17. Execution DAG
 
 The Execution DAG is compiled output from the validated Service Model. It is derived.
