@@ -224,7 +224,7 @@ The `lc_id` associates the Lifecycle Card with the SM-DAG node.
 
 The `node_id` provides an independent assertion of which SM-DAG node the card describes.
 
-`service_dependencies` is populated on LCs for non-atomic Service Nodes and may reference any valid service-model node, including Atomic Nodes. It records the responsible service owner or SME's independent assertion of what modeled services are required for realization. Atomic Node LCs contain an empty list; service dependency resolution terminates at their automation boundary. An Atomic Node may be referenced by other nodes without acquiring dependencies of its own.
+`service_dependencies` may be populated on LCs for either Service Nodes or Atomic Nodes and may reference any valid service-model node, including Atomic Nodes. It records the responsible service owner or SME's independent assertion of what modeled services are required for realization. A service dependency does not constitute SM-DAG decomposition: an Atomic Node remains terminal in the decomposition hierarchy even when its LC declares dependencies on other modeled services. The SMV validates these relationships independently.
 
 Service decompositions are authored by their responsible service owners or Domain SMEs, subject to the acceptance and authoritative-state governance of the applicable catalog. Companion LC objects are instantiated atomically with their SM-DAG nodes; realization assertions within those LCs are independently authored by the responsible SMEs. A dependency that matches direct or transitive decomposition may be intentional corroboration, not redundant data.
 
@@ -248,7 +248,7 @@ automation_name = populated
 automation_id   = populated UUID
 ```
 
-For a non-atomic Service Node, service-dependency resolution applies and automation binding is absent. For an Atomic Node, service-dependency resolution terminates and the automation binding is required. These resolution mechanisms are mutually exclusive by node type.
+For a non-atomic Service Node, automation binding is absent. For an Atomic Node, further SM-DAG decomposition terminates and the automation binding is required. Either node type may declare service dependencies in its LC; dependency resolution and automation binding are not mutually exclusive. An LC may also declare lifecycle obligations independently of decomposition and dependencies.
 
 LC completeness is a derived, version-specific result of successful SMV validation of all mandatory fields, assertions, and references applicable to its node type; it is not an authored completion status. A validated LC is not thereby operationally ready or proof of service realization.
 
