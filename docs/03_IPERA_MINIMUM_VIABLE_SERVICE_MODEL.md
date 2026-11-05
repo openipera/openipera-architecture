@@ -369,9 +369,7 @@ means:
 
 > Register with Domain depends upon the Validate VM service.
 
-The model does not prescribe the resulting execution sequence.
-
-The Service Model Validator determines the operational consequence of that assertion when it derives the Execution DAG.
+The service dependency does not prescribe an execution sequence. The Service Model Validator validates the dependency, and the Compiler incorporates it into the derived Service Object Graph (SOG). The Orchestrator subsequently determines how the service requirements are realized through executable workflows.
 
 The author therefore describes service truth rather than workflow.
 
