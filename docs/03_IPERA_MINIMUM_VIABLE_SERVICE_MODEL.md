@@ -666,7 +666,7 @@ Lifecycle Card references an unknown service.
 
 Duplicate identifiers that are required to be unique within their authoritative namespace MUST be rejected.
 
-This includes duplicate SM-DAG node identities, Lifecycle Card identities, and automation UUIDs where the registry requires uniqueness.
+This includes duplicate SM-DAG node identities and Lifecycle Card identities. Each automation UUID uniquely identifies a registry entry, but multiple Atomic Node Lifecycle Cards MAY reference the same automation UUID to reuse an automation implementation. Such shared references are not duplicate identities.
 
 ### Service Dependency Cycle
 
@@ -734,6 +734,19 @@ DENIED:
 Atomic Node automation_id does not resolve to a registered automation binding.
 ```
 
+### Unresolved Automation Artifact
+
+```text
+Automation Registry:
+UUID found
+Referenced artifact: NOT RESOLVABLE
+
+DENIED:
+Automation binding does not resolve to its referenced artifact.
+```
+
+The SMV verifies resolvability, not the artifact's contents or operational correctness.
+
 ### Service Node Bound Directly to Automation
 
 ```text
@@ -746,17 +759,18 @@ Service Node may not bind directly to automation.
 Declare an Atomic Node.
 ```
 
-### Atomic Node With Service Dependencies
+### Atomic Node With Further Decomposition
 
 ```text
 node_type: atomic
-service_dependencies:
-  - storage
+SM-DAG children:
+  - another-node
 
 DENIED:
-Atomic Node declares further service dependencies.
-Atomic Nodes terminate service-model resolution.
+Atomic Node cannot have decomposition children.
 ```
+
+Atomic Nodes may declare service dependencies through their companion Lifecycle Cards; atomicity prohibits further SM-DAG decomposition, not service dependencies.
 
 For an Atomic Node to be realizable, its companion Lifecycle Card MUST contain both an `automation_name` and a valid UUID `automation_id`, and that `automation_id` MUST resolve through the authoritative Automation Registry or equivalent binding mechanism.
 
