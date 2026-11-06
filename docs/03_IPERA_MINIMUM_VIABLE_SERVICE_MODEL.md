@@ -1173,21 +1173,38 @@ This is an important architectural property:
 
 ## 22. Minimum Viable Model Principle
 
-The Minimum Viable Service Model intentionally contains only enough information to describe:
+The Minimum Viable Service Model preserves the knowledge required to describe a service, its decomposition, dependencies, lifecycle obligations, and atomic automation bindings. It does not prescribe an execution workflow.
+
+The distinction between authored service knowledge and derived realization can be summarized as:
 
 ```text
+SERVICE KNOWLEDGE
+
 WHAT THE SERVICE IS
         ↓
-WHAT THE SERVICE REQUIRES
+HOW THE SERVICE DECOMPOSES
         ↓
-WHERE SERVICE RESOLUTION TERMINATES
+WHAT THE SERVICE DEPENDS UPON
         ↓
-WHICH AUTOMATION CAPABILITY IS REQUIRED
+WHAT OBLIGATIONS MUST BE SATISFIED
         ↓
-WHAT MUST HAPPEN
+WHERE ATOMIC AUTOMATION BINDINGS EXIST
+
+
+DERIVED REALIZATION
+
+VALIDATE SERVICE KNOWLEDGE
         ↓
-HOW THE WORK IS EXECUTED
+COMPILE SERVICE OBJECT GRAPH
+        ↓
+ORCHESTRATE SATISFACTION OF OBLIGATIONS
+        ↓
+EXECUTE REQUIRED AUTOMATION
+        ↓
+COLLECT STATE AND EVIDENCE
 ```
+
+These arrows express conceptual progression, not a mandatory sequential execution workflow.
 
 The Service Model should not become an orchestration workflow.
 
@@ -1201,8 +1218,14 @@ The automation UUID should not encode architectural location or implementation d
 
 The Automation Registry should resolve identity to implementation without changing service-model truth.
 
-The Execution DAG should not become persistent architectural truth.
+The SOG may be retained as a point-in-time realization artifact, but it must not replace the authoritative Service Model.
 
-Each construct has one job.
+The SMV must not assume the Compiler's responsibility.
 
-That separation is the foundation of the IPERA Minimum Viable Service Model.
+The Compiler must not assume the Orchestrator's responsibility.
+
+These are functional boundaries, not mandatory product boundaries: one implementation may provide multiple architectural capabilities while preserving their distinct responsibilities.
+
+**The Service Model preserves knowledge of the system. The SOG represents the obligations required to realize that knowledge for a particular request. Orchestration and automation satisfy those obligations.**
+
+**OpenIPERA models the system. Orchestration and automation operate the system.**
