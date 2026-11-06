@@ -973,7 +973,7 @@ No additional `action` node type is required by the Minimum Viable Service Model
 
 ---
 
-## 15A. Independent Validation of Service Knowledge
+## 16. Independent Validation of Service Knowledge
 
 The SM-DAG and Lifecycle Cards provide complementary assertions, not competing representations of the same relationships. Domain and service authors or SMEs contribute service-model decomposition, Lifecycle Card requirements, and automation knowledge under the governance of the appropriate service catalog authority (PE or IPE, as applicable).
 
@@ -993,7 +993,7 @@ A decomposition child need not be repeated in the parent node's LC `service_depe
 These checks preserve independent validation without treating the absence of duplicated assertions as a discrepancy.
 
 ---
-## 16. Service Model Validator
+## 17. Service Model Validator
 
 The Service Model Validator (SMV) is an independently callable, reusable OpenIPERA capability that evaluates an authoritative Service Model for structural and semantic consistency before compilation.
 
@@ -1010,7 +1010,7 @@ The SMV does not own or silently repair the authoritative model. Service authors
 The SMV remains independent of the eventual orchestration platform and can serve as a vendor-neutral model-conformance capability.
 
 ---
-## 17. Service Object Graph (SOG)
+## 18. Service Object Graph (SOG)
 
 The Service Object Graph (SOG) is a derived, request-specific representation of the obligations necessary to realize and operationalize a service.
 
@@ -1035,7 +1035,7 @@ The SOG may be retained as a derived artifact for provenance, audit, and replay 
 **Architectural separation does not require product separation.** The SMV, Compiler, Orchestrator, and execution capabilities are distinct functional responsibilities, but an implementation may combine them within one platform while preserving their boundaries and authoritative sources.
 
 ---
-## 18. Authoring Rule
+## 19. Authoring Rule
 
 Service-model construction MUST follow the precedence defined in Section 5:
 
@@ -1091,7 +1091,7 @@ The distinction can be summarized as:
 
 ---
 
-## 19. Persistence Independence
+## 20. Persistence Independence
 
 The Minimum Viable Service Model does not prescribe a particular persistence technology.
 
