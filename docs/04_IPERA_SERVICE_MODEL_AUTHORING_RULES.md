@@ -184,12 +184,14 @@ The following rules are normative:
 1. Every automation capability referenced by an Atomic Node LC MUST have an immutable UUID `automation_id`.
 2. `automation_id` is the authoritative machine identity of the automation capability.
 3. `automation_name` is human-readable metadata and MUST NOT be used as authoritative identity.
-4. Each registered `automation_id` MUST resolve to an identifiable, version-controlled implementation.
+4. Each registered `automation_id` MUST resolve to an identifiable, version-controlled automation artifact. The SMV MUST verify that the registry entry and its referenced artifact exist and are resolvable. This verification does not establish the artifact's operational correctness or executability.
 5. Registry implementation attributes MAY include repository, version or commit, artifact path, execution type, entrypoint, and artifact hash.
 6. Physical implementation attributes MUST NOT be embedded in the SM-DAG merely to locate automation.
 7. Physical implementation attributes MUST NOT be embedded in an LC as substitutes for `automation_id`.
 8. Moving an implementation, changing its path, or changing its version MUST NOT require changing `automation_id` when the same automation capability contract is preserved.
 9. A materially different automation capability MUST receive a distinct automation identity.
+
+**Automation identity represents a stable capability contract, not a particular implementation, version, repository, or execution technology.**
 10. The Automation Registry MUST NOT define service decomposition, service dependencies, or execution order.
 
 The Automation Registry answers:
