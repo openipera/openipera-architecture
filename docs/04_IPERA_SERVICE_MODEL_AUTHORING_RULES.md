@@ -154,16 +154,16 @@ The following rules are normative:
 3. Every completed LC MUST contain the `lc_id` established when its node was created.
 4. Every completed LC MUST contain `node_id` as an independent assertion of the node it describes.
 5. The LC `node_id` MUST match the node that references its `lc_id`.
-6. A Service Node LC MAY declare `service_dependencies`.
-7. Every `service_dependencies` target MUST identify an existing Service Node.
-8. A service dependency means **this service is required to realize this service**. It MUST NOT encode execution order.
-9. An Atomic Node LC MUST contain an empty `service_dependencies` list.
-10. Service dependency resolution terminates at an Atomic Node.
+6. A Lifecycle Card for either a Service Node or an Atomic Node MAY declare `service_dependencies`.
+7. Every dependency target MUST identify an existing service-model node, whether Service Node or Atomic Node.
+8. A service dependency declares a realization requirement, not execution sequencing.
+9. An Atomic Node MUST NOT have further SM-DAG decomposition, but its Lifecycle Card MAY declare dependencies.
+10. Dependency resolution MUST traverse applicable LC-declared dependencies regardless of the source node's type, subject to SMV cycle and reference validation.
 11. A Service Node LC MUST have `automation_name: null` and `automation_id: null`.
 12. An Atomic Node LC MUST provide both `automation_name` and immutable UUID `automation_id`.
 13. An SME MUST NOT alter SM-DAG decomposition merely to eliminate disagreement with LC realization knowledge.
 14. An SME MUST NOT silently omit a known dependency merely because it is absent from the SM-DAG.
-15. Differences between decomposition assertions and realization assertions are preserved for SMV reconciliation and policy.
+15. Differences between decomposition assertions and LC-declared realization assertions MUST be preserved and reported by the SMV. Their disposition is determined by applicable governance policy; the SMV MUST NOT silently modify either authoritative source.
 
 The SME asks:
 
