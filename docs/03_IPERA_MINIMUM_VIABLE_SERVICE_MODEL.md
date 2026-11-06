@@ -1097,6 +1097,8 @@ The Minimum Viable Service Model does not prescribe a particular persistence tec
 
 The authoritative model could be maintained in a platform capable of representing the required semantics.
 
+The SM-DAG and Lifecycle Cards may be maintained in separate authoritative systems, provided their identities, relationships, and required semantics remain resolvable to the SMV and Compiler.
+
 Examples may include:
 
 - an enterprise service-model repository,
@@ -1115,7 +1117,9 @@ The requirement is semantic:
 automation_id
 ```
 
-must uniquely and immutably identify an automation capability and must resolve to an identifiable version-controlled implementation.
+MUST uniquely and immutably identify an Automation Registry entry. That entry MUST resolve to its referenced automation artifact. The SMV validates resolvability without interpreting or evaluating the artifact's contents.
+
+Each service-model construct MUST have an identifiable authoritative source. Persistence independence does not eliminate source authority or version provenance.
 
 Products are implementations of architectural capabilities.
 
