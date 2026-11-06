@@ -1127,58 +1127,6 @@ They are not architectural prerequisites.
 
 ---
 
-## 20. POC-03 Conformance Test
-
-POC-03 should demonstrate the separation established by this model.
-
-At minimum:
-
-1. Construct an SM-DAG.
-2. Construct a separate Lifecycle Card Registry.
-3. Bind every SM-DAG node to exactly one LC using `lc_id`.
-4. Populate `automation_name` and UUID `automation_id` for every Atomic Node.
-5. Provide resolvable Automation Registry entries for those UUIDs.
-6. Leave both automation fields null for Service Nodes.
-7. Have the SMV consume the SM-DAG, Lifecycle Cards, and Automation Registry.
-8. Validate structural and semantic invariants.
-9. Derive an Execution DAG containing appropriate Service and Atomic Nodes.
-10. Demonstrate that the Execution DAG was not predefined in resolver logic.
-
-The primary mutation test should modify only an LC service dependency.
-
-The following remain unchanged:
-
-```text
-SM-DAG
-SMV
-automation bindings
-```
-
-The derived Execution DAG must change correctly.
-
-A secondary mutation should modify the SM-DAG and add the corresponding Lifecycle Card while leaving the SMV unchanged.
-
-The derived graph must incorporate the new structure.
-
-An automation-binding mutation should modify the implementation resolved by an existing `automation_id` while leaving the SM-DAG and Lifecycle Card unchanged.
-
-The automation identity must remain stable while the resolved implementation changes.
-
-Negative tests should include:
-
-- missing LC,
-- mismatched LC/node binding,
-- missing service dependency target,
-- duplicate identifiers,
-- invalid UUID,
-- missing automation name,
-- unresolved automation UUID,
-- service node bound directly to automation,
-- atomic node with service dependencies,
-- service dependency cycle.
-
----
-
 ## 21. Deliberate Cycle Test
 
 A useful negative test is to deliberately introduce a logically plausible but cyclic set of service dependencies.
