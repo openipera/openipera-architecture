@@ -15,7 +15,9 @@ SM-DAG                 LC REGISTRY              AUTOMATION REGISTRY
                            SMV
 ```
 
-The Minimum Viable Service Model defines what a valid model contains. This document defines **how that model is constructed without losing ownership boundaries or identity integrity**.
+The Minimum Viable Service Model defines what a valid model contains. This document defines **how that model is constructed while preserving distributed authorship, catalog governance, and identity integrity**.
+
+Service Owners and Domain SMEs author service knowledge and realization assertions within their respective areas of responsibility. Platform Engineering (PE) governs acceptance and publication of the Application Service Catalog; Infrastructure Platform Engineering (IPE) governs acceptance and publication of the Infrastructure Service Catalog. Catalog governance does not automatically confer authorship authority over domain assertions.
 
 These rules are intentionally independent of any product or persistence technology.
 
@@ -29,49 +31,56 @@ A Lifecycle Card cannot describe the lifecycle of a service-model construct that
 
 Therefore:
 
-> **Service decomposition precedes Lifecycle Card realization authoring.**
+> **A service-model node MUST exist before realization content is authored in its companion Lifecycle Card.**
 
-The required construction sequence is:
+The required construction precedence is:
 
 ```text
 1. DEFINE
-   Service Architect creates an SM-DAG node.
+   Responsible Service Owner / Domain SME creates an SM-DAG node.
              │
              ▼
 2. INSTANTIATE
-   Node creation creates exactly one companion LC stub.
+   Node creation atomically creates exactly one companion LC stub.
              │
              ▼
-3. DECOMPOSE
-   Architect continues service decomposition.
+3. AUTHOR
+   Responsible SMEs author decomposition and LC realization
+   assertions within their respective areas of responsibility.
              │
              ▼
-4. DESCRIBE
-   Domain / Service SME populates realization knowledge
-   in the already-created companion LC.
+4. BIND
+   When a node is atomic, its companion LC identifies the
+   required automation capability.
              │
              ▼
-5. TERMINATE
-   Decomposition reaches an Atomic Node.
-   Its companion LC identifies required automation.
-             │
-             ▼
-6. RESOLVE
+5. RESOLVE
    automation_id resolves through the
    authoritative Automation Registry.
              │
              ▼
-7. VALIDATE
-   SMV validates and, when policy permits, compiles.
+6. VALIDATE
+   SMV independently validates authored service knowledge.
+             │
+             ▼
+7. GOVERN
+   Applicable PE or IPE catalog authority controls acceptance,
+   publication, and authoritative catalog state.
 ```
+
+The sequence expresses required precedence and distinct responsibilities, not a requirement that the entire SM-DAG hierarchy be completed before LC authoring begins. Decomposition and LC authoring may progress incrementally across responsible SMEs, provided each node and companion LC retain their identity association and the model satisfies validation requirements before publication or compilation.
+
+SMV validation establishes model integrity; catalog governance determines whether validated service knowledge is accepted and published. Neither substitutes for the other.
 
 ### 2.2 Creation Authority Is Not Assertion Authority
 
 > **Authority over an assertion is not authority over creation of the object containing that assertion.**
 
-The Service Architect creates the SM-DAG structure. Creating a node also instantiates its companion LC stub. This does **not** make the Service Architect authoritative for the realization assertions later placed in that LC.
+A responsible Service Owner or Domain SME creates an SM-DAG node, which atomically instantiates its companion LC stub. Creating that stub does **not** make the node creator authoritative for every realization assertion later placed in the LC.
 
-The Domain or Service SME remains authoritative for those realization assertions.
+The responsible Domain or Service SME remains authoritative for the realization assertions within their domain, subject to applicable catalog acceptance and publication governance.
+
+Likewise, PE or IPE catalog publication authority does not, by itself, make that catalog authority the author of underlying service decomposition or realization assertions.
 
 ### 2.3 Identity Is Established Before Independent Assertions
 
@@ -107,11 +116,11 @@ The LC stub establishes identity only. It is not a complete, compile-valid Lifec
 
 ## 3. SM-DAG Authoring Rules
 
-The Service Architect is authoritative for the SM-DAG.
+**Service Owners and Domain SMEs are authoritative for the service decomposition assertions within their respective domains, subject to acceptance and publication governance by the applicable Service Catalog authority.**
 
 The following rules are normative:
 
-1. An SM-DAG node MUST represent a service-model construct that the architecture asserts exists.
+1. An SM-DAG node MUST represent a service-model construct that the responsible service owner or SME asserts exists.
 2. Every node MUST have a unique `node_id`.
 3. Every node MUST have an explicit `node_type`: `service` or `atomic`.
 4. Every node MUST reference exactly one unique companion `lc_id`.
@@ -119,14 +128,14 @@ The following rules are normative:
 6. An SM-DAG edge means only **decomposes into**.
 7. The SM-DAG MUST NOT encode execution order, workflow predecessors, workflow successors, or runtime sequencing.
 8. A Service Node MAY decompose into additional Service Nodes or Atomic Nodes.
-9. An Atomic Node is the terminal service-model construct before automation begins.
-10. Decomposition MUST NOT be changed merely to make an SME Lifecycle Card agree with the architecture. Disagreement is preserved for SMV evaluation.
+9. An Atomic Node is terminal with respect to SM-DAG decomposition; its Lifecycle Card may still declare service dependencies.
+10. Decomposition MUST NOT be changed merely to make another independently authored Lifecycle Card assertion agree with it. Disagreement is preserved for SMV evaluation and applicable governance.
 
-The Architect asks:
+The responsible service owner or SME asks:
 
 > **What does this service decompose into?**
 
-The Architect does not ask:
+They do not ask:
 
 > What should execute next?
 
