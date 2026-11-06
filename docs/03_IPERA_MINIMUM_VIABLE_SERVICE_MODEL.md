@@ -1048,7 +1048,9 @@ AUTHOR LC REALIZATION CONTENT
     ↓
 BIND ATOMIC NODE TO AUTOMATION, WHEN APPLICABLE
     ↓
-VALIDATE / COMPILE
+VALIDATE SERVICE MODEL (SMV)
+    ↓
+COMPILE SERVICE OBJECT GRAPH (SOG)
 ```
 
 An SME populates the companion LC created for an existing node; the SME does not create a free-standing LC and rely on naming conventions or later matching to associate it with the graph.
@@ -1069,6 +1071,12 @@ and:
 What other services must exist or be realized for this service to be realized?
 ```
 
+The model author should also ask:
+
+```text
+What governance, verification, evidence, and other lifecycle obligations apply to this service?
+```
+
 The model author should not ask:
 
 ```text
@@ -1079,11 +1087,7 @@ That is a derived concern.
 
 The distinction can be summarized as:
 
-> **Service Model DAG: decomposition of intent. Execution DAG: realization of intent.**
-
-Or:
-
-> **The Service Model describes what is true. The Execution DAG describes what must happen.**
+> **The SM-DAG describes service decomposition. Lifecycle Cards declare service dependencies and realization obligations. The SOG represents the complete set of obligations derived from that service knowledge for a particular request.**
 
 ---
 
