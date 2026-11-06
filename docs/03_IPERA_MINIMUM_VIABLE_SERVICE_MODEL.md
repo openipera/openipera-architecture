@@ -1129,25 +1129,41 @@ They are not architectural prerequisites.
 
 ## 21. Deliberate Cycle Test
 
-A useful negative test is to deliberately introduce a logically plausible but cyclic set of service dependencies.
+A useful negative test deliberately introduces a logically plausible cycle that spans SM-DAG decomposition and Lifecycle Card service dependencies.
 
 For example:
 
 ```text
-Boot VM [General Purpose Compute]
+SM-DAG decomposition:
 
-Validate VM [Boot VM]
-
-Register with Domain [Validate VM]
+General Purpose Compute
+    └── Boot VM
+          └── Validate VM
 ```
 
-while General Purpose Compute itself requires Identity and Identity requires Register with Domain.
+```text
+Lifecycle Card service dependencies (A → B means A requires B):
 
-This creates a cycle through the model.
+Validate VM             → Identity
+Identity                → General Purpose Compute
+```
 
-The SMV MUST detect and reject the cycle.
+Decomposition requires Validate VM to complete before General Purpose Compute can complete. The Lifecycle Cards also require Identity before Validate VM, and General Purpose Compute before Identity. Together, these relationships impose a circular realization requirement:
 
-It MUST NOT choose an arbitrary ordering merely to make the model executable.
+```text
+General Purpose Compute
+    requires completion of Validate VM       [decomposition]
+Validate VM
+    requires Identity                        [LC dependency]
+Identity
+    requires General Purpose Compute         [LC dependency]
+```
+
+The SMV MUST detect and reject circular realization requirements arising from decomposition, LC-declared service dependencies, or their combination.
+
+Validation findings MUST identify the participating nodes, the cycle path, and the relationship types involved.
+
+The SMV MUST NOT silently remove dependencies, select an arbitrary ordering, or otherwise repair the model to make it executable.
 
 This is an important architectural property:
 
