@@ -174,71 +174,62 @@ The mandatory internal versioning scheme for the SM-DAG, Lifecycle Cards, and va
 
 ---
 
-## 5. A Realization Has Immutable Provenance
+## 5. Compilation Provenance and Native Observability
 
-The resulting chain is:
+**OpenIPERA is instrumented for observability by design, from its inception.** Observability is a foundational capability of OpenIPERA, distinct from the broader IPERA Observability pillar responsible for organizational service assurance.
 
-    APPROVED CHANGE
-          │
-          ▼
-    SERVICE MODEL REVISION
-          │
-          ├── exact SM-DAG
-          │
-          └── exact LC deck
-          │
-          ▼
-    SMV COMPILATION
-          │
-          ▼
-    EXECUTION DAG
-          │
-          ▼
-    AUTOMATION UUIDs
-          │
-          ▼
-    LINK / RESOLUTION
-          │
-          ▼
-    IMMUTABLE AUTOMATION REVISIONS
-          │
-          ▼
-    EXECUTION
-          │
-          ▼
-    REALIZED SERVICE INSTANCE
+The Compiler **MUST** embed a provenance manifest in every successfully compiled Service Object Graph (SOG). The manifest **MUST** identify the compilation, its request context reference, the SMV validation identity and validated input-version set, and the identities and exact revisions of every service-model component actually used to derive the SOG. This includes applicable Service DAGs, Service Nodes (SNs), Atomic Nodes (ANs), Lifecycle Cards (LCs), and stable automation capability identities (`automation_id`). The manifest **MUST** distinguish the complete validated input set from the components actually consumed in that compilation.
 
-The realization record therefore needs sufficient provenance to answer:
+The SOG's automation capability references do not assert which implementation revisions will execute. Implementation selection occurs downstream during orchestration and linking, as described in Section 4.
 
-> **Exactly what knowledge and automation produced this service instance?**
+```text
+OPENIPERA SERVICE KNOWLEDGE
+  SM-DAG / Service DAGs / SNs / ANs / LCs
+                 |
+                 v
+          SMV VALIDATION
+       Validation ID + Input Versions
+                 |
+                 v
+             COMPILER <--- Request Context
+                 |
+          +------+------+
+          |             |
+          v             v
+         SOG      PROVENANCE EVENT
+    + Provenance     + Compilation ID
+      Manifest       + Validation ID
+                     + Component Versions
+                           |
+                           v
+                  INTERNAL EVENT COLLECTOR
+                           |
+                           v
+                    DURABLE BUFFER
+                           |
+                           v
+                  CONFIGURABLE EXPORT
+                           |
+                           v
+                 ORGANIZATIONAL TELEMETRY
 
-Conceptually:
+DOWNSTREAM: ORCHESTRATION / EXECUTION
+  Implementation selections, outcomes, and
+  operational evidence are established outside
+  OpenIPERA's compilation provenance.
+```
 
-    Realization
-    ────────────────────────────────────
+Every OpenIPERA component **MUST** be instrumented to emit structured, correlated observability events appropriate to its responsibilities. At minimum, validation and compilation events **MUST** expose the relevant operation identity, component identities and revisions, outcomes, and actionable failure or rejection reasons. Events **MUST** be correlatable through validation, compilation, and applicable request identities. Sensitive request content, credentials, and secrets **MUST NOT** be included merely to satisfy provenance requirements.
 
-    instance_uuid
-    request/change identity
+OpenIPERA **MUST** provide an internal event collection and durable buffering capability for mandatory provenance events, with configurable asynchronous export and retry to organizational observability systems. Successful SOG publication **MUST NOT** be reported until its mandatory provenance event has been durably accepted by the internal buffer. External delivery confirmation is not a prerequisite for publication when durable internal acceptance succeeds. Failure to accept a mandatory event **MUST** be reported and **MUST** prevent successful publication.
 
-    service_model_revision
-            │
-            └── reconstructs exact
-                SM-DAG + LC deck
+The internal collector **MUST** support identifiable events, delivery tracking, retry behavior, and a defined buffer-retention and failure-handling policy. The architecture does not prescribe a specific collector product, telemetry destination, transport, Kubernetes workload type, or storage implementation. The reference deployment may leverage Kubernetes-native constructs.
 
-    execution_dag / compilation identity
+OpenIPERA **MUST NOT** silently alter the provenance of an existing compilation when authoritative service knowledge changes. Its obligation to identify and durably record compilation provenance does not impose long-term storage of complete SOGs or historical model content. Organizations determine external collection, long-term retention, audit, replay, and operational evidence policies. Logging component versions does not by itself guarantee that historical component contents remain available for reconstruction.
 
-    automation bindings
-            │
-            ├── automation_uuid A
-            │      └── implementation revision X
-            │
-            ├── automation_uuid B
-            │      └── implementation revision Y
-            │
-            └── automation_uuid C
-                   └── implementation revision Z
+The detailed provenance manifest, event schema, buffer durability/recovery semantics, and exporter contract remain implementation specifications to be defined consistently with OpenIPERA's mandatory internal versioning model.
 
-    execution evidence
+> **The SOG carries its provenance. OpenIPERA durably records that provenance. Organizational observability systems retain and use it.**
 
 ---
 
