@@ -332,121 +332,89 @@ OpenIPERA produces an identifiable, request-specific SOG with provenance suffici
 Changes to authoritative service knowledge require revalidation. Subsequent compilations use the applicable validated model version. Previously compiled SOGs and their associated execution evidence, where retained by downstream systems, MUST NOT be silently modified as a consequence of later service-model changes.
 
 ---
-## 6. Orchestrator as Linker
+## 6. Orchestration and Link-Time Realization
 
-The **Orchestrator acts as the linker** between the compiled Execution DAG and the automation modules required to realize it.
+The **Orchestrator acts as a linker** between the compiled **Service Object Graph (SOG)** and the execution capabilities required to fulfill its obligations.
 
-The Execution DAG identifies the Atomic Nodes that must be realized, their dependency relationships, and the symbolic automation identities associated with them.
+The SOG represents request-specific realization obligations, including Atomic Nodes and their automation capability identities, service-completion obligations, dependency relationships, and explicitly identified external processes. It is **not** an executable pipeline.
 
 For example:
 
 ```text
-AN-A ─────► AN-C
-             ▲
-AN-B ────────┘
+AN-A (UUID-A) ─────┐
+                   ├──► AN-C (UUID-C)
+AN-B (UUID-B) ─────┘
+                          |
+                          v
+                 SERVICE COMPLETE
 ```
 
-with automation identities:
+The dependency relationships express what must be satisfied before downstream obligations can be fulfilled. The Orchestrator translates these obligations into an executable workflow appropriate to the consuming environment.
+
+### Registry-Backed Implementation Binding
+
+The responsibilities remain separate:
+
+- **Automation Registry:** Maintains the authoritative mapping from stable automation capability UUIDs to their implementations.
+- **SMV:** Verifies that the registry entry and referenced version-controlled artifact exist and are resolvable; this is not a runtime execution guarantee.
+- **Orchestrator:** Uses registry-backed binding information to construct executable actions for the selected execution environment, without independently redefining automation capability identity.
+- **Execution Capability:** Executes the bound actions and produces state and evidence.
 
 ```text
-AN-A → automation_id: UUID-A
-AN-B → automation_id: UUID-B
-AN-C → automation_id: UUID-C
+AUTOMATION CAPABILITY UUID
+            |
+            v
+     AUTOMATION REGISTRY
+     Authoritative Binding
+            |
+            v
+        ORCHESTRATOR
+       Link / Plan Actions
+            |
+            v
+     EXECUTION CAPABILITY
 ```
 
-This is a compiled representation of the required realization, but it is not yet an executable pipeline.
+An explicitly identified **external process** is also a realization obligation. The Orchestrator MUST account for its required fulfillment and evidence rather than silently treating it as complete merely because no internal automation binding exists. The fulfillment mechanism may involve a person, an external system, or another process, as determined by the consuming organization.
 
-The Orchestrator resolves those automation identities to their implementations and **links the required automation modules together according to the compiled Execution DAG**.
-
-```text
-              EXECUTION DAG
-                   │
-                   ▼
-              ORCHESTRATOR
-                 LINKER
-                   │
-          ┌────────┼────────┐
-          ▼        ▼        ▼
-       UUID-A    UUID-B    UUID-C
-          │        │        │
-          ▼        ▼        ▼
-       Module A  Module B  Module C
-          \        /
-           \      /
-            ▼    ▼
-            Module C
-               │
-               ▼
-        EXECUTABLE PIPELINE
-```
-
-This establishes a deliberate separation between **compile-time validation** and **link-time implementation binding**.
-
-The SMV can determine that an automation identity exists and that the Service Model is realizable without embedding the physical implementation of that capability into the Service Model.
-
-The Orchestrator subsequently resolves that symbolic identity to the implementation that will satisfy it for execution.
+### Architectural Pipeline
 
 ```text
-SMV
-automation_id
-     │
-     ▼
-"Does this capability exist
-and can the model reference it?"
-     │
-     ▼
-VALIDATED SYMBOL
-
-
-ORCHESTRATOR
-automation_id
-     │
-     ▼
-"Which implementation satisfies
-this capability for execution?"
-     │
-     ▼
-RUNTIME BINDING
-```
-
-The resulting architectural pipeline is:
-
-```text
-SM-DAG + Lifecycle Cards
-        SOURCE
-           │
-           ▼
+SM-DAG + LIFECYCLE CARDS
+           |
+           v
           SMV
-        COMPILE
-           │
-           ▼
-      Execution DAG
- COMPILED REPRESENTATION
-           │
-           ▼
-      Orchestrator
-          LINK
-           │
-           ▼
-   Executable Pipeline
-           │
-           ▼
-  Execution Capability
-           RUN
+     Validate + Report
+           |
+           v
+        COMPILER
+           |
+           v
+          SOG
+           |
+           v
+      ORCHESTRATOR
+        Link / Plan
+           |
+           v
+    EXECUTABLE WORKFLOW
+           |
+           v
+    EXECUTION CAPABILITY
+           |
+           v
+      STATE / EVIDENCE
 ```
 
-This separation means that the Service Model does not need to know the physical details of every automation implementation.
+The Service Model does not embed physical implementation details, and the executable workflow does not become authoritative service knowledge. The consuming organization chooses its orchestration and execution technologies and determines applicable SOG, workflow, audit, and replay retention policies. OpenIPERA defines SOG semantics and interfaces; it does not mandate a workflow engine or persistence mechanism.
 
-Likewise, the executable pipeline does not become the authoritative definition of the service. It is dynamically assembled from compiled service knowledge.
+Two architectural tests follow:
 
-Two architectural tests follow from this separation:
+> **If replacing an automation implementation that satisfies the same stable capability contract requires changing the Service Model, the compile/link boundary has been violated.**
 
-> **If changing an automation implementation requires changing the Service Model, the compile/link boundary has been violated.**
-
-> **If changing service intent requires manually rebuilding the executable pipeline, the compile/link boundary has been violated.**
+> **If a change to service intent requires manually editing the generated executable workflow rather than updating authoritative service knowledge and compiling a new realization, the compile/link boundary has been violated.**
 
 ---
-
 ## 7. Execution Capability as Runtime
 
 Once the Orchestrator has linked the automation modules into an executable pipeline, responsibility passes to the **Execution Capability**.
