@@ -233,54 +233,21 @@ The detailed provenance manifest, event schema, buffer durability/recovery seman
 
 ---
 
-## 6. Relationship to State
+## 6. OpenIPERA State vs. Operational State
 
-This also helps separate the different meanings of **state** that prompted the discussion.
+OpenIPERA maintains internal state necessary to validate service knowledge, compile request-specific Service Object Graphs (SOGs), and establish the provenance of those compilations.
 
-    MODEL STATE
-    "What knowledge did IPERA use?"
+This includes component identities and revisions, validation identities and results, compilation identities, and mandatory observability records.
 
-            │
-            │ realization
-            ▼
+**This internal state must not be confused with the operational state of the infrastructure and services represented by the Service Model.**
 
-    APPROVED STATE
-    "What configuration was approved
-    and successfully realized?"
+OpenIPERA does not maintain authoritative desired configuration, realized infrastructure configuration, or observed runtime state merely by compiling a SOG.
 
-            │
-            │ compare with
-            ▼
+Those responsibilities belong to the organization's operational systems and the broader IPERA Governance and Observability architecture.
 
-    OBSERVED STATE
-    "What exists right now?"
+The SOG carries its provenance, and OpenIPERA durably records mandatory provenance events; this does not require OpenIPERA to persist every complete SOG.
 
-            │
-            ▼
-
-    CONFORMANCE / DRIFT
-    "Does what exists correspond to
-    what was approved?"
-
-The LC deck is therefore **not itself current infrastructure state**.
-
-It is the versioned service knowledge used to derive a particular realization.
-
-The CMDB may maintain Approved State and Observed State, while the realization provenance provides the immutable connection back to the Service Model and automation that produced the Approved State.
-
-This distinction is also important because different execution technologies have different notions of state.
-
-Terraform maintains its own persistent implementation state. Ansible does not maintain state in the same sense; with Ansible, the governed workflow and its inputs establish what was intended to be realized.
-
-IPERA therefore cannot define Approved State in terms of an execution technology's native state mechanism.
-
-Instead, IPERA must maintain the architectural distinction between:
-
-- what was approved,
-- what realization knowledge was used,
-- what automation implementation was executed,
-- what was successfully realized,
-- and what is subsequently observed.
+> **OpenIPERA knows what knowledge it used and what obligations it derived. Operational systems establish what was authorized, executed, and actually exists.**
 
 ---
 
