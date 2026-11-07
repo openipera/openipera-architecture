@@ -56,149 +56,80 @@ The remainder of this document defines how OpenIPERA applies that pattern to ser
 ---
 ## 2. Two Independent Authorities
 
-The IPERA Service Model is constructed from **two independently authored sources of truth**.
+The OpenIPERA Service Model represents **two distinct, independently maintained forms of authoritative service knowledge**.
 
-The **Service Model DAG (SM-DAG)** is authored from the architectural perspective. It expresses what the Service Architect believes the service consists of through decomposition.
+The **Service Model DAG (SM-DAG)** represents service decomposition: what a service consists of.
 
-The **Lifecycle Card (LC)** is authored from the domain realization perspective. It expresses what the Domain or Service SME states is required to realize that service.
+The **Lifecycle Card (LC)** represents realization requirements: what a service requires to be fulfilled, including dependencies and, for Atomic Nodes, automation capability bindings.
+
+Independence belongs to the **assertions**, not necessarily to different people, teams, or reporting structures. The same contributor may author both perspectives, or different contributors may do so.
 
 ```text
-        SERVICE ARCHITECT
-               │
-               ▼
-            SM-DAG
- "What we believe the service
-          consists of"
-               │
-               │
-               ▼
-            ┌─────┐
-            │ SMV │
-            └─────┘
-               ▲
-               │
-               │
-        LIFECYCLE CARDS
- "What the SME says is required
-       to realize the service"
-               ▲
-               │
-        DOMAIN / SERVICE SME
+                  SERVICE KNOWLEDGE
+                         |
+                +--------+--------+
+                |                 |
+                v                 v
+              SM-DAG        LIFECYCLE CARDS
+           Decomposition     Requirements
+                |                 |
+                +--------+--------+
+                         |
+                         v
+                        SMV
+                 Validate + Report
 ```
-
-These sources intentionally describe the service from **different perspectives**.
 
 For example:
 
 ```text
 SM-DAG assertion:
-
-    "General Purpose Compute
-     decomposes into Storage."
-
+    "General Purpose Compute decomposes into Storage."
 
 Lifecycle Card assertion:
-
-    "General Purpose Compute
-     requires Storage."
+    "General Purpose Compute requires Storage."
 ```
 
-These statements are related, but they are **not the same assertion**.
+These are related but **not equivalent** assertions. The first describes composition; the second describes a realization dependency. Their coexistence may provide corroborating evidence, but the absence of one does not automatically invalidate the other. LC-declared dependencies may reference modeled Service Nodes or Atomic Nodes, or explicitly identified external processes.
 
-The first describes the architectural composition of the service.
+Agreement provides evidence. Disagreement provides information. The SMV MUST preserve the distinction between the assertions, report discrepancies, and MUST NOT silently change either authoritative source to force agreement.
 
-The second describes the SME's knowledge of what is required for its realization.
+### Ownership and Organizational Neutrality
 
-Therefore, the appearance of the same service relationship in both sources is **not redundant data**. It represents two independent assertions that can be compared.
+**OpenIPERA requires explicit ownership and accountability wherever authoritative decisions are made. It does not prescribe organizational structures, job titles, reporting relationships, or operating models through which those responsibilities are exercised.**
 
-```text
-SM-DAG                         Lifecycle Card
--------                        --------------
-Architecture says              SME says
-Storage is part                Storage is required
-of the service                 to realize the service
+Ownership boundaries matter even when the organizational arrangement varies:
 
-          \                    /
-           \                  /
-            ▼                ▼
-             ┌──────────────┐
-             │     SMV      │
-             │ CORROBORATE  │
-             │      OR      │
-             │  DISAGREE    │
-             └──────────────┘
-```
+- **The Business owns the business requirement and its acceptance criteria.** Technical implementation authorities cannot unilaterally redefine the required business outcome.
+- **An accountable service authority owns the service definition and its obligations.** The enterprise determines how that accountability is assigned.
+- **The responsible capability authority owns the correctness of its realization assertions.** The enterprise determines which people or groups exercise that responsibility.
+- **The designated governance authority determines whether service knowledge is authorized for its intended use.** Validation alone does not confer authorization.
 
-Agreement provides **corroboration**.
+Ownership of a business requirement does not automatically grant authority over technical implementation; technical implementation ownership does not grant authority to redefine the business requirement.
 
-Disagreement provides **information**.
+### An Illustrative Top-Down / Bottom-Up Relationship
 
-This independence is deliberate. The SMV MUST preserve the distinction between the two authorities rather than inferring one from the other or silently making them agree.
-
-### Why the Authorities Are Separate
-
-A Service frequently crosses multiple technology domains, particularly at higher levels of abstraction. No individual technology domain owns the complete service. The **Service Architect** therefore owns the cross-domain decomposition of service intent through the SM-DAG.
-
-Lifecycle Cards are closer to realization. They describe the dependencies and automation bindings associated with capabilities within particular technology domains. The **Domain or Service SME** therefore provides the authoritative knowledge represented by the Lifecycle Card.
-
-The two perspectives approach the Service Model from opposite directions:
-
-```text
-                  SERVICE INTENT
-                        │
-                        │
-                  ARCHITECT
-                        │
-                        │ decomposes
-                        ▼
-              ┌───────────────────┐
-              │                   │
-              │    SERVICE        │
-              │     MODEL         │
-              │                   │
-              └───────────────────┘
-                        ▲
-                        │ composes
-                        │
-                 DOMAIN SMEs
-                  /     |     \
-                 /      |      \
-            Compute   Network  Storage
-               ▲         ▲        ▲
-               │         │        │
-          Automation  Automation Automation
-```
-
-The Service Architect asks:
-
-> **"What capabilities must this service decompose into?"**
-
-The Domain SME asks:
-
-> **"What capabilities must be composed to realize the service within my domain?"**
-
-They **meet in the middle**.
+One possible operating model develops decomposition top-down and realization knowledge bottom-up:
 
 ```text
         ARCHITECTURAL DECOMPOSITION
                  top-down
-                    │
-                    ▼
-             ─────────────
-               MEET HERE
-             ─────────────
-                    ▲
-                    │
+                    |
+                    v
+             ---------------
+                MEET HERE
+             ---------------
+                    ^
+                    |
                  bottom-up
               SME COMPOSITION
 ```
 
-This is why the SM-DAG and Lifecycle Cards remain independently authored even when they appear to describe overlapping relationships. Their overlap is intentional: **it is the point at which cross-domain architectural intent can be compared with domain-specific realization knowledge.**
+This is an **illustrative collaboration pattern**, not a required organizational structure. An enterprise may distribute or combine authoring responsibilities differently while preserving the same independently represented assertions and accountability.
 
-The resulting comparison provides the foundation for **forward and reverse validation** of the Service Model.
+**OpenIPERA is opinionated about the structure and integrity of service knowledge, not about the organizational structure responsible for producing it.**
 
 ---
-
 ## 3. Forward and Reverse Validation
 
 Because the SM-DAG and Lifecycle Cards are independently authored, the SMV can validate the Service Model in **both directions**.
