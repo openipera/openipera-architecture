@@ -89,31 +89,49 @@ This conformance requirement does not prescribe organizational change-control pr
 
 ---
 
-## 3. Compilation Establishes a Point-in-Time LC Deck
+## 3. Validation and Compilation Consistency
 
-When IPERA receives an approved request, the SMV operates against a particular revision of the Service Model.
+OpenIPERA separates Service Model validation from request-specific compilation.
 
-    AUTHORITATIVE SERVICE MODEL
-             mutable
-                │
-                ▼
-         MODEL REVISION
-                │
-                ▼
-               SMV
-                │
-      resolve applicable
-        Service Model
-                │
-                ▼
-             LC DECK
-                │
-                ▼
-         EXECUTION DAG
+The Service Model Validator (SMV) evaluates authoritative service knowledge and produces a uniquely identifiable validation result associated with the exact internal version state evaluated.
 
-The **LC deck** is therefore not an independently maintained artifact. It is the set of Lifecycle Cards resolved from a particular Service Model revision for a particular realization.
+The Compiler consumes applicable validated service knowledge together with request context to derive a request-specific Service Object Graph (SOG).
 
-Once compiled, its provenance cannot be allowed to move simply because the authoritative Service Model subsequently changes.
+```text
+AUTHORITATIVE SERVICE KNOWLEDGE
+    SM-DAG + Lifecycle Cards
+              |
+              v
+      INTERNAL VERSION STATE
+              |
+              v
+             SMV
+      Validate + Report
+              |
+              v
+      VALIDATION IDENTITY
+      + Input Version Set
+      + Validation Results
+              |
+              v
+           COMPILER <---- Request Context
+              |
+              v
+             SOG
+      Request-Specific Obligations
+```
+
+The Compiler **MUST** establish that the actual service knowledge used for compilation corresponds to the input-version set associated with the referenced SMV validation result.
+
+If the versions or their underlying contents cannot be reconciled with the validated inputs, compilation **MUST** be rejected and the inconsistency reported.
+
+Changes to the authoritative SM-DAG or Lifecycle Cards during validation or compilation must not silently alter the knowledge used to produce a SOG.
+
+OpenIPERA does not prescribe locking, snapshots, authoring serialization, or another specific concurrency-control mechanism. Organizations determine their change-control procedures through IPERA Governance.
+
+A compilation may reference an earlier validated version set if the required knowledge remains available and applicable governance policy permits its use. A successful SMV validation alone does not grant governance authorization.
+
+> **The SOG represents obligations derived from identifiable, validated service knowledge—not a continuously changing view of the live Service Model.**
 
 ---
 
