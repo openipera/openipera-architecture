@@ -9,7 +9,7 @@ title: Architecture
 
 OpenIPERA separates the **description of a service** from the **mechanisms that realize it**.
 
-![IPERA reference architecture](../images/ipera-reference-architecture.png)
+[View the IPERA reference architecture diagram](https://github.com/steve-jones62/openipera-architecture/blob/main/images/ipera-reference-architecture.png)
 
 ### The Service Model
 
@@ -50,4 +50,4 @@ This **native OpenIPERA instrumentation** is distinct from the broader **IPERA O
 | Perform operations | Execution capabilities |
 | Govern, observe, and accept operational services | Organizational systems and broader IPERA pillars |
 
-For detailed semantics, see [Document 05 — Service Model Compilation Architecture](../docs/05_IPERA_SERVICE_MODEL_COMPILATION_ARCHITECTURE.md) and [Document 06 — Deterministic Service Realization](../docs/06_IPERA_DETERMINISTIC_SERVICE_REALIZATION.md).
+For detailed semantics, see [Document 05 — Service Model Compilation Architecture](https://github.com/steve-jones62/openipera-architecture/blob/main/docs/05_IPERA_SERVICE_MODEL_COMPILATION_ARCHITECTURE.md) and [Document 06 — Deterministic Service Realization](https://github.com/steve-jones62/openipera-architecture/blob/main/docs/06_IPERA_DETERMINISTIC_SERVICE_REALIZATION.md).
