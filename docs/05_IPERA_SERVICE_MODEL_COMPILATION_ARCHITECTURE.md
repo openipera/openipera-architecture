@@ -417,82 +417,70 @@ Two architectural tests follow:
 ---
 ## 7. Execution Capability as Runtime
 
-Once the Orchestrator has linked the automation modules into an executable pipeline, responsibility passes to the **Execution Capability**.
-
-The Execution Capability does not determine service intent, derive dependencies, or decide which automation modules belong in the pipeline. Those decisions have already been made upstream.
-
-Its responsibility is to **execute the linked work**.
+Once the Orchestrator has constructed an executable workflow, the **Execution Capability** performs the assigned actions and reports their outcomes. It does not establish service intent, derive the realization graph, select the obligations to fulfill, or independently authorize service completion.
 
 ```text
-SMV
- │
- │ compile
- ▼
-Execution DAG
- │
- │ link
- ▼
-Orchestrator
- │
- │ produces
- ▼
-Executable Pipeline
- │
- │ run
- ▼
-EXECUTION CAPABILITY
- │
- ├── Terraform
- ├── Ansible
- ├── API invocation
- ├── Script
- ├── Platform-native automation
- └── Other execution mechanism
- │
- ▼
-State / Evidence
+VALIDATED SERVICE MODEL
+          |
+          v
+       COMPILER
+          |
+          v
+         SOG
+          |
+          v
+     ORCHESTRATOR
+          |
+          v
+   EXECUTABLE WORKFLOW
+          |
+          v
+   EXECUTION CAPABILITY
+          |
+          v
+    STATE / EVIDENCE
 ```
 
-This preserves another important separation:
+The responsibility boundaries are:
+
+| Component | Responsibility |
+| --- | --- |
+| **SMV** | Validate service knowledge and report discrepancies. |
+| **Compiler** | Derive the obligations required to fulfill a specific request. |
+| **Orchestrator** | Coordinate and construct the executable realization of those obligations. |
+| **Execution Capability** | Execute assigned actions and report outcomes and supporting evidence. |
+
+Execution Capabilities are analogous to a **runtime environment**. A workflow may invoke multiple execution mechanisms, including Terraform, Ansible, API invocations, scripts, platform-native automation, or other technologies. These are illustrative, not prescribed; OpenIPERA requires neither a single execution technology nor a single execution platform.
 
 ```text
-SMV
-"What must happen?"
-
-Orchestrator
-"How are the required automation modules
-assembled into runnable work?"
-
-Execution Capability
-"Run this work."
+           EXECUTABLE WORKFLOW
+                    |
+          +---------+---------+
+          |         |         |
+          v         v         v
+      Terraform   Ansible     API
+          |         |         |
+          +---------+---------+
+                    |
+                    v
+             STATE / EVIDENCE
 ```
 
-The Execution Capability is therefore analogous to the **runtime environment**. Different automation technologies may perform different portions of the linked pipeline without becoming authoritative sources of service architecture.
+### Execution Success Versus Service Completion
 
-The architecture does not require a single execution technology.
+**Execution success does not establish service completion.** An automation action can succeed while the resulting service fails its operational assurance or acceptance requirements.
 
-```text
-             Executable Pipeline
-                     │
-          ┌──────────┼──────────┐
-          ▼          ▼          ▼
-      Terraform    Ansible      API
-          │          │          │
-          └──────────┼──────────┘
-                     ▼
-               State / Evidence
-```
+Execution Capabilities report action outcomes and evidence. Within the broader **IPERA** architecture—not OpenIPERA—the **Observability pillar** supplies the operational evidence necessary to assess whether service obligations have been satisfied, while the **Governance pillar** establishes the policies, controls, acceptance criteria, and decision authority governing that determination. Observability provides evidence; it does not by itself authorize acceptance.
 
-This provides another architectural test:
+**OpenIPERA represents required service obligations but does not independently assume responsibility for operational assurance, governance decisions, or acceptance of service completion.** The consuming organization and its operational systems determine execution evidence retention and audit policy.
+
+This yields an architectural test:
 
 > **Replacing an execution technology should not require redefining the Service Model, provided the replacement satisfies the same automation capability contract.**
 
-Execution technologies implement the realization.
-
-They do not define the service.
+**Execution technologies implement the realization. They do not define the service.**
 
 ---
-
 ## 8. Governance and Remediation
 
 The SMV **detects, classifies, and reports** discrepancies. It does not determine how those discrepancies are resolved and MUST NOT silently modify either authoritative source.
