@@ -1,6 +1,59 @@
 # IPERA Service Model Compilation Architecture
 
-## 1. Purpose and Foundational Principle
+## 1. Executive Architecture Summary (TL;DR)
+
+**Quick read:** This section summarizes the architecture and its boundaries. **Deep read:** Continue with Section 2 and the remaining sections for the detailed service-model, validation, compilation, orchestration, and governance semantics.
+
+**OpenIPERA models the knowledge required to realize an enterprise service. It is not another workflow engine.**
+
+The authoritative **Service Model** combines the service definitions and decomposition expressed in the **SM-DAG** with the realization knowledge captured in **Lifecycle Cards**. The **Service Model Validator (SMV)** validates those assertions and reports discrepancies. Given applicable validated service knowledge and **request context**, the **Compiler** derives a request-specific **Service Object Graph (SOG)**: a mathematical representation of the obligations and dependencies required to fulfill that request.
+
+A consuming **Orchestrator** interprets the SOG and constructs an executable workflow; **Execution Capabilities** perform assigned actions and report outcomes and evidence. Within the broader **IPERA** architecture, the **Observability** and **Governance** pillars provide operational assurance, policy, and acceptance authority. These are distinct architectural responsibilities, not mandated products, teams, or deployment boundaries.
+
+```text
+       AUTHORITATIVE SERVICE KNOWLEDGE
+         SM-DAG        Lifecycle Cards
+            \              /
+             +------+-----+
+                    |
+                    v
+                   SMV
+           Validate + Report
+                    |
+                    v
+                 COMPILER <----- Request Context
+                    |
+                    v
+                   SOG
+       Request-Specific Obligations
+                    |
+                    v
+               ORCHESTRATOR
+          Construct / Coordinate
+                    |
+                    v
+           EXECUTABLE WORKFLOW
+                    |
+                    v
+           EXECUTION CAPABILITIES
+                    |
+                    v
+             STATE / EVIDENCE
+                    |
+                    v
+       IPERA OBSERVABILITY / GOVERNANCE
+          Assurance / Acceptance
+```
+
+The SOG represents **what must be accomplished**, not engine-specific instructions. OpenIPERA does not prescribe an orchestrator, execution technology, organizational operating model, or SOG retention mechanism. The consuming organization determines applicable operational and retention policies.
+
+> **OpenIPERA models the system. Orchestration and automation operate the system.**
+
+**Deep read begins below.** The following sections explain the source authorities, validation rules, compilation semantics, linking and runtime boundaries, and governance interfaces in detail.
+
+---
+
+## 2. Purpose and Foundational Principle
 
 OpenIPERA treats the **Service Model as authoritative source knowledge**, not as workflow.
 
@@ -54,7 +107,7 @@ SOURCE → VALIDATE → COMPILE → LINK → EXECUTE
 The remainder of this document defines how OpenIPERA applies that pattern to service realization.
 
 ---
-## 2. Two Independent Authorities
+## 3. Two Independent Authorities
 
 The OpenIPERA Service Model represents **two distinct, independently maintained forms of authoritative service knowledge**.
 
@@ -130,7 +183,7 @@ This is an **illustrative collaboration pattern**, not a required organizational
 **OpenIPERA is opinionated about the structure and integrity of service knowledge, not about the organizational structure responsible for producing it.**
 
 ---
-## 3. Forward and Reverse Validation
+## 4. Forward and Reverse Validation
 
 Forward and reverse validation ensure that **every declared service capability and realization dependency is accounted for**. Their purpose is to detect gaps and inconsistencies in independently represented service knowledge, not to require SM-DAG decomposition edges and LC dependencies to mirror one another.
 
@@ -216,7 +269,7 @@ EXPANDED SERVICE KNOWLEDGE
 This enables OpenIPERA to identify what the enterprise needs before every capability has been modeled or automated, while preserving explicit accountability for resolving the gap.
 
 ---
-## 4. Service Model Validation and Compilation Boundaries
+## 5. Service Model Validation and Compilation Boundaries
 
 The **Service Model Validator (SMV)** and **Compiler** have separate responsibilities. The SMV evaluates the integrity of authoritative service knowledge and reports findings; the Compiler derives a request-specific **Service Object Graph (SOG)** from service knowledge that satisfies applicable validation and policy requirements.
 
@@ -298,7 +351,7 @@ The SMV detects and reports malformed structures, unresolved references, cycles,
 > **Source knowledge is authoritative. Validation reports its integrity. Governance determines permissible use. Compilation derives the request-specific obligations.**
 
 ---
-## 5. Service Object Graph as Compiled Output
+## 6. Service Object Graph as Compiled Output
 
 The **Service Object Graph (SOG) is the Compiler's derived output**.
 
@@ -332,7 +385,7 @@ OpenIPERA produces an identifiable, request-specific SOG with provenance suffici
 Changes to authoritative service knowledge require revalidation. Subsequent compilations use the applicable validated model version. Previously compiled SOGs and their associated execution evidence, where retained by downstream systems, MUST NOT be silently modified as a consequence of later service-model changes.
 
 ---
-## 6. Orchestration and Link-Time Realization
+## 7. Orchestration and Link-Time Realization
 
 The **Orchestrator acts as a linker** between the compiled **Service Object Graph (SOG)** and the execution capabilities required to fulfill its obligations.
 
@@ -415,7 +468,7 @@ Two architectural tests follow:
 > **If a change to service intent requires manually editing the generated executable workflow rather than updating authoritative service knowledge and compiling a new realization, the compile/link boundary has been violated.**
 
 ---
-## 7. Execution Capability as Runtime
+## 8. Execution Capability as Runtime
 
 Once the Orchestrator has constructed an executable workflow, the **Execution Capability** performs the assigned actions and reports their outcomes. It does not establish service intent, derive the realization graph, select the obligations to fulfill, or independently authorize service completion.
 
@@ -481,7 +534,7 @@ This yields an architectural test:
 **Execution technologies implement the realization. They do not define the service.**
 
 ---
-## 8. Governance and Remediation
+## 9. Governance and Remediation
 
 The **SMV detects, classifies, and reports** discrepancies. It does not determine how findings are resolved and MUST NOT silently modify authoritative service knowledge.
 
@@ -514,109 +567,3 @@ Remediation changes the appropriate authoritative source through its authorized 
 **Validation establishes what the Service Model asserts and whether it satisfies applicable structural and semantic requirements. Governance determines what the organization is permitted to do in response.**
 
 ---
-## 9. Foundational Architecture
-
-The complete IPERA Service Model compilation architecture can therefore be represented as:
-
-```text
-Service Architect              Domain / Service SMEs
-       │                               │
-       │ decomposes                    │ composes
-       ▼                               ▼
-     SM-DAG                      Lifecycle Cards
-          \                         /
-           \                       /
-            └──────────┬──────────┘
-                       ▼
-                      SMV
-                   COMPILER
-                       │
-                       ▼
-                Execution DAG
-            COMPILED REPRESENTATION
-                       │
-                       ▼
-                  Orchestrator
-                     LINKER
-                       │
-                       ▼
-               Executable Pipeline
-                       │
-                       ▼
-              Execution Capability
-                     RUNTIME
-                       │
-                       ▼
-                State / Evidence
-```
-
-The architecture follows a familiar progression:
-
-```text
-AUTHOR
-  │
-  ▼
-SOURCE
-  │
-  ▼
-COMPILE
-  │
-  ▼
-LINK
-  │
-  ▼
-EXECUTE
-  │
-  ▼
-EVIDENCE
-```
-
-Mapped directly to IPERA:
-
-```text
-Service Architect + Domain SMEs
-              │
-              ▼
-     SM-DAG + Lifecycle Cards
-              │
-              ▼
-             SMV
-           COMPILE
-              │
-              ▼
-        Execution DAG
-              │
-              ▼
-         Orchestrator
-             LINK
-              │
-              ▼
-      Executable Pipeline
-              │
-              ▼
-     Execution Capability
-             RUN
-              │
-              ▼
-       State / Evidence
-```
-
-The foundational principle is therefore:
-
-> **IPERA separates service knowledge from compilation, compilation from linking, and linking from execution.**
-
-Each construct has a distinct responsibility.
-
-The Service Model remains authoritative.
-
-The SMV validates and compiles that knowledge.
-
-The Execution DAG expresses the compiled realization.
-
-The Orchestrator links the required automation modules into an executable pipeline.
-
-The Execution Capability runs that pipeline.
-
-State and evidence record what occurred.
-
-The separation is intentional.
