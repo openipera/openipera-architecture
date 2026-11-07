@@ -132,87 +132,90 @@ This is an **illustrative collaboration pattern**, not a required organizational
 ---
 ## 3. Forward and Reverse Validation
 
-Because the SM-DAG and Lifecycle Cards are independently authored, the SMV can validate the Service Model in **both directions**.
+Forward and reverse validation ensure that **every declared service capability and realization dependency is accounted for**. Their purpose is to detect gaps and inconsistencies in independently represented service knowledge, not to require SM-DAG decomposition edges and LC dependencies to mirror one another.
 
-**Forward validation** begins with architectural intent and asks whether the capabilities identified through SM-DAG decomposition are corroborated by the Lifecycle Cards.
+**Forward validation** begins with the SM-DAG and asks whether each capability declared through service decomposition exists and has a companion Lifecycle Card describing its realization requirements.
 
-**Reverse validation** begins with SME realization knowledge and asks whether the capabilities identified by the Lifecycle Cards are represented in the architectural model.
+**Reverse validation** begins with Lifecycle Card requirements and asks whether every declared service dependency resolves to **EITHER** a modeled Service Node or Atomic Node **OR** an explicitly identified external process responsible for satisfying the obligation.
 
 ```text
                  FORWARD VALIDATION
 
-        SM-DAG ─────────────────────► Lifecycle Cards
-
-     "Architecture says               "Does the SME
-      this is needed."                 corroborate it?"
+       SM-DAG ─────────────────────► Lifecycle Cards
+       Every modeled capability       Companion LC exists;
+       is accounted for               realization is described
 
 
                  REVERSE VALIDATION
 
-        SM-DAG ◄───────────────────── Lifecycle Cards
-
-     "Does architecture               "The SME says
-      represent this?"                 this is needed."
+       SM-DAG / EXTERNAL PROCESS ◄── Lifecycle Cards
+       Every declared requirement     Dependency is declared
+       is accounted for
 ```
 
-The comparison produces meaningful model states:
+The SMV distinguishes these outcomes:
+
+| Observation | SMV finding |
+|---|---|
+| SM-DAG node has its required companion LC | Modeled capability accounted for |
+| SM-DAG node lacks its companion LC | Authoring integrity violation |
+| LC dependency resolves to an existing SN or AN | Internal dependency resolved |
+| LC dependency explicitly identifies an external process | External obligation identified; fulfillment remains outstanding until evidenced |
+| LC dependency resolves to neither | Unresolved dependency; actionable capability gap |
+
+A decomposition relationship and a realization dependency are **different kinds of assertions**. An LC requirement need not appear as a decomposition edge, and the absence of a matching edge is not by itself a discrepancy. Likewise, an external process need not be represented as an internal service node.
+
+### Findings as Service Decomposition Project Candidates
+
+An unresolved LC dependency is more than a validation failure: it identifies a possible gap in the enterprise's modeled service capabilities.
 
 ```text
-SM-DAG       LC          SMV STATUS
-------       --          ----------
-
- YES         YES         CORROBORATED
-
- YES          NO         UNCORROBORATED
-                         Architectural expectation exists,
-                         but is not represented by the SME.
-
-  NO         YES         UNMODELED
-                         SME requirement exists,
-                         but is not represented in the
-                         architectural decomposition.
-
-  NO          NO         No asserted relationship.
+LC: General Purpose Compute
+    |
+    +-- Compute       RESOLVED
+    +-- Network       RESOLVED
+    +-- Storage       RESOLVED
+    +-- Capability E  UNRESOLVED
+                           |
+                           v
+                      SMV FINDING
+                           |
+                           v
+             SERVICE DECOMPOSITION
+                PROJECT CANDIDATE
 ```
 
-A discrepancy does **not necessarily mean that either source is invalid**.
+**The SMV MUST identify unresolved service dependencies and report them as actionable capability gaps. Such findings MAY produce Service Decomposition Project candidates**, preserving the originating Lifecycle Card, required capability, and relevant dependency context.
 
-For example, an architectural relationship that is not corroborated by the LC might indicate that the capability has not yet been implemented, has not yet been automated, has been omitted from the LC, or is no longer actually required.
+The accountable authority determines disposition: model the missing capability (potentially through a Service Decomposition Project), explicitly designate an external process, or correct the originating assertion. A missing model entry does not prove that an implementation or automation is absent; the capability may exist but remain undocumented.
 
-Likewise, a requirement asserted by an SME but absent from the SM-DAG might identify a missing architectural relationship, an implementation-specific requirement, or new domain knowledge not yet incorporated into the architecture.
-
-The SMV does not infer which explanation is correct.
-
-```text
-            DISCREPANCY
-                 │
-                 ▼
-              ┌─────┐
-              │ SMV │
-              └─────┘
-                 │
-                 ▼
-       DETECT + CLASSIFY + REPORT
-                 │
-                 X
-                 │
-          DO NOT GUESS
-```
-
-This distinction is important:
+The SMV does not create or authorize projects, infer missing service knowledge, silently repair authoritative sources, or treat external obligations as already satisfied.
 
 > **A discrepancy is information before it is an error.**
 
-The SMV reports the observed difference between the independently authored sources. The disposition of that difference is determined separately through policy and governance.
+A Service Model can be structurally valid yet contain unresolved realization requirements. The SMV reports the distinction; applicable policy and governance determine whether a finding blocks compilation or production realization.
 
-This allows IPERA to distinguish **model validity** from **model agreement**.
+The resulting feedback loop is:
 
-A Service Model may be syntactically and structurally valid while still containing unresolved disagreement between architectural intent and SME realization knowledge.
+```text
+SERVICE KNOWLEDGE
+       |
+       v
+   SMV FINDINGS
+       |
+       v
+SERVICE DECOMPOSITION PROJECT CANDIDATES
+       |
+       v
+AUTHORIZED MODEL DEVELOPMENT
+       |
+       v
+EXPANDED SERVICE KNOWLEDGE
+```
 
-Forward and reverse validation therefore turn the overlap between the SM-DAG and Lifecycle Cards into an intentional **reconciliation mechanism**, rather than treating the overlap as redundant information.
+This enables OpenIPERA to identify what the enterprise needs before every capability has been modeled or automated, while preserving explicit accountability for resolving the gap.
 
 ---
-
 ## 4. The Service Model Validator as Compiler
 
 The **Service Model Validator (SMV)** is the semantic compiler for the IPERA Service Model.
