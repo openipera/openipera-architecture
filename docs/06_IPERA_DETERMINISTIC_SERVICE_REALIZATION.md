@@ -233,35 +233,7 @@ The detailed provenance manifest, event schema, buffer durability/recovery seman
 
 ---
 
-## 6. Git Is an Implementation, Not an Architectural Requirement
-
-Git happens to satisfy these requirements extremely well.
-
-A Git commit naturally represents an immutable point-in-time version of a collection of related artifacts. If the SM-DAG and Lifecycle Cards reside together under version control, a single Service Model commit can identify the exact mutually consistent deck used by a compilation.
-
-For example:
-
-    Service Model @ 7f31c8a
-            │
-            ├── SM-DAG
-            ├── LC-A
-            ├── LC-B
-            ├── LC-C
-            └── ...
-
-Reconstructing the Service Model used for that realization becomes conceptually equivalent to retrieving revision `7f31c8a`.
-
-But IPERA should specify the **capability**, not Git:
-
-> **The authoritative Service Model Repository MUST provide immutable point-in-time revisioning sufficient to reconstruct the exact Service Model inputs used for a realization.**
-
-Git is one implementation capable of satisfying that requirement. Another repository technology could satisfy it if it provides equivalent semantics.
-
-The same principle applies to automation implementations.
-
----
-
-## 7. Relationship to State
+## 6. Relationship to State
 
 This also helps separate the different meanings of **state** that prompted the discussion.
 
