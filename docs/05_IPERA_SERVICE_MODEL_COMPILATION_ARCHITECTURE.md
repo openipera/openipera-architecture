@@ -2,62 +2,58 @@
 
 ## 1. Purpose and Foundational Principle
 
-IPERA treats the **Service Model as source**, not as workflow.
+OpenIPERA treats the **Service Model as authoritative source knowledge**, not as workflow.
 
-The Service Model describes the architectural and domain knowledge required to realize a service. It is the authoritative input from which an executable realization is derived. Execution workflow is therefore **compiled from the Service Model rather than authored independently as persistent architectural truth**.
+The Service Model describes the services that exist, their decomposition, and their realization requirements. Given a specific request, the Compiler derives a **Service Object Graph (SOG)** representing the obligations required to fulfill that request. Execution workflows are constructed downstream by orchestration rather than independently authored as persistent service-model truth.
 
-This establishes the fundamental IPERA transformation:
+This establishes the fundamental OpenIPERA transformation:
 
 ```text
-SERVICE MODEL
-Authoritative Source
-      │
-      ▼
-SERVICE MODEL VALIDATOR
-Validate + Compile
-      │
-      ▼
-EXECUTION DAG
-Derived Realization
-      │
-      ▼
-ORCHESTRATOR
-Link
-      │
-      ▼
-EXECUTION CAPABILITY
-Execute
-      │
-      ▼
-STATE / EVIDENCE
+SERVICE MODEL + REQUEST CONTEXT
+       Authoritative Knowledge
+                 |
+                 v
+       SERVICE MODEL VALIDATOR
+          Validate + Report
+                 |
+                 v
+              COMPILER
+       Derive Service Obligations
+                 |
+                 v
+                SOG
+     Request-Specific Realization
+                 |
+                 v
+            ORCHESTRATOR
+       Construct Execution Workflow
+                 |
+                 v
+         EXECUTION CAPABILITY
+                 |
+                 v
+           STATE / EVIDENCE
 ```
 
 The distinction is foundational:
 
-```text
-Service Model
-    describes what is believed to be true
-    about the service
+- **Service Model:** Describes the services that exist, their decomposition, and their realization requirements.
+- **Service Object Graph (SOG):** Represents the complete set of service obligations and their relationships required to fulfill a specific request.
+- **Execution workflow:** Represents how an orchestration engine coordinates fulfillment of those obligations.
 
-Execution DAG
-    describes what must happen
-    to realize that service
-```
+The SOG describes **what must be accomplished**, not the engine-specific instructions for accomplishing it. It is derived output, not independently maintained architectural truth.
 
-The Execution DAG is **derived output**. It is not the authoritative definition of the service and is not independently maintained as such.
+When the authoritative Service Model changes, subsequent compilations use the updated, validated knowledge under applicable policy. An existing approved realization and its execution evidence MUST NOT be silently mutated merely because the Service Model changed.
 
-When the Service Model changes, the Execution DAG is **recompiled**.
-
-This gives IPERA a familiar and deliberate architectural pattern:
+This gives OpenIPERA a familiar and deliberate architectural pattern:
 
 ```text
-SOURCE → COMPILE → LINK → EXECUTE
+SOURCE → VALIDATE → COMPILE → LINK → EXECUTE
 ```
 
-The remainder of this document defines how IPERA applies that pattern to service realization.
+The remainder of this document defines how OpenIPERA applies that pattern to service realization.
 
 ---
-
 ## 2. Two Independent Authorities
 
 The IPERA Service Model is constructed from **two independently authored sources of truth**.
