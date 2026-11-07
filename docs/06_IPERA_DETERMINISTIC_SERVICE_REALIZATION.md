@@ -1,5 +1,21 @@
 # IPERA — Deterministic Realization from a Dynamic Service Model
 
+## Executive Architecture Summary (TL;DR)
+
+OpenIPERA compiles request-specific service obligations from an authoritative Service Model that continues to evolve. Its integrity contract is to establish **which knowledge was validated, which exact component versions were consumed, and what obligations were derived**—without freezing the live Service Model or prescribing the organization's change-control technology.
+
+1. **Evolving knowledge, verifiable compilation.** The Compiler MUST use service knowledge consistent with a referenced SMV validation result and reject compilation when that consistency cannot be established.
+2. **Mandatory internal versioning.** Stable identities, hierarchical revisions, and uniquely identified validation results distinguish the service knowledge evaluated and consumed.
+3. **Self-describing SOG.** Every successfully compiled Service Object Graph carries a provenance manifest identifying its compilation, validation reference, request context, and the exact component identities and revisions used.
+4. **Native observability.** OpenIPERA is instrumented from inception. Mandatory compilation provenance events are durably accepted internally before successful SOG publication and can be exported asynchronously to organizational observability systems.
+5. **Clear responsibility boundaries.** OpenIPERA establishes compilation provenance; the Orchestrator selects implementation bindings, execution capabilities produce outcomes, and organizational systems govern authorization, operational state, evidence retention, and assurance.
+
+**OpenIPERA does not freeze the Service Model. It establishes and records the exact provenance of every compilation.**
+
+---
+
+## Deep Read
+
 ## The Question
 
 OpenIPERA treats the Service Model as evolving authoritative knowledge. The SM-DAG, Lifecycle Cards, and automation bindings may change independently, potentially through the actions of multiple concurrent authors.
@@ -250,27 +266,3 @@ The SOG carries its provenance, and OpenIPERA durably records mandatory provenan
 > **OpenIPERA knows what knowledge it used and what obligations it derived. Operational systems establish what was authorized, executed, and actually exists.**
 
 ---
-
-# Architectural Principles
-
-**1. The Service Model is mutable knowledge; realization provenance is immutable.**
-
-**2. Identity and revision are separate concerns. Identity establishes what an architectural object is; revision establishes which version participated in a realization.**
-
-**3. Every realization MUST identify an immutable Service Model revision sufficient to reconstruct the exact SM-DAG and LC deck from which it was compiled.**
-
-**4. Every linked automation capability MUST resolve to an immutable implementation revision sufficient to reconstruct the implementation that was executed.**
-
-**5. Deterministic reconstruction does not require freezing the live Service Model. It requires preserving immutable references to the knowledge and implementations used at the time of realization.**
-
-**6. Version-control technologies such as Git are implementations of these requirements, not architectural prerequisites.**
-
----
-
-## Short Answer to the Original Question
-
-> **The deck can change. The deck used for a realization cannot.**
-
-Or, stated more formally:
-
-> **IPERA does not freeze the Service Model. It freezes the provenance of each realization.**
