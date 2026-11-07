@@ -206,42 +206,55 @@ It does not answer:
 
 ## 6. Required Construction State Transitions
 
-A model may exist in an incomplete authoring state before it is valid for compilation.
+A model MAY exist in an incomplete authoring state before it is valid for compilation. The following are logical readiness states and gates, not necessarily separate products or strictly sequential operational processes.
 
 ```text
 NODE CREATED
      │
      ├── SM-DAG node exists
-     └── LC stub exists with lc_id only
+     └── companion LC stub exists with lc_id only
               │
               ▼
 LC AUTHORED
      │
      ├── node_id asserted
      ├── service_dependencies authored
+     ├── applicable lifecycle obligations declared
      └── automation fields completed as required by node_type
               │
               ▼
 AUTOMATION RESOLVED
      │
-     └── Atomic automation_id resolves
+     └── Atomic automation_id resolves through the registry
+         to an existing, resolvable artifact
               │
               ▼
 SMV VALIDATION
      │
-     ├── structure
-     ├── identity
-     ├── reconciliation
-     ├── automation resolution
-     └── policy
+     ├── structure and identity
+     ├── decomposition and dependency integrity
+     ├── independent-assertion reconciliation findings
+     └── automation reference and artifact resolvability
               │
               ▼
-COMPILABLE MODEL
+CATALOG GOVERNANCE
+     │
+     └── applicable PE or IPE authority controls
+         acceptance and publication
+              │
+              ▼
+ELIGIBLE FOR COMPILATION UNDER APPLICABLE POLICY
+     │
+     └── Compiler may derive a request-specific SOG
 ```
 
-The existence of an LC stub does not imply that the model is ready to compile.
+The existence of an LC stub does not imply that the model is ready for validation or compilation.
 
-The SMV MUST reject incomplete companion LCs when compilation is attempted.
+The SMV MUST reject incomplete or invalid companion LCs when validation is requested. Successful SMV validation establishes model integrity; it does not itself grant catalog publication approval or establish operational readiness. The SMV reports findings without silently modifying authoritative service knowledge.
+
+Catalog acceptance and publication are governed by the applicable PE or IPE authority. The Compiler consumes validated service knowledge eligible under the applicable policy to derive a request-specific Service Object Graph (SOG).
+
+Publication is not an unconditional prerequisite for compilation: development, testing, and proof-of-concept activities MAY compile validated, unpublished models when policy permits. Production realization MUST use appropriately authorized service knowledge.
 
 ---
 
