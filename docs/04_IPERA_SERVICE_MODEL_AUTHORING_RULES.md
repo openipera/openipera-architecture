@@ -301,7 +301,7 @@ Atomic Node:
 repo/path/template-id/runtime-endpoint
 ```
 
-**Prohibited.** The Atomic Node LC references the automation capability by identity. The Automation Registry resolves implementation.
+**Prohibited.** Neither the Atomic Node nor its Lifecycle Card may embed implementation-specific references as substitutes for automation identity. The LC binds the Atomic Node to a stable automation capability UUID; the Automation Registry resolves that identity to the current implementation.
 
 ### Agreement by Mutation
 
@@ -312,7 +312,7 @@ SM-DAG and LC disagree
 silently change one source until validation passes
 ```
 
-**Prohibited.** Disagreement is evidence. The SMV reports it; governance determines disposition.
+**Prohibited.** The SMV MUST NOT silently modify either authoritative source to eliminate disagreement. Discrepancies must be reported and resolved through the responsible service owners, SMEs, and applicable governance processes. Authorized corrections to source knowledge are permitted and require revalidation.
 
 ---
 
