@@ -216,151 +216,88 @@ EXPANDED SERVICE KNOWLEDGE
 This enables OpenIPERA to identify what the enterprise needs before every capability has been modeled or automated, while preserving explicit accountability for resolving the gap.
 
 ---
-## 4. The Service Model Validator as Compiler
+## 4. Service Model Validation and Compilation Boundaries
 
-The **Service Model Validator (SMV)** is the semantic compiler for the IPERA Service Model.
-
-It consumes the independently authored SM-DAG and Lifecycle Cards, evaluates whether those sources form a coherent and realizable Service Model, and derives the Execution DAG required to realize the service.
+The **Service Model Validator (SMV)** and **Compiler** have separate responsibilities. The SMV evaluates the integrity of authoritative service knowledge and reports findings; the Compiler derives a request-specific **Service Object Graph (SOG)** from service knowledge that satisfies applicable validation and policy requirements.
 
 ```text
-            AUTHORITATIVE SOURCE
-
-          SM-DAG          Lifecycle Cards
-             \                /
-              \              /
-               ▼            ▼
-                ┌──────────┐
-                │   SMV    │
-                │ COMPILER │
-                └──────────┘
-                      │
-                      ▼
-              VALIDATED MODEL
-                      │
-                      ▼
-               EXECUTION DAG
-              Compiled Output
+           AUTHORITATIVE SERVICE KNOWLEDGE
+        SM-DAG + Lifecycle Cards + Automation Registry
+                          |
+                          v
+                         SMV
+                  Validate + Report
+                          |
+                          v
+                VALIDATION RESULTS
+              Findings + Model Status
+                          |
+                          v
+                COMPILER + REQUEST
+                     CONTEXT
+                          |
+                          v
+                         SOG
+          Derived Realization Obligations
 ```
 
-The compiler analogy is intentional.
+The software compiler analogy remains useful, provided that validation and compilation are not conflated:
 
-A conventional compiler does not merely determine whether source text is syntactically valid. It evaluates references, types, relationships, and semantic consistency before producing executable output.
+| Software compilation concept | OpenIPERA responsibility |
+|---|---|
+| Source parsing and syntax checks | SMV: validate schemas and structure |
+| Type and identity checks | SMV: validate node/LC semantics and identities |
+| Reference resolution | SMV: verify modeled dependencies, external declarations, automation registry entries, and referenced artifacts |
+| Semantic analysis | SMV: detect inconsistent relationships and cycles |
+| Diagnostics | SMV: report findings, including potential Service Decomposition Project candidates |
+| Compilation | Compiler: derive the request-specific SOG |
+| Linking | Orchestrator: construct the executable workflow |
 
-The SMV performs the equivalent functions for a Service Model:
+The Automation Registry is authoritative for automation identity and implementation resolution. SMV verification of a resolvable reference does **not** establish that the implementation will execute successfully.
+
+### Validation, Authorization, and Compilation
+
+These are distinct decisions:
+
+- **Validation:** The SMV establishes structural and referential integrity and reports discrepancies, unresolved dependencies, and other findings.
+- **Authorization:** Applicable governance and policy determine whether the service knowledge may be used for the intended purpose.
+- **Compilation:** Given a model satisfying applicable validation and policy requirements and a specific request context, the Compiler derives the SOG representing realization obligations.
+
+Validated but unpublished service knowledge MAY be compiled for testing or proof-of-concept purposes when policy permits. Production realization requires appropriate authorization; successful validation alone does not grant it.
+
+**The SMV MUST be independently callable without invoking the Compiler. Compilation MUST consume service knowledge that has satisfied applicable validation requirements. Neither component may silently modify authoritative service knowledge.**
+
+### Findings and Revalidation
 
 ```text
-SOFTWARE COMPILER                 IPERA SMV
------------------                 ---------
-
-Parse source                      Read SM-DAG + LCs
-
-Syntax checking                   Validate schemas,
-                                  identifiers and structure
-
-Type checking                     Validate node and
-                                  LC semantics
-
-Symbol resolution                 Resolve referenced services
-                                  and automation identities
-
-Semantic analysis                 Evaluate decomposition,
-                                  dependencies and model
-                                  consistency
-
-Cross-source analysis             Forward + reverse validation
-                                  of SM-DAG and LC assertions
-
-Diagnostics                       Report errors, warnings,
-                                  discrepancies and evidence
-
-Compilation                       Derive Execution DAG
+SMV FINDING
+     |
+     v
+ACCOUNTABLE AUTHORITY
+Determines Disposition
+     |
+     +-- Correct Source Knowledge
+     |
+     +-- Model Missing Capability
+     |      (Service Decomposition Project)
+     |
+     +-- Identify External Process
+     |
+     v
+SMV REVALIDATION
+     |
+     v
+COMPILATION ELIGIBILITY
+     |
+     v
+REQUEST-SPECIFIC SOG
 ```
 
-The SMV therefore evaluates several different questions before compilation can complete:
+The SMV detects and reports malformed structures, unresolved references, cycles, inconsistent assertions, and unresolved automation identities. It MUST NOT silently repair the model or choose a governance disposition. Corrections and additions occur in the authoritative sources, followed by revalidation. Findings may identify Service Decomposition Project candidates, but the SMV does not authorize projects.
 
-```text
-Is the model structurally valid?
-            │
-            ▼
-Do all referenced objects exist?
-            │
-            ▼
-Are node and LC semantics valid?
-            │
-            ▼
-What does forward validation reveal?
-            │
-            ▼
-What does reverse validation reveal?
-            │
-            ▼
-Are required automation identities resolvable?
-            │
-            ▼
-Does policy permit compilation?
-            │
-            ▼
-DERIVE EXECUTION DAG
-```
-
-The distinction between the last two stages is important.
-
-The **SMV identifies facts about the model**. It detects malformed structures, unresolved references, cycles, disagreements between authoritative sources, and unresolved automation identities.
-
-The **governance policy determines the disposition** of those findings.
-
-For example, a forward-validation discrepancy might be configured as informational during early model development, require human review in a controlled environment, or prevent compilation in production.
-
-The SMV itself does not redefine architectural truth in order to obtain a successful result.
-
-```text
-INPUT
-  │
-  ▼
-SMV
-  │
-  ├── VALIDATE
-  ├── RECONCILE
-  ├── RESOLVE
-  ├── DIAGNOSE
-  │
-  └── COMPILE ─────────► Execution DAG
-           only when permitted
-           by governing policy
-```
-
-Most importantly:
-
-> **The SMV MUST NOT silently repair the Service Model.**
-
-If the SM-DAG and Lifecycle Cards disagree, the compiler reports the disagreement. If an automation identity cannot be resolved, it reports the unresolved binding. If the model contains a semantic or structural inconsistency, it reports that inconsistency.
-
-Correction occurs at the **authoritative source**.
-
-The Service Model is then evaluated again.
-
-```text
-SMV diagnostic
-      │
-      ▼
-Authoritative source corrected
-      │
-      ▼
-SMV rerun
-      │
-      ▼
-Model validated
-      │
-      ▼
-Execution DAG recompiled
-```
-
-This gives IPERA the same fundamental discipline found in software compilation:
-
-> **Source is authoritative. Compiled output is derived. Diagnostics do not rewrite source.**
+> **Source knowledge is authoritative. Validation reports its integrity. Governance determines permissible use. Compilation derives the request-specific obligations.**
 
 ---
-
 ## 5. Execution DAG as Compiled Output
 
 The **Execution DAG is compiled output**.
