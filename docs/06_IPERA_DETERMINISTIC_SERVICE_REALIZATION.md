@@ -2,15 +2,25 @@
 
 ## The Question
 
-IPERA treats the Service Model as dynamic knowledge. Service Architects may evolve the SM-DAG, SMEs may modify Lifecycle Cards, and automation implementations may change over time.
+OpenIPERA treats the Service Model as evolving authoritative knowledge. The SM-DAG, Lifecycle Cards, and automation bindings may change independently, potentially through the actions of multiple concurrent authors.
 
-This creates an important question:
+This raises a fundamental question:
 
-> **If a full deck of Lifecycle Cards establishes the knowledge used to realize a service, how can that realization be deterministically reconstructed when the Service Model and its LCs may subsequently change?**
+> **How can OpenIPERA establish that a request-specific Service Object Graph (SOG) was compiled from consistent, validated service knowledge when that knowledge may change during validation or compilation?**
 
-The answer is that IPERA does **not** require the Service Model to remain static.
+OpenIPERA is responsible for identifying the knowledge being validated and compiled, detecting inconsistencies between those inputs, and rejecting compilation when consistency cannot be established.
 
-> **The Service Model is mutable. The provenance of a realization is immutable.**
+**OpenIPERA neither imposes nor prescribes a particular concurrency-control mechanism**, including locking, snapshots, transactional repositories, or authoring serialization.
+
+Control over concurrent modifications, publication of authoritative revisions, and operational change approval belongs to **IPERA Governance**, implemented according to the consuming organization's change-control policies.
+
+### Open Architectural Concern — Concurrent Authoring and Change Control
+
+The implications of multiple authors concurrently modifying the SM-DAG and Lifecycle Cards require further examination. It remains to be established whether the existing validation and compilation integrity checks are sufficient, or whether particular operational environments require stronger change-control guarantees.
+
+OpenIPERA must expose detectable inconsistencies. It must not silently assume that the consuming organization's change-control processes eliminate concurrency risks. In particular, comparing revision identifiers alone does not prove that all inputs were consistent throughout compilation.
+
+> **Foundational principle: OpenIPERA verifies the consistency of the knowledge it compiles. IPERA Governance determines how that knowledge is changed, published, and authorized.**
 
 ---
 
