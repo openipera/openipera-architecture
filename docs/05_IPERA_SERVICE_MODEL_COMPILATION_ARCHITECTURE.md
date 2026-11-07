@@ -382,6 +382,8 @@ OpenIPERA produces an identifiable, request-specific SOG with provenance suffici
 
 **OpenIPERA does not prescribe or require retention of compiled SOGs.** The consuming organization establishes retention, audit, provenance, and replay requirements, and its orchestration and operational systems implement those requirements. OpenIPERA does not mandate a SOG repository, retention period, or persistence mechanism.
 
+As specified in [Document 06](06_IPERA_DETERMINISTIC_SERVICE_REALIZATION.md), the Compiler **MUST** verify that the service knowledge actually consumed corresponds to the referenced SMV validation identity and evaluated input-version set; it **MUST** reject compilation when consistency cannot be established. Every successfully compiled SOG **MUST** include a provenance manifest identifying the exact component versions used. OpenIPERA is natively instrumented for observability and **MUST** durably accept mandatory compilation provenance events internally before reporting successful SOG publication. These records do not require retention of complete SOGs and are distinct from the broader IPERA Observability pillar's operational assurance responsibilities.
+
 Changes to authoritative service knowledge require revalidation. Subsequent compilations use the applicable validated model version. Previously compiled SOGs and their associated execution evidence, where retained by downstream systems, MUST NOT be silently modified as a consequence of later service-model changes.
 
 ---
