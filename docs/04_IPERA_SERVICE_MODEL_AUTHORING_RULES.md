@@ -318,22 +318,23 @@ silently change one source until validation passes
 
 ## 8. Minimum Authoring Invariants
 
-Before a model is eligible for compilation:
+Before a model can pass SMV validation and become eligible for compilation under applicable policy, the following invariants MUST hold:
 
 - every SM-DAG node MUST have exactly one companion LC;
 - every completed LC MUST correspond to exactly one SM-DAG node;
 - no orphan LC may exist;
 - node/LC identity bindings MUST be internally consistent;
-- every LC service dependency MUST resolve to an existing Service Node;
-- Atomic Node LCs MUST terminate service dependency resolution;
+- every LC-declared service dependency MUST resolve to EITHER a Service Node or Atomic Node represented in the SM-DAG, OR an explicitly identified external process required to satisfy that dependency;
+- Atomic Nodes MUST terminate SM-DAG decomposition, but their LCs MAY declare service dependencies;
 - every Atomic Node LC MUST reference a valid automation UUID;
-- every referenced automation UUID MUST resolve through the authoritative Automation Registry;
+- every referenced automation UUID MUST resolve through the authoritative Automation Registry, and its referenced version-controlled artifact MUST exist and be resolvable;
 - no authored structure may encode execution order as service-model truth.
 
-These invariants establish construction integrity. Reconciliation between independently authored architectural and realization assertions remains a separate SMV responsibility.
+An external process is an obligation that cannot currently be resolved to an internally modeled service capability. It MAY be fulfilled by a person, external system, or other process; it MUST NOT be silently treated as satisfied. The compiler MUST preserve that outstanding obligation in the SOG rather than inventing an internal implementation.
+
+These invariants establish construction and reference integrity. The SMV separately evaluates consistency between independently authored decomposition and LC assertions, including cycles across their relationships, and reports discrepancies without silently modifying either source. Responsible service owners, SMEs, and applicable governance processes determine disposition. Successful validation alone does not authorize production realization.
 
 ---
-
 ## 9. Authoring Model Summary
 
 ```text
