@@ -337,43 +337,67 @@ These invariants establish construction and reference integrity. The SMV separat
 ---
 ## 9. Authoring Model Summary
 
+The following depicts the production authorization path. Validated but unpublished models MAY also be compiled for testing or proof-of-concept purposes under applicable policy.
+
 ```text
-                  SERVICE ARCHITECT
-                         │
-                         │ creates
-                         ▼
-                      SM-DAG
-                         │
-                         │ node creation
-                         ▼
-                  COMPANION LC STUB
-                         │
-                         │ populated by
-                         ▼
-                DOMAIN / SERVICE SME
-                         │
-                         ▼
-                    LC REGISTRY
-                         │
-                         │ Atomic Node automation_id
-                         ▼
-                AUTOMATION REGISTRY
-                         │
-                         ▼
-                         SMV
-                VALIDATE + RECONCILE
-                     + COMPILE
+       SERVICE OWNERS / DOMAIN SMEs
+                    |
+                    v
+                  SM-DAG
+                    |
+                    | node creation
+                    v
+             COMPANION LC STUB
+                    |
+                    | SME authors
+                    v
+             COMPLETED LC
+                    |
+          +---------+----------+
+          |                    |
+          v                    v
+   SERVICE DEPENDENCIES   AUTOMATION BINDING
+   (Internal/External)    (Atomic Nodes)
+          |                    |
+          |                    v
+          |             AUTOMATION REGISTRY
+          |                    |
+          +---------+----------+
+                    |
+                    v
+                   SMV
+             VALIDATE + REPORT
+                    |
+                    v
+          CATALOG GOVERNANCE
+              PE / IPE
+                    |
+                    v
+                 COMPILER
+                    |
+                    v
+                   SOG
+                    |
+                    v
+               ORCHESTRATION
 ```
 
 The ownership boundaries are therefore:
 
-```text
-Service Architect       → decomposition assertions
-Domain / Service SME    → realization assertions
-Automation Registry     → implementation resolution
-SMV                     → validation, reconciliation, compilation
-```
+| Responsibility | Authority |
+|---|---|
+| Service decomposition | Service Owners / Domain SMEs |
+| Lifecycle Card assertions | Responsible Domain / Service SMEs |
+| Automation capability resolution | Automation Registry |
+| Model integrity and discrepancy reporting | SMV |
+| Catalog acceptance and publication | PE / IPE governance |
+| Request-specific SOG generation | Compiler |
+| Workflow realization | Orchestration |
+
+LC-declared service dependencies resolve to modeled service capabilities or explicitly identified external processes. Declaring an obligation does not establish that it has been satisfied.
+
+The diagram describes conceptual responsibilities and the production authorization path, not an execution sequence. SMV validation does not itself authorize publication or production realization.
 
 The construction rule is:
 
-> **Define the service first. Instantiate its companion Lifecycle Card with it. Then let the appropriate SME describe how that existing service is realized.**
+> **Define the service first. Instantiate its companion Lifecycle Card with it. Then let the responsible SMEs describe its realization requirements, including internal service dependencies, external obligations, and atomic automation bindings where applicable.**
