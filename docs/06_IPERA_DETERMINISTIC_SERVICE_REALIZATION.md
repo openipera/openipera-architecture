@@ -46,32 +46,46 @@ Multiple authors may contribute to this evolving knowledge. OpenIPERA does not p
 
 ---
 
-## 2. Identity and Revision Are Different Concepts
+## 2. Identity, Revision, and Validation State
 
-Every persistent architectural object requires a stable identity independent of its revision.
+OpenIPERA mandates an internal versioning and validation schema for identifying and verifying the **state of its internal versions**. This is Service Model version state, not infrastructure runtime state or operationally approved state.
 
-| Object | Identity — "What is it?" | Revision — "Which version?" |
-|---|---|---|
-| Service Node | `node_uuid` | Service Model revision |
-| Lifecycle Card | `lc_uuid` | Service Model revision |
-| Automation | `automation_uuid` | Implementation revision, e.g. Git commit |
+The schema distinguishes:
 
-For example:
+- **Stable object identity:** Which architectural construct is represented, independently of revisions to its definition.
+- **Object revision identity:** Which version of that construct's authoritative definition is represented.
+- **Aggregate revision identity:** Which combination of constituent revisions is represented by a Service DAG, the complete SM-DAG, or the Lifecycle Card Registry.
+- **Validation-run identity:** Which SMV evaluation occurred, including the exact input-version set evaluated and its validation findings and status.
 
-    automation_name: provision-disk
-    automation_uuid: 550e8400-e29b-41d4-a716-446655440000
+The mandatory versioning hierarchy covers:
 
-The implementation may evolve:
+| Construct | Required identity and revision semantics |
+|---|---|
+| Complete SM-DAG | Stable graph identity and a revision identity that changes when its constituent structure or represented revisions change |
+| Constituent Service DAG (e.g., Networking, Storage, Application) | Stable identity and a revision reflecting its structure and constituent revisions |
+| Service Node or Atomic Node | Stable `node_id` and independently identifiable revision of its authoritative definition |
+| Lifecycle Card Registry | Stable registry identity and a revision reflecting the set and revisions of its cards |
+| Individual Lifecycle Card | Stable `lc_id` and independently identifiable revision of its realization knowledge |
+| Automation capability | Stable `automation_id` distinct from the revision of its implementation; automation binding resolution remains an independent registry responsibility |
+| SMV validation run | Unique run identity, exact evaluated input-version identities, and validation result |
 
-    automation_uuid X
-           │
-           ├── commit A
-           ├── commit B
-           └── commit C
+Changing an individual object advances the applicable object revision and the revisions of aggregates whose represented contents have changed. It does not automatically revise unrelated objects.
 
-The automation capability remains the same capability. The implementation revision changes.
+**The SMV MUST associate each validation result with the exact combination of authoritative input revisions it evaluated.** The Compiler MUST reference the applicable SMV validation identity and establish that the actual compilation inputs correspond to the validated input-version set. It MUST reject compilation when that correspondence cannot be established.
 
-> **Identity tells IPERA what something is. Revision tells IPERA exactly which version was used.**
+Version identifiers alone do not prove that underlying content is unchanged. Implementations must provide sufficient integrity verification for the revision identities to be meaningful. The specific version-number format, repository technology, content-verification technique, and concurrency-control mechanism are not prescribed here; detailed schema and integrity mechanics remain to be specified.
+
+### OpenIPERA Conformance Requirement
+
+OpenIPERA's internal versioning and validation schema is mandatory, not an optional organizational governance feature.
+
+A conformant implementation **MUST** maintain and enforce the prescribed identity, revision, and validation-state semantics. Organizations **MAY** use these identities and results within their own governance, change-control, publication, and operational processes.
+
+Organizations may extend the schema or use different underlying technologies provided the mandatory semantics remain intact. An implementation that disables, bypasses, or materially alters those semantics **MUST NOT** be represented as an **OpenIPERA-conformant implementation**.
+
+This conformance requirement does not prescribe organizational change-control procedures or imply that OpenIPERA owns operational state, historical SOG retention, or execution evidence retention.
+
+> **Identity establishes what an object is. Revision establishes which definition is represented. Validation identity establishes which combination of internal versions was evaluated.**
 
 ---
 
