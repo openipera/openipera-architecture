@@ -137,27 +137,40 @@ A compilation may reference an earlier validated version set if the required kno
 
 ## 4. Linking Resolves Automation Implementations
 
-The Execution DAG contains stable automation capability identities:
+The Service Object Graph (SOG) identifies the service realization obligations derived by the Compiler. Atomic automation obligations reference stable automation capability identities (`automation_id`), not necessarily particular implementation revisions.
 
-    automation_uuid
+The Orchestrator consumes the SOG and resolves applicable automation capabilities through the Automation Registry when constructing an executable workflow.
 
-At link time, the orchestrator resolves those identities against the Automation Registry to concrete implementations.
+```text
+SOG ATOMIC OBLIGATION
+     automation_id
+          |
+          v
+     ORCHESTRATOR
+          |
+          v
+   AUTOMATION REGISTRY
+          |
+          v
+  SELECTED IMPLEMENTATION
+    + artifact identity
+    + implementation revision
+          |
+          v
+   EXECUTABLE WORKFLOW
+```
 
-    automation_uuid X
-            │
-            ▼
-    Automation Registry
-            │
-            ▼
-      repo / artifact
-            │
-            ▼
-    immutable implementation revision
-    93fc27c...
+The Automation Registry maintains the relationship between stable capability identities and their available implementations. An implementation may change without requiring a new automation capability identity, provided the capability contract remains valid.
 
-A branch such as `main` is insufficient for deterministic reconstruction because it can move.
+Linking **MUST** establish the identity of the implementation actually selected for each automation obligation. That identity **MUST** be sufficient to distinguish the selected implementation from subsequent changes to registry bindings or implementation artifacts.
 
-The linked realization therefore records the immutable implementation revision actually selected.
+A mutable reference alone, such as a repository branch name, is insufficient to establish immutable implementation identity.
+
+Changes to Automation Registry bindings after compilation do not retroactively change the SOG. Selection of an implementation revision and its continued eligibility for execution remain subject to applicable governance policy.
+
+The mandatory internal versioning scheme for the SM-DAG, Lifecycle Cards, and validation identities does not prescribe versioning mechanisms for external automation implementation artifacts. Those artifacts remain governed by their respective automation authorities.
+
+> **OpenIPERA defines the automation capability reference. The Orchestrator resolves the implementation. The Execution Capability performs the work.**
 
 ---
 
