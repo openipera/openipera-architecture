@@ -483,25 +483,37 @@ This yields an architectural test:
 ---
 ## 8. Governance and Remediation
 
-The SMV **detects, classifies, and reports** discrepancies. It does not determine how those discrepancies are resolved and MUST NOT silently modify either authoritative source.
+The **SMV detects, classifies, and reports** discrepancies. It does not determine how findings are resolved and MUST NOT silently modify authoritative service knowledge.
 
-The disposition of an SMV finding is a matter of **governance and policy**.
+The disposition of an SMV finding is governed by the policies and decision authorities established through the **Governance pillar of IPERA**, not by OpenIPERA or the SMV itself. This responsibility does not prescribe a particular organizational structure, committee, role title, or approval workflow.
 
-Depending upon the deployment and maturity of the environment, a finding may:
+Three responsibilities are distinct:
 
-- be reported for information,
-- require human review,
-- prevent compilation or realization, or
-- trigger a defined manual process or action.
+| Responsibility | Architectural boundary |
+| --- | --- |
+| **Identify and classify findings** | The SMV validates service knowledge and reports discrepancies and their implications. |
+| **Establish policy-driven disposition and eligibility** | IPERA Governance establishes which findings require review, remediation, an authorized exception where supported, or prohibit compilation or realization. |
+| **Enforce compilation eligibility** | The Compiler and its integration boundary respect applicable validation requirements and governance decisions; blocking findings are not silently bypassed. |
 
-Resolution occurs against the appropriate authoritative source. The Service Model is then reevaluated by the SMV.
+Some conditions violate mandatory structural or semantic requirements of the Service Model. Governance cannot simply declare an invalid graph valid; it can direct correction, authorize an explicitly supported exception, or select a different realization approach. Other findings are informational or subject to deployment-specific policy. **Not every finding necessarily blocks compilation.**
 
-The specific governance mechanisms and policies are intentionally **not prescribed at this stage of the IPERA architecture**.
+Depending on the applicable requirements and policy, a finding may:
 
-> **Evolution Note:** This section is intentionally minimal and is expected to expand as IPERA moves from architectural validation and proof-of-concept work into production implementation. In particular, the classification, severity, routing, approval, remediation, and revalidation of SMV findings require further operational evidence before they can be defined as architectural requirements.
+- be reported for information;
+- require review by an accountable authority;
+- prevent compilation or realization;
+- trigger a defined manual or external process; or
+- identify a candidate **Service Decomposition Project** when a required capability or dependency is not adequately represented.
+
+The SMV may report a Service Decomposition Project candidate but does **not** initiate or authorize that project. The accountable authority determines whether to extend the model, identify an external process, correct an assertion, or take another permitted action. A knowledge gap is not automatically an error in existing knowledge.
+
+Remediation changes the appropriate authoritative source through its authorized process. The Service Model is then reevaluated by the SMV; findings are not silently repaired during validation or compilation.
+
+> **Evolution Note:** OpenIPERA defines validation findings and the information needed to support governance decisions. The broader IPERA Governance pillar establishes the applicable policies and decision framework. Specific severity classifications, routing mechanisms, approval workflows, and remediation processes remain deployment-dependent and are not prescribed by OpenIPERA.
+
+**Validation establishes what the Service Model asserts and whether it satisfies applicable structural and semantic requirements. Governance determines what the organization is permitted to do in response.**
 
 ---
-
 ## 9. Foundational Architecture
 
 The complete IPERA Service Model compilation architecture can therefore be represented as:
