@@ -26,24 +26,23 @@ OpenIPERA must expose detectable inconsistencies. It must not silently assume th
 
 ## 1. The Service Model Is Living Knowledge
 
-The authoritative Service Model represents the organization's current understanding of how services are defined and realized.
+The authoritative Service Model represents the organization's current understanding of how services are defined, decomposed, and realized.
 
-Its components are expected to evolve:
+Its knowledge evolves as service requirements, dependencies, and realization capabilities change.
 
-    Service Model
-        │
-        ├── SM-DAG
-        │      Service decomposition
-        │
-        ├── Lifecycle Cards
-        │      Service realization knowledge
-        │
-        └── Automation Registry
-               Capability → implementation binding
+The principal architectural constructs are:
 
-An SME changing an LC does not invalidate previous realizations. It creates a new revision of the knowledge that will be used for subsequent compilations.
+- **SM-DAG:** Expresses service definitions and decomposition relationships.
+- **Lifecycle Cards:** Express service realization knowledge, including dependencies, lifecycle obligations, and references to atomic automation capabilities.
+- **Automation Registry:** Independently maps stable automation capability identities to implementation references. It supports realization but is not itself part of the Service Model.
 
-Likewise, changing an automation implementation does not necessarily create a new automation capability.
+Changes to the SM-DAG, Lifecycle Cards, or automation implementations do not retroactively modify previously compiled SOGs or the historical evidence of completed realizations.
+
+Such changes may, however, affect whether a previous realization remains operationally acceptable under current governance policy.
+
+Multiple authors may contribute to this evolving knowledge. OpenIPERA does not prescribe their organizational roles, authoring workflow, or concurrency-control mechanisms.
+
+> **The Service Model is living knowledge. A change to that knowledge must not silently rewrite the historical basis of an earlier realization.**
 
 ---
 
