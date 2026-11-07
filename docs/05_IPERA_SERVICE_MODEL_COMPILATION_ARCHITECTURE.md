@@ -298,32 +298,40 @@ The SMV detects and reports malformed structures, unresolved references, cycles,
 > **Source knowledge is authoritative. Validation reports its integrity. Governance determines permissible use. Compilation derives the request-specific obligations.**
 
 ---
-## 5. Execution DAG as Compiled Output
+## 5. Service Object Graph as Compiled Output
 
-The **Execution DAG is compiled output**.
+The **Service Object Graph (SOG) is the Compiler's derived output**.
 
-It represents what must happen, and in what dependency relationship, to realize the validated Service Model.
-
-It is not independently authored and is not persistent architectural truth.
+It represents the service obligations and dependency relationships required to fulfill a specific request, based on the applicable validated Service Model and request context.
 
 ```text
-SM-DAG + Lifecycle Cards
-        │
-        ▼
-       SMV
-     COMPILE
-        │
-        ▼
-  Execution DAG
-COMPILED OUTPUT
+VALIDATED SERVICE MODEL
+          +
+     REQUEST CONTEXT
+          |
+          v
+       COMPILER
+          |
+          v
+         SOG
+   Compiled Output
+          |
+          v
+     ORCHESTRATOR
+          |
+          v
+   EXECUTION WORKFLOW
 ```
 
-When architectural intent or SME realization knowledge changes, the Service Model is reevaluated and the Execution DAG is **recompiled**.
+The SOG is **not independently authored architectural truth** and is **not an engine-specific executable workflow**. It describes what must be accomplished; the consuming orchestrator determines how to construct the executable realization.
 
-The Execution DAG is therefore not the executable pipeline itself. It is the compiled representation from which an executable pipeline can be linked.
+OpenIPERA produces an identifiable, request-specific SOG with provenance sufficient to relate the compiled output to its source knowledge and request context. **Identifiability does not imply persistence.**
+
+**OpenIPERA does not prescribe or require retention of compiled SOGs.** The consuming organization establishes retention, audit, provenance, and replay requirements, and its orchestration and operational systems implement those requirements. OpenIPERA does not mandate a SOG repository, retention period, or persistence mechanism.
+
+Changes to authoritative service knowledge require revalidation. Subsequent compilations use the applicable validated model version. Previously compiled SOGs and their associated execution evidence, where retained by downstream systems, MUST NOT be silently modified as a consequence of later service-model changes.
 
 ---
-
 ## 6. Orchestrator as Linker
 
 The **Orchestrator acts as the linker** between the compiled Execution DAG and the automation modules required to realize it.
