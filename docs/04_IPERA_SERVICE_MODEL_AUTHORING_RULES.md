@@ -21,6 +21,8 @@ Service Owners and Domain SMEs author service knowledge and realization assertio
 
 These rules are intentionally independent of any product or persistence technology.
 
+Authoring and publication MUST preserve the internal identity and hierarchical revision semantics established in [Document 06](06_IPERA_DETERMINISTIC_SERVICE_REALIZATION.md). Changes to an individual node or Lifecycle Card MUST be reflected in the revisions of applicable containing aggregates, without automatically revising unrelated components. This requirement does not prescribe an organization's authoring or publication workflow.
+
 ---
 
 ## 2. Governing Principles
