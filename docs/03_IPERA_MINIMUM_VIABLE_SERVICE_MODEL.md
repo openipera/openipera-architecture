@@ -1121,6 +1121,8 @@ MUST uniquely and immutably identify an Automation Registry entry. That entry MU
 
 Each service-model construct MUST have an identifiable authoritative source. Persistence independence does not eliminate source authority or version provenance.
 
+OpenIPERA-conformant implementations MUST also preserve the mandatory hierarchical component identity, revision, and SMV validation-state semantics defined in [Document 06](06_IPERA_DETERMINISTIC_SERVICE_REALIZATION.md). These requirements apply independently of the chosen persistence technology.
+
 Products are implementations of architectural capabilities.
 
 They are not architectural prerequisites.
