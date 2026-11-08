@@ -206,3 +206,11 @@ The objective is not to replace existing platforms, but to provide the independe
 **Workflows are derived from knowledge of the system. Knowledge of the system is not derived from workflows.**
 
 OpenIPERA is an evolving, evidence-driven reference architecture: **architecture is a hypothesis to be tested, not a diagram to be defended.**
+
+## Licensing and branding
+
+- **Software and executable source:** [Apache License 2.0](LICENSE).
+- **Original documentation, specifications, and technical diagrams:** [CC BY 4.0](LICENSE-DOCUMENTATION.md), with attribution and change indication.
+- **OpenIPERA name and woven-eye visual identity:** [Reserved project branding](BRANDING.md); these assets are not included in the open content grants.
+
+Third-party material and contributions are covered only to the extent their rights holders authorize. See the [website licensing overview](https://openipera.io/licensing/).
