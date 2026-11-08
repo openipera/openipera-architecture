@@ -144,15 +144,15 @@ Governance may evaluate whether a proposed realization can proceed and whether i
 
 ## Functional Architecture and Specifications
 
-The normative technical specifications and terminology reference live under `docs/`:
+The normative technical specifications and terminology reference live under `documentation/`:
 
-- [01 — Acronyms and Abbreviations](docs/01_IPERA_ACRONYMS.md)
-- [02 — Functional Capabilities and Tooling Requirements](docs/02_IPERA_FUNCTIONAL_CAPABILITIES_AND_TOOLING_REQUIREMENTS.md)
-- [03 — Minimum Viable Service Model](docs/03_IPERA_MINIMUM_VIABLE_SERVICE_MODEL.md)
-- [04 — Service Model Authoring Rules](docs/04_IPERA_SERVICE_MODEL_AUTHORING_RULES.md)
-- [05 — Service Model Compilation Architecture](docs/05_IPERA_SERVICE_MODEL_COMPILATION_ARCHITECTURE.md)
-- [06 — Deterministic Service Realization](docs/06_IPERA_DETERMINISTIC_SERVICE_REALIZATION.md)
-- [07 — Repository Reorganization Record](docs/07_REPOSITORY_REORGANIZATION.md)
+- [01 — Acronyms and Abbreviations](documentation/01_IPERA_ACRONYMS.md)
+- [02 — Functional Capabilities and Tooling Requirements](documentation/02_IPERA_FUNCTIONAL_CAPABILITIES_AND_TOOLING_REQUIREMENTS.md)
+- [03 — Minimum Viable Service Model](documentation/03_IPERA_MINIMUM_VIABLE_SERVICE_MODEL.md)
+- [04 — Service Model Authoring Rules](documentation/04_IPERA_SERVICE_MODEL_AUTHORING_RULES.md)
+- [05 — Service Model Compilation Architecture](documentation/05_IPERA_SERVICE_MODEL_COMPILATION_ARCHITECTURE.md)
+- [06 — Deterministic Service Realization](documentation/06_IPERA_DETERMINISTIC_SERVICE_REALIZATION.md)
+- [07 — Repository Reorganization Record](documentation/07_REPOSITORY_REORGANIZATION.md)
 
 The demonstration and experiments test the architecture; they do not define it.
 
@@ -183,7 +183,8 @@ The repository reserves `engine/` for experimental implementation of validation,
 openipe-architecture/
 ├── README.md
 ├── images/            # architecture graphics
-├── docs/              # architecture and specifications
+├── documentation/     # architecture and specifications
+├── docs/              # GitHub Pages website source
 ├── poc-01/            # preserved experimental records
 ├── poc-02/
 ├── poc-03/
