@@ -1,17 +1,19 @@
 ---
 layout: default
-title: IPERA Execution Layers and Tooling Abstractions
+title: IPERA Functional Architecture
 permalink: /architecture/execution-layers/
 ---
 
-# IPERA Execution Layers & Tooling Abstractions
+# IPERA Functional Architecture
 
-**How architectural responsibilities are realized — the execution and tooling abstraction view.**
+**Execution layers and tooling abstractions — how the architectural responsibilities are realized.**
 
-This diagram describes the layers through which orchestration, execution platforms, and automation capabilities implement or satisfy obligations derived from the service model. It does not redefine the IPERA Reference Architecture, and no particular tool is the architecture itself.
+This view illustrates the functional layering through which orchestration, execution platforms, and atomic automation capabilities can satisfy the obligations expressed by the service model. It is distinct from the IPERA Reference Architecture: tooling abstractions describe implementation boundaries, not the reference architecture itself.
 
-**Diagram asset pending:** `IPERA_Execution_Diag_2026_10_06` has not yet been located in the repository. Once that image is published as a website asset, this page will display it inline with a direct full-resolution browser link.
+[Open the full-resolution Functional Architecture diagram in your browser](https://raw.githubusercontent.com/openipera/openipera-architecture/main/images/ipe-model.png)
 
-The [IPERA Reference Architecture]({{ '/architecture/reference-architecture/' | relative_url }}) is the separate, conceptual architectural view.
+[![IPERA Functional Architecture — execution layers and tooling abstractions](https://raw.githubusercontent.com/openipera/openipera-architecture/main/images/ipe-model.png)](https://raw.githubusercontent.com/openipera/openipera-architecture/main/images/ipe-model.png)
+
+Compare this view with the [IPERA Reference Architecture]({{ '/architecture/reference-architecture/' | relative_url }}), which defines the architectural capabilities and their relationships independently of implementation tooling.
 
 [Back to Architecture]({{ '/architecture.html' | relative_url }})
