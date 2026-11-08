@@ -26,3 +26,8 @@ The repository preserves a series of proof-of-concept investigations. These are 
 [Explore the experiments and implementation work on GitHub](https://github.com/steve-jones62/openipera-architecture)
 
 **Architectural specifications take precedence over examples and experimental implementations.**
+
+
+---
+
+Original architecture documentation and diagrams are provided under [CC BY 4.0]({{ '/licensing/' | relative_url }}) unless otherwise noted. Software is separately licensed under Apache 2.0; OpenIPERA branding is reserved.
