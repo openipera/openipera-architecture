@@ -39,3 +39,8 @@ body::before{
 .header,.content,.footer{position:relative;z-index:1}
 .header{position:sticky;z-index:1000}
 @media(max-width:760px){body::before{background-size:125vw auto;background-position:center 42%}}
+
+/* Brand emblem in sticky navigation */
+.brand{display:inline-flex;align-items:center;gap:.65rem}
+.brand-emblem{display:block;width:52px;height:52px;object-fit:contain;flex:none;border-radius:6px}
+@media(max-width:760px){.brand-emblem{width:40px;height:40px}}
