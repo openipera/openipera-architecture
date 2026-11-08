@@ -18,6 +18,10 @@ main#main.wrap.content {
   width: calc(100% - 48px);
   max-width: 1760px;
 }
+/* Let architecture narrative use the full page width, not the site's 82ch prose cap. */
+main#main > p {
+  max-width: none;
+}
 main#main .architecture-comparison {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
