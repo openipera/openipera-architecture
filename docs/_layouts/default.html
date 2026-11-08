@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{ page.description | default: site.description | escape }}">
+  <title>{{ page.title | default: site.title | escape }} | OpenIPERA</title>
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
+  <link rel="stylesheet" href="{{ '/assets/site.css' | relative_url }}">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="header"><div class="wrap header-inner">
+    <a class="brand" href="{{ '/' | relative_url }}">Open<span>IPERA</span></a>
+    <nav aria-label="Main navigation">
+      <a href="{{ '/' | relative_url }}">Home</a>
+      <a href="{{ '/architecture.html' | relative_url }}">Architecture</a>
+      <a href="{{ '/example.html' | relative_url }}">Example</a>
+      <a href="{{ '/documentation.html' | relative_url }}">Documentation</a>
+      <a href="https://github.com/steve-jones62/openipera-architecture">GitHub</a>
+    </nav>
+  </div></header>
+  <main id="main" class="wrap content">{{ content }}</main>
+  <footer class="footer"><div class="wrap footer-inner">
+    <span>OpenIPERA · Service knowledge before workflow</span>
+    <span><a href="https://github.com/steve-jones62/openipera-architecture">Source &amp; specifications</a></span>
+  </div></footer>
+</body>
+</html>

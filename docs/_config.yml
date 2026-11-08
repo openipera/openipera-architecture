@@ -1,0 +1,8 @@
+title: OpenIPERA
+description: Infrastructure Platform Engineering Reference Architecture and OpenIPERA
+url: "https://openipera.io"
+baseurl: ""
+markdown: kramdown
+theme: null
+exclude:
+  - README.md
