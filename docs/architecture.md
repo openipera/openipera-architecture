@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Architecture
+wide_layout: true
 ---
 
 # Architecture
