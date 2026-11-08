@@ -11,11 +11,26 @@ OpenIPERA separates the **description of a service** from the **mechanisms that 
 
 ## Two complementary architectural views
 
-**[IPERA Reference Architecture]({{ '/architecture/reference-architecture/' | relative_url }})** — the architecture itself: the capabilities, responsibilities, and relationships that define IPERA. [View the diagram in your browser]({{ '/architecture/reference-architecture/' | relative_url }}).
+<div class="architecture-comparison">
+  <article class="architecture-panel">
+    <h3>Reference Architecture — What</h3>
+    <a class="architecture-image-link" href="{{ '/architecture/reference-architecture/' | relative_url }}" aria-label="View the IPERA Reference Architecture">
+      <img src="https://raw.githubusercontent.com/openipera/openipera-architecture/main/images/ipera-reference-architecture.png" alt="IPERA Reference Architecture showing architectural capabilities and relationships" loading="lazy">
+    </a>
+    <p>The architectural capabilities, responsibilities, and relationships that define IPERA.</p>
+    <p><a href="{{ '/architecture/reference-architecture/' | relative_url }}">Explore the Reference Architecture</a></p>
+  </article>
+  <article class="architecture-panel">
+    <h3>Functional Architecture — How</h3>
+    <a class="architecture-image-link" href="{{ '/architecture/execution-layers/' | relative_url }}" aria-label="View the IPERA Functional Architecture">
+      <img src="https://raw.githubusercontent.com/openipera/openipera-architecture/main/images/ipe-model.png" alt="IPERA Functional Architecture showing execution layers and tooling abstractions" loading="lazy">
+    </a>
+    <p>The execution layers and tooling abstractions through which architectural responsibilities are realized.</p>
+    <p><a href="{{ '/architecture/execution-layers/' | relative_url }}">Explore the Functional Architecture</a></p>
+  </article>
+</div>
 
-**[IPERA Functional Architecture — Execution Layers & Tooling Abstractions]({{ '/architecture/execution-layers/' | relative_url }})** — the distinct realization view: how architectural responsibilities map into functional execution layers and tooling abstractions. [View the diagram in your browser]({{ '/architecture/execution-layers/' | relative_url }}).
-
-These are **not two versions of the same diagram**. The reference architecture is not synonymous with the tooling used to realize it.
+These are **complementary views, not two versions of the same diagram**. The reference architecture defines the architectural model; the functional architecture describes realization abstractions without making any specific tooling the architecture itself.
 
 ### The Service Model
 
