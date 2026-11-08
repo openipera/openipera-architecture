@@ -1,7 +1,6 @@
 ---
 layout: default
 title: Architecture
-wide_layout: true
 ---
 
 # Architecture
@@ -11,45 +10,6 @@ wide_layout: true
 OpenIPERA separates the **description of a service** from the **mechanisms that realize it**.
 
 ## Two complementary architectural views
-
-<style>
-/* Scoped to this Architecture page: use available viewport width for diagrams. */
-main#main.wrap.content {
-  width: calc(100% - 48px);
-  max-width: 1760px;
-}
-/* Let architecture narrative use the full page width, not the site's 82ch prose cap. */
-main#main > p {
-  max-width: none;
-}
-main#main .architecture-comparison {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
-  align-items: stretch;
-}
-main#main .architecture-image-link {
-  display: flex;
-  width: 100%;
-  height: auto;
-  min-height: 0;
-  padding: 8px;
-  align-items: center;
-  justify-content: center;
-}
-main#main .architecture-image-link img {
-  display: block;
-  width: 100%;
-  height: auto;
-  max-width: 100%;
-  max-height: none;
-  object-fit: contain;
-}
-@media (max-width: 760px) {
-  main#main.wrap.content { width: calc(100% - 32px); }
-  main#main .architecture-comparison { grid-template-columns: 1fr; }
-}
-</style>
 
 <div class="architecture-comparison">
   <article class="architecture-panel">
