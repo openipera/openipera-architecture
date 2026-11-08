@@ -11,3 +11,10 @@
 .architecture-panel p{font-size:.94rem;line-height:1.5}
 .architecture-panel p:last-child{margin-top:auto;padding-top:.5rem}
 @media(max-width:760px){.architecture-comparison{grid-template-columns:1fr}.architecture-image-link{height:260px}}
+
+/* Wide, image-first architecture comparison without widening other pages */
+@media(min-width:761px){.wide-architecture-page .content.wrap{width:min(calc(100% - 3rem),1760px)}}
+.wide-architecture-page .architecture-comparison{gap:1.5rem}
+.wide-architecture-page .architecture-image-link{height:auto;min-height:0;padding:.4rem;overflow:hidden}
+.wide-architecture-page .architecture-image-link img{width:100%;height:auto;max-width:100%;max-height:none;object-fit:contain}
+@media(max-width:760px){.wide-architecture-page .architecture-image-link{height:auto}.wide-architecture-page .architecture-image-link img{height:auto;max-height:none}}
