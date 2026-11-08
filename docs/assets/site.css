@@ -19,3 +19,6 @@
 .architecture-panel p{font-size:.94rem;line-height:1.5}
 .architecture-panel p:last-child{margin-top:auto;padding-top:.5rem}
 @media(max-width:760px){.content.wrap{width:calc(100% - 2rem)}.architecture-comparison{grid-template-columns:1fr}}
+
+/* Keep the site navigation visible while scrolling. */
+.header{position:sticky;top:0;z-index:1000;box-shadow:0 3px 12px rgba(0,0,0,.16)}
