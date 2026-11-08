@@ -9,7 +9,13 @@ title: Architecture
 
 OpenIPERA separates the **description of a service** from the **mechanisms that realize it**.
 
-[View the IPERA reference architecture diagram](https://github.com/steve-jones62/openipera-architecture/blob/main/images/ipera-reference-architecture.png)
+## Two complementary architectural views
+
+**[IPERA Reference Architecture]({{ '/architecture/reference-architecture/' | relative_url }})** — the architecture itself: the capabilities, responsibilities, and relationships that define IPERA. [View the diagram in your browser]({{ '/architecture/reference-architecture/' | relative_url }}).
+
+**[IPERA Execution Layers & Tooling Abstractions]({{ '/architecture/execution-layers/' | relative_url }})** — the distinct realization view: how architectural responsibilities are mapped into execution layers and tooling abstractions. The diagram asset is awaiting publication.
+
+These are **not two versions of the same diagram**. The reference architecture is not synonymous with the tooling used to realize it.
 
 ### The Service Model
 
@@ -50,4 +56,4 @@ This **native OpenIPERA instrumentation** is distinct from the broader **IPERA O
 | Perform operations | Execution capabilities |
 | Govern, observe, and accept operational services | Organizational systems and broader IPERA pillars |
 
-For detailed semantics, see [Document 05 — Service Model Compilation Architecture](https://github.com/steve-jones62/openipera-architecture/blob/main/documentation/05_IPERA_SERVICE_MODEL_COMPILATION_ARCHITECTURE.md) and [Document 06 — Deterministic Service Realization](https://github.com/steve-jones62/openipera-architecture/blob/main/documentation/06_IPERA_DETERMINISTIC_SERVICE_REALIZATION.md).
+For detailed semantics, see [Document 05 — Service Model Compilation Architecture](https://github.com/openipera/openipera-architecture/blob/main/documentation/05_IPERA_SERVICE_MODEL_COMPILATION_ARCHITECTURE.md) and [Document 06 — Deterministic Service Realization](https://github.com/openipera/openipera-architecture/blob/main/documentation/06_IPERA_DETERMINISTIC_SERVICE_REALIZATION.md).
