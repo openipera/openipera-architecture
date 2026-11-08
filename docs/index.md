@@ -17,7 +17,9 @@ Automating a task is not the same as understanding the service that task support
 
 ## From intent to realization
 
-A request for a virtual machine may require more than creating a VM: networking, storage, identity, security controls, registration, monitoring, and acceptance may all be part of the service obligation.
+A request for a service—whether a simple Virtual Machine or a complex Electronic Medical Record (EMR) system—requires more than provisioning infrastructure or installing software. Both require the identification and satisfaction of dependencies, operational requirements, security controls, governance obligations, monitoring, and acceptance criteria necessary to deliver a fully operational service.
+
+The complexity differs, but the underlying principle does not: every service must be modeled in terms of what must be true, what must happen, and what must remain true throughout its operational lifecycle.
 
 OpenIPERA makes those relationships explicit:
 
