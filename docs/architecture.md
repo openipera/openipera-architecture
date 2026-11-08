@@ -13,7 +13,7 @@ OpenIPERA separates the **description of a service** from the **mechanisms that 
 
 **[IPERA Reference Architecture]({{ '/architecture/reference-architecture/' | relative_url }})** — the architecture itself: the capabilities, responsibilities, and relationships that define IPERA. [View the diagram in your browser]({{ '/architecture/reference-architecture/' | relative_url }}).
 
-**[IPERA Execution Layers & Tooling Abstractions]({{ '/architecture/execution-layers/' | relative_url }})** — the distinct realization view: how architectural responsibilities are mapped into execution layers and tooling abstractions. The diagram asset is awaiting publication.
+**[IPERA Functional Architecture — Execution Layers & Tooling Abstractions]({{ '/architecture/execution-layers/' | relative_url }})** — the distinct realization view: how architectural responsibilities map into functional execution layers and tooling abstractions. [View the diagram in your browser]({{ '/architecture/execution-layers/' | relative_url }}).
 
 These are **not two versions of the same diagram**. The reference architecture is not synonymous with the tooling used to realize it.
 
