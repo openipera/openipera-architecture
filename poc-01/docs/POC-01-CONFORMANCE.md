@@ -4,7 +4,7 @@
 > [POC-02](../../poc-02/docs/POC-02-CONFORMANCE.md): the persistent Service Dependency Model and
 > the dynamically derived Execution DAG are distinct artifacts.
 
-Baseline: the repository's unchanged [IPERA_FUNCTIONAL_ARCHITECTURE_REQUIREMENTS.md](../../docs/IPERA_FUNCTIONAL_ARCHITECTURE_REQUIREMENTS.md),
+Baseline: the repository's unchanged [IPERA_FUNCTIONAL_ARCHITECTURE_REQUIREMENTS.md](https://github.com/openipera/openipera-architecture/blob/fa0bfcd10de70be07315b4c7dd758d3248f6237a/docs/IPERA_FUNCTIONAL_ARCHITECTURE_REQUIREMENTS.md),
 draft v0.3. This is an executable reference experiment, not a new IPERA product or a
 claim to implement every v0.3 capability.
 

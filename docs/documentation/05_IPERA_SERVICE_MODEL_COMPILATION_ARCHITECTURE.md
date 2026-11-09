@@ -1,3 +1,9 @@
+---
+layout: documentation
+title: "IPERA Service Model Compilation Architecture"
+documentation_order: 5
+---
+
 # IPERA Service Model Compilation Architecture
 
 ## 1. Executive Architecture Summary (TL;DR)

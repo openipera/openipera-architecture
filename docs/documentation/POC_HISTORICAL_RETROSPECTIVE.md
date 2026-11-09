@@ -1,3 +1,8 @@
+---
+layout: documentation
+title: "OpenIPERA — Proof-of-Concept Historical Retrospective"
+---
+
 # OpenIPERA — Proof-of-Concept Historical Retrospective
 
 **Status:** Historical record, not a normative architecture specification or a POC-05 test plan.
@@ -18,7 +23,7 @@ The experiments used terminology and semantics current at the time, including **
 
 **Limits:** Provisional v0.3 behavior; no real infrastructure, AAP, service catalog UI, reconciliation, or product-specific workflow. The experiment does not establish the later SM-DAG/LC/SOG architecture.
 
-**Original record:** [POC-01 README](../poc-01/README.md), [conformance description](../poc-01/docs/POC-01-CONFORMANCE.md), [validation results](../poc-01/docs/VALIDATION.md).
+**Original record:** [POC-01 README](https://github.com/openipera/openipera-architecture/blob/main/poc-01/README.md), [conformance description](https://github.com/openipera/openipera-architecture/blob/main/poc-01/docs/POC-01-CONFORMANCE.md), [validation results](https://github.com/openipera/openipera-architecture/blob/main/poc-01/docs/VALIDATION.md).
 
 ## POC-02 — Distributed dependencies and inspectable graph derivation
 
@@ -30,7 +35,7 @@ The experiments used terminology and semantics current at the time, including **
 
 **Limits:** Only Atomic Nodes were resolved; Service Node semantics were deliberately rejected/deferred. A shared demonstration artifact/binding was not a production per-AN registry. No real infrastructure or production security was introduced.
 
-**Original record:** [POC-02 README](../poc-02/README.md), [conformance description](../poc-02/docs/POC-02-CONFORMANCE.md), [validation results](../poc-02/docs/POC-02-VALIDATION.md).
+**Original record:** [POC-02 README](https://github.com/openipera/openipera-architecture/blob/main/poc-02/README.md), [conformance description](https://github.com/openipera/openipera-architecture/blob/main/poc-02/docs/POC-02-CONFORMANCE.md), [validation results](https://github.com/openipera/openipera-architecture/blob/main/poc-02/docs/POC-02-VALIDATION.md).
 
 ## POC-03 — Independent Service Model Validator
 
@@ -42,7 +47,7 @@ The experiments used terminology and semantics current at the time, including **
 
 **Limits and historical assumptions:** The experiment did **not** execute automation. Its implementation rejected AN service dependencies, constrained LC dependency targets to Service Nodes, and rejected some overlapping decomposition/dependency assertions. These were POC-03 interpretation choices, **not enduring architectural prohibitions**. Successful Git resolution did not establish artifact correctness, runtime success, or production governance.
 
-**Original record:** [POC-03 README](../poc-03/README.md), [validation record](../poc-03/evidence/VALIDATION.md), [conformance summary](../poc-03/evidence/conformance/summary.json).
+**Original record:** [POC-03 README](https://github.com/openipera/openipera-architecture/blob/main/poc-03/README.md), [validation record](https://github.com/openipera/openipera-architecture/blob/main/poc-03/evidence/VALIDATION.md), [conformance summary](https://github.com/openipera/openipera-architecture/blob/main/poc-03/evidence/conformance/summary.json).
 
 ## POC-04 — Independent assertion comparison and compilation
 
@@ -54,7 +59,7 @@ The experiments used terminology and semantics current at the time, including **
 
 **Limits and historical assumptions:** Comparison of *all transitive descendants* was an explicit experiment choice, not a settled universal semantic rule. Compilation was whole-model rather than request-specific. The POC did not implement a linker, runtime automation execution, service instance model, or production governance. Its source-authority terminology and prohibition on AN LC dependencies reflect the experimental design, not the current architecture.
 
-**Original record:** [POC-04 README](../poc-04/README.md), [validation record](../poc-04/evidence/VALIDATION.md), [conformance summary](../poc-04/evidence/conformance/summary.json).
+**Original record:** [POC-04 README](https://github.com/openipera/openipera-architecture/blob/main/poc-04/README.md), [validation record](https://github.com/openipera/openipera-architecture/blob/main/poc-04/evidence/VALIDATION.md), [conformance summary](https://github.com/openipera/openipera-architecture/blob/main/poc-04/evidence/conformance/summary.json).
 
 ## Architectural learning across the experiments
 

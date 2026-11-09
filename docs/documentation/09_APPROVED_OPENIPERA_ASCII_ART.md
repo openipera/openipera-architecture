@@ -1,3 +1,9 @@
+---
+layout: documentation
+title: "Approved OpenIPERA ASCII Art"
+documentation_order: 9
+---
+
 # 09 — Approved OpenIPERA ASCII Art
 
 A gallery of approved, email-friendly, monospaced OpenIPERA characters and architectural humor.

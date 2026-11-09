@@ -1,3 +1,9 @@
+---
+layout: documentation
+title: "IPERA Minimum Viable Service Model"
+documentation_order: 3
+---
+
 # IPERA Minimum Viable Service Model
 
 ## 1. Purpose

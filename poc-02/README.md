@@ -124,6 +124,6 @@ introduced. Stop with `docker compose down`.
 
 See [POC-02 architecture/conformance](docs/POC-02-CONFORMANCE.md) and
 [POC-02 actual validation](docs/POC-02-VALIDATION.md).
-The original [v0.3 draft](../docs/IPERA_FUNCTIONAL_ARCHITECTURE_REQUIREMENTS.md) remains unchanged.
+The original [v0.3 draft](https://github.com/openipera/openipera-architecture/blob/fa0bfcd10de70be07315b4c7dd758d3248f6237a/docs/IPERA_FUNCTIONAL_ARCHITECTURE_REQUIREMENTS.md) remains unchanged.
 [POC-01 notes](../poc-01/docs/POC-01-CONFORMANCE.md) and [results](../poc-01/docs/VALIDATION.md) are historical;
 their schema and tests are superseded by this iteration and retained in Git history.

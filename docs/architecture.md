@@ -15,7 +15,7 @@ OpenIPERA separates the **description of a service** from the **mechanisms that 
   <article class="architecture-panel">
     <h3>Reference Architecture — What</h3>
     <a class="architecture-image-link" href="{{ '/architecture/reference-architecture/' | relative_url }}" aria-label="View the IPERA Reference Architecture">
-      <img src="https://raw.githubusercontent.com/openipera/openipera-architecture/main/images/ipera-reference-architecture.png" alt="IPERA Reference Architecture showing architectural capabilities and relationships" loading="lazy">
+      <img src="{{ '/images/ipera-reference-architecture.png' | relative_url }}" alt="IPERA Reference Architecture showing architectural capabilities and relationships" loading="lazy">
     </a>
     <p>The architectural capabilities, responsibilities, and relationships that define IPERA.</p>
     <p><a href="{{ '/architecture/reference-architecture/' | relative_url }}">Explore the Reference Architecture</a></p>
@@ -23,7 +23,7 @@ OpenIPERA separates the **description of a service** from the **mechanisms that 
   <article class="architecture-panel">
     <h3>Functional Architecture — How</h3>
     <a class="architecture-image-link" href="{{ '/architecture/execution-layers/' | relative_url }}" aria-label="View the IPERA Functional Architecture">
-      <img src="https://raw.githubusercontent.com/openipera/openipera-architecture/main/images/ipe-model.png" alt="IPERA Functional Architecture showing execution layers and tooling abstractions" loading="lazy">
+      <img src="{{ '/images/ipe-model.png' | relative_url }}" alt="IPERA Functional Architecture showing execution layers and tooling abstractions" loading="lazy">
     </a>
     <p>The execution layers and tooling abstractions through which architectural responsibilities are realized.</p>
     <p><a href="{{ '/architecture/execution-layers/' | relative_url }}">Explore the Functional Architecture</a></p>
@@ -71,4 +71,4 @@ This **native OpenIPERA instrumentation** is distinct from the broader **IPERA O
 | Perform operations | Execution capabilities |
 | Govern, observe, and accept operational services | Organizational systems and broader IPERA pillars |
 
-For detailed semantics, see [Document 05 — Service Model Compilation Architecture](https://github.com/openipera/openipera-architecture/blob/main/documentation/05_IPERA_SERVICE_MODEL_COMPILATION_ARCHITECTURE.md) and [Document 06 — Deterministic Service Realization](https://github.com/openipera/openipera-architecture/blob/main/documentation/06_IPERA_DETERMINISTIC_SERVICE_REALIZATION.md).
+For detailed semantics, see [Document 05 — Service Model Compilation Architecture](documentation/05_IPERA_SERVICE_MODEL_COMPILATION_ARCHITECTURE.md) and [Document 06 — Deterministic Service Realization](documentation/06_IPERA_DETERMINISTIC_SERVICE_REALIZATION.md).

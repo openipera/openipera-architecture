@@ -38,7 +38,7 @@ The SOG is not an automation script or executable workflow. It is a compiled, de
 
 ## IPERA Reference Architecture
 
-![Infrastructure Platform Engineering Reference Architecture (IPERA)](images/ipera-reference-architecture.png)
+![Infrastructure Platform Engineering Reference Architecture (IPERA)](docs/images/ipera-reference-architecture.png)
 
 The reference architecture identifies the capabilities required to turn enterprise intent into governed, operational services. Products may implement more than one capability; architectural responsibilities remain distinct.
 
@@ -144,15 +144,19 @@ Governance may evaluate whether a proposed realization can proceed and whether i
 
 ## Functional Architecture and Specifications
 
-The normative technical specifications and terminology reference live under `documentation/`:
+Read the [documentation on openipera.io](https://openipera.io/documentation.html). The complete numbered source documents live under `docs/documentation/`:
 
-- [01 — Acronyms and Abbreviations](documentation/01_IPERA_ACRONYMS.md)
-- [02 — Functional Capabilities and Tooling Requirements](documentation/02_IPERA_FUNCTIONAL_CAPABILITIES_AND_TOOLING_REQUIREMENTS.md)
-- [03 — Minimum Viable Service Model](documentation/03_IPERA_MINIMUM_VIABLE_SERVICE_MODEL.md)
-- [04 — Service Model Authoring Rules](documentation/04_IPERA_SERVICE_MODEL_AUTHORING_RULES.md)
-- [05 — Service Model Compilation Architecture](documentation/05_IPERA_SERVICE_MODEL_COMPILATION_ARCHITECTURE.md)
-- [06 — Deterministic Service Realization](documentation/06_IPERA_DETERMINISTIC_SERVICE_REALIZATION.md)
-- [07 — Repository Reorganization Record](documentation/07_REPOSITORY_REORGANIZATION.md)
+- [01 — Acronyms and Abbreviations](docs/documentation/01_IPERA_ACRONYMS.md)
+- [02 — Functional Capabilities and Tooling Requirements](docs/documentation/02_IPERA_FUNCTIONAL_CAPABILITIES_AND_TOOLING_REQUIREMENTS.md)
+- [03 — Minimum Viable Service Model](docs/documentation/03_IPERA_MINIMUM_VIABLE_SERVICE_MODEL.md)
+- [04 — Service Model Authoring Rules](docs/documentation/04_IPERA_SERVICE_MODEL_AUTHORING_RULES.md)
+- [05 — Service Model Compilation Architecture](docs/documentation/05_IPERA_SERVICE_MODEL_COMPILATION_ARCHITECTURE.md)
+- [06 — Deterministic Service Realization](docs/documentation/06_IPERA_DETERMINISTIC_SERVICE_REALIZATION.md)
+- [07 — Repository Reorganization Record](docs/documentation/07_REPOSITORY_REORGANIZATION.md)
+- [08 — OpenIPERA Implementation Registry](docs/documentation/08_OPENIPERA_IMPLEMENTATION_REGISTRY.md)
+- [09 — Approved OpenIPERA ASCII Art](docs/documentation/09_APPROVED_OPENIPERA_ASCII_ART.md)
+
+The [Proof-of-Concept Historical Retrospective](docs/documentation/POC_HISTORICAL_RETROSPECTIVE.md) is separate from the numbered sequence.
 
 The demonstration and experiments test the architecture; they do not define it.
 
@@ -182,9 +186,9 @@ The repository reserves `engine/` for experimental implementation of validation,
 ```text
 openipe-architecture/
 ├── README.md
-├── images/            # architecture graphics
-├── documentation/     # architecture and specifications
-├── docs/              # GitHub Pages website source
+├── docs/              # GitHub Pages website
+│   ├── images/        # architecture graphics and website assets
+│   └── documentation/ # architecture and specifications
 ├── poc-01/            # preserved experimental records
 ├── poc-02/
 ├── poc-03/
@@ -192,6 +196,17 @@ openipe-architecture/
 ├── engine/            # experimental engine
 └── demonstration/     # integrated reference demonstration
 ```
+
+## Website preview
+
+The website publishes from `docs/`. For a local build, use Ruby 3.3 and the GitHub Pages dependency versions recorded in `Gemfile.lock`:
+
+```sh
+bundle install
+bundle exec jekyll build --source docs --destination /tmp/openipera-site
+```
+
+The generated output stays outside the source tree. No separate deployment workflow is required.
 
 ## Why This Matters
 

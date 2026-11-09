@@ -142,7 +142,7 @@ See [validation record](evidence/VALIDATION.md),
 
 ## Architecture reconciliation and limits
 
-The committed [MVM](../docs/IPERA_Minimum_Viable_Service_Model.md) at `f8d49cc`
+The committed [MVM](https://github.com/openipera/openipera-architecture/blob/f8d49cc901726cbe097ba0c913c60bdd83bfc43d/docs/IPERA_Minimum_Viable_Service_Model.md) at `f8d49cc`
 contains the agreed UUID semantics. Two example defects are **not propagated**:
 
 - Section 14 makes `lc-storage.service_dependencies` refer to `an-provision-disk`.
@@ -151,7 +151,7 @@ contains the agreed UUID semantics. Two example defects are **not propagated**:
   depending on its own decomposed services). The clarified rule separates those
   relationships; POC-03 rejects such redundant descendant references.
 
-The older [functional requirements](../docs/IPERA_FUNCTIONAL_ARCHITECTURE_REQUIREMENTS.md)
+The older [functional requirements](https://github.com/openipera/openipera-architecture/blob/53ac73f967cb949b794eb2a4f20275b9f817e1e2/docs/IPERA_FUNCTIONAL_ARCHITECTURE_REQUIREMENTS.md)
 use the broader “Service Dependency DAG” terminology and describe derivation in
 the orchestrator. POC-03 follows the later MVM's independent SMV and decomposition/
 LC separation. Neither architecture document nor prior POC was rewritten here.

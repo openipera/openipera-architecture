@@ -1,0 +1,21 @@
+---
+layout: default
+---
+<div class="documentation-tools">
+  <a href="{{ '/documentation.html' | relative_url }}">Documentation index</a>
+  <a href="https://github.com/openipera/openipera-architecture/blob/main/docs/{{ page.path | uri_escape }}">View source on GitHub</a>
+</div>
+{{ content }}
+{% if page.documentation_order %}
+{% assign numbered_documents = site.pages | where_exp: "document", "document.documentation_order" | sort: "documentation_order" %}
+{% for document in numbered_documents %}
+  {% if document.url == page.url %}
+    {% unless forloop.first %}{% assign previous_index = forloop.index0 | minus: 1 %}{% assign previous_document = numbered_documents[previous_index] %}{% endunless %}
+    {% unless forloop.last %}{% assign next_index = forloop.index0 | plus: 1 %}{% assign next_document = numbered_documents[next_index] %}{% endunless %}
+  {% endif %}
+{% endfor %}
+<nav class="documentation-pagination" aria-label="Numbered documentation">
+  {% if previous_document %}<a rel="prev" href="{{ previous_document.url | relative_url }}">← {{ previous_document.documentation_order | prepend: '0' | slice: -2, 2 }} — {{ previous_document.title | escape }}</a>{% endif %}
+  {% if next_document %}<a rel="next" href="{{ next_document.url | relative_url }}">{{ next_document.documentation_order | prepend: '0' | slice: -2, 2 }} — {{ next_document.title | escape }} →</a>{% endif %}
+</nav>
+{% endif %}

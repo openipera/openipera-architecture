@@ -1,3 +1,9 @@
+---
+layout: documentation
+title: "IPERA Service Model Authoring Rules"
+documentation_order: 4
+---
+
 # IPERA Service Model Authoring Rules
 
 ## 1. Purpose

@@ -1,7 +1,7 @@
 # POC-04 validation — 2026-09-25
 
 The repository's already-committed
-[Service Model Compilation Architecture](../../docs/IPERA_Service_Model_Compilation_Architecture.md)
+[Service Model Compilation Architecture](https://github.com/openipera/openipera-architecture/blob/a6bfc122a9c8793ac0249645f6bf7691b3f1f5a5/docs/IPERA_Service_Model_Compilation_Architecture.md)
 matched the handoff text verbatim. The MVM was revised surgically. POC-01,
 POC-02 and POC-03 have no tracked changes from the starting commit `a3b69d5`.
 

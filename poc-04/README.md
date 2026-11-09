@@ -12,7 +12,7 @@ overlap. POC-03 remains an unchanged experimental record. POC-04 uses its useful
 General Purpose Compute shape and an independent local implementation; it imports
 no earlier POC code or shared framework.
 
-The [Compilation Architecture](../docs/IPERA_Service_Model_Compilation_Architecture.md)
+The [Compilation Architecture](https://github.com/openipera/openipera-architecture/blob/a6bfc122a9c8793ac0249645f6bf7691b3f1f5a5/docs/IPERA_Service_Model_Compilation_Architecture.md)
 defines the larger source → compile → link → execute pattern. POC-04 tests its
 model comparison and compilation semantics. It does not select or evaluate a
 production platform, and does not execute automation.

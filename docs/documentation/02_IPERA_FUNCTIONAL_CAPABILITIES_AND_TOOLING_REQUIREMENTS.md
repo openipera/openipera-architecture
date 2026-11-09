@@ -1,3 +1,9 @@
+---
+layout: documentation
+title: "IPERA Functional Architecture Requirements — Draft v0.3 — Discussion Draft"
+documentation_order: 2
+---
+
 # IPERA Functional Architecture Requirements — Draft v0.3 — Discussion Draft
 
 ## 1. Purpose

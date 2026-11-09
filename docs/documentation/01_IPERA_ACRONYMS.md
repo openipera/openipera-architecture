@@ -1,3 +1,9 @@
+---
+layout: documentation
+title: "OpenIPERA Acronyms and Abbreviations"
+documentation_order: 1
+---
+
 # OpenIPERA Acronyms and Abbreviations
 
 This is the canonical terminology reference for the OpenIPE architecture repository. The first table contains **IPERA-specific vocabulary**; the second contains **established industry acronyms and external product names** used in the architecture. Entries are alphabetized within each table. Product names that are not acronyms are labeled explicitly.

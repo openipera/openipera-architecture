@@ -1,3 +1,9 @@
+---
+layout: documentation
+title: "Repository reorganization record"
+documentation_order: 7
+---
+
 # Repository reorganization record
 
 Reorganization validated on 2026-09-25. This is a preservation and path-maintenance

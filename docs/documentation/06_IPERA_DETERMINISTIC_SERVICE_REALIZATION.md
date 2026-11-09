@@ -1,3 +1,9 @@
+---
+layout: documentation
+title: "IPERA — Deterministic Realization from a Dynamic Service Model"
+documentation_order: 6
+---
+
 # IPERA — Deterministic Realization from a Dynamic Service Model
 
 ## Executive Architecture Summary (TL;DR)

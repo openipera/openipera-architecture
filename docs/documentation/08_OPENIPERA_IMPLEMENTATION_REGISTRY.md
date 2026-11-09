@@ -1,3 +1,9 @@
+---
+layout: documentation
+title: "OpenIPERA Implementation Registry"
+documentation_order: 8
+---
+
 # OpenIPERA Implementation Registry
 
 **Document:** 08 — OpenIPERA Implementation Registry  

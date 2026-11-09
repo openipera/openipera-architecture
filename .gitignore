@@ -1,1 +1,8 @@
 .DS_Store
+
+# Local website build output and dependency caches
+.bundle/
+vendor/bundle/
+_site/
+.jekyll-cache/
+.jekyll-metadata

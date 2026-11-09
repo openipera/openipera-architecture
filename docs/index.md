@@ -58,6 +58,6 @@ The **Service Object Graph (SOG)** is a request-specific mathematical representa
 
 OpenIPERA is an evolving, evidence-driven architecture. Its proof-of-concept implementations test architectural hypotheses; they are **not** presented as production-ready releases.
 
-[Read the technical documentation](documentation.html) · [Explore the GitHub repository](https://github.com/steve-jones62/openipera-architecture)
+[Read the technical documentation](documentation.html) · [Explore the GitHub repository](https://github.com/openipera/openipera-architecture)
 
 > **Workflows are derived from knowledge of the system. Knowledge of the system is not derived from workflows.**
