@@ -1,5 +1,6 @@
 ---
 layout: default
+section: architecture
 title: IPERA Reference Architecture
 permalink: /architecture/reference-architecture/
 ---

@@ -15,6 +15,19 @@ Automating a task is not the same as understanding the service that task support
 
 **OpenIPERA is an open, implementation-independent architecture for representing, validating, and compiling service knowledge into the obligations required to realize an enterprise service.** It is not another workflow engine or automation framework.
 
+<div class="site-paths" markdown="1">
+
+### Explore the architecture
+Understand the model, its boundaries, and the path from knowledge to realization. [Architecture and worked example](architecture.md).
+
+### Read the specifications
+Browse all nine reference documents and the separate historical retrospective. [Technical documentation](documentation.md).
+
+### Follow the project
+Find implementation work, experimental evidence, and ways to contribute. [OpenIPERA project](project.md).
+
+</div>
+
 ## From intent to realization
 
 A request for a service—whether a simple Virtual Machine or a complex Electronic Medical Record (EMR) system—requires more than provisioning infrastructure or installing software. Both require the identification and satisfaction of dependencies, operational requirements, security controls, governance obligations, monitoring, and acceptance criteria necessary to deliver a fully operational service.
@@ -58,6 +71,6 @@ The **Service Object Graph (SOG)** is a request-specific mathematical representa
 
 OpenIPERA is an evolving, evidence-driven architecture. Its proof-of-concept implementations test architectural hypotheses; they are **not** presented as production-ready releases.
 
-[Read the technical documentation](documentation.html) · [Explore the GitHub repository](https://github.com/openipera/openipera-architecture)
+[Read the technical documentation](documentation.md) · [Explore the project and experimental evidence](project.md)
 
 > **Workflows are derived from knowledge of the system. Knowledge of the system is not derived from workflows.**

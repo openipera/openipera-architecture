@@ -1,0 +1,16 @@
+<details class="documentation-disclosure"{% if page.layout == 'documentation' %} open{% endif %}>
+  <summary>Document library · 01–09</summary>
+<nav class="documentation-navigation" aria-label="Documentation">
+  <a class="documentation-index" href="{{ '/documentation.html' | relative_url }}"{% if page.url == '/documentation.html' %} aria-current="page"{% endif %}>Documentation index</a>
+  <ol>
+    {% for document in numbered_documents %}
+    {% assign document_key = document.documentation_order | append: '' %}
+    {% assign reference = site.data.documentation[document_key] %}
+    <li><a href="{{ document.url | relative_url }}"{% if document.url == page.url %} aria-current="page"{% endif %}><span class="document-number">{{ document.documentation_order | prepend: '0' | slice: -2, 2 }}</span> <span aria-hidden="true">—</span> <span>{{ reference.label | default: document.title | escape }}</span></a></li>
+    {% endfor %}
+  </ol>
+  <p class="navigation-label">Historical record</p>
+  {% assign retrospective = site.pages | where: 'name', 'POC_HISTORICAL_RETROSPECTIVE.md' | first %}
+  <a href="{{ retrospective.url | relative_url }}"{% if page.url == retrospective.url %} aria-current="page"{% endif %}>Proof-of-Concept Retrospective</a>
+</nav>
+</details>

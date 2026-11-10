@@ -1,0 +1,21 @@
+<nav class="section-navigation" aria-label="Site sections">
+  <p class="navigation-label">Explore OpenIPERA</p>
+  <a href="{{ '/' | relative_url }}"{% if page.url == '/' %} aria-current="page"{% endif %}>Home</a>
+  <a href="{{ '/architecture.html' | relative_url }}"{% if page.url == '/architecture.html' %} aria-current="page"{% endif %}>Architecture</a>
+  {% if page.section == 'architecture' or page.url == '/architecture.html' %}
+  <div class="section-children">
+    <a href="{{ '/architecture/reference-architecture/' | relative_url }}"{% if page.url == '/architecture/reference-architecture/' %} aria-current="page"{% endif %}>Reference architecture</a>
+    <a href="{{ '/architecture/execution-layers/' | relative_url }}"{% if page.url == '/architecture/execution-layers/' %} aria-current="page"{% endif %}>Functional architecture</a>
+    <a href="{{ '/example.html' | relative_url }}"{% if page.url == '/example.html' %} aria-current="page"{% endif %}>Worked example</a>
+  </div>
+  {% endif %}
+  <a href="{{ '/documentation.html' | relative_url }}"{% if page.layout == 'documentation' %} aria-current="true"{% endif %}>Documentation</a>
+  <a href="{{ '/project.html' | relative_url }}"{% if page.url == '/project.html' %} aria-current="page"{% endif %}>Project</a>
+</nav>
+{% include documentation-navigation.html %}
+<nav class="section-navigation project-navigation" aria-label="Project resources">
+  <p class="navigation-label">Project</p>
+  <a href="{{ '/project.html#implementation-and-evidence' | relative_url }}">Implementation &amp; evidence</a>
+  <a href="{{ '/project.html#source-and-contribution' | relative_url }}">Contribution</a>
+  <a href="{{ '/licensing/' | relative_url }}"{% if page.url == '/licensing/' %} aria-current="page"{% endif %}>Licensing &amp; branding</a>
+</nav>

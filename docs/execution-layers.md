@@ -1,5 +1,6 @@
 ---
 layout: default
+section: architecture
 title: IPERA Functional Architecture
 permalink: /architecture/execution-layers/
 ---

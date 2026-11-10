@@ -10,21 +10,37 @@
   <link rel="icon" type="image/png" sizes="16x16" href="{{ '/favicon-16.png' | relative_url }}">
   <link rel="apple-touch-icon" sizes="180x180" href="{{ '/apple-touch-icon.png' | relative_url }}">
   <link rel="canonical" href="{{ page.url | absolute_url }}">
-  <link rel="stylesheet" href="{{ '/assets/site.css' | relative_url }}?v=20261109-1">
+  <link rel="stylesheet" href="{{ '/assets/site.css' | relative_url }}?v=20261109-4">
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
   <header class="header"><div class="wrap header-inner">
     <a class="brand" href="{{ '/' | relative_url }}"><img class="brand-emblem" src="{{ '/images/Woven%20Eye%20Diamond%20Emblem-flat.png' | relative_url }}" alt="" aria-hidden="true">Open<span>IPERA</span></a>
     <nav aria-label="Main navigation">
-      <a href="{{ '/' | relative_url }}">Home</a>
-      <a href="{{ '/architecture.html' | relative_url }}">Architecture</a>
-      <a href="{{ '/example.html' | relative_url }}">Example</a>
-      <a href="{{ '/documentation.html' | relative_url }}">Documentation</a>
-      <a href="https://github.com/openipera/openipera-architecture">GitHub</a>
+      <a href="{{ '/' | relative_url }}"{% if page.url == '/' %} aria-current="page"{% endif %}>Home</a>
+      <a href="{{ '/architecture.html' | relative_url }}"{% if page.section == 'architecture' or page.url == '/architecture.html' %} aria-current="{% if page.url == '/architecture.html' %}page{% else %}true{% endif %}"{% endif %}>Architecture</a>
+      <a href="{{ '/documentation.html' | relative_url }}"{% if page.layout == 'documentation' %} aria-current="{% if page.url == '/documentation.html' %}page{% else %}true{% endif %}"{% endif %}>Documentation</a>
+      <a href="{{ '/project.html' | relative_url }}"{% if page.section == 'project' %} aria-current="{% if page.url == '/project.html' %}page{% else %}true{% endif %}"{% endif %}>Project</a>
     </nav>
   </div></header>
-  <main id="main" class="wrap content">{{ content }}</main>
-  <aside class="license-bar" aria-label="Site licensing"><span>© OpenIPERA contributors</span><span><a href="https://github.com/openipera/openipera-architecture/blob/main/LICENSE">Code: Apache 2.0</a> · <a href="https://github.com/openipera/openipera-architecture/blob/main/LICENSE-DOCUMENTATION.md">Docs &amp; diagrams: CC BY 4.0</a> · <a href="{{ '/licensing/' | relative_url }}">Licensing &amp; branding</a></span></aside>
+  {% assign numbered_documents = site.pages | where_exp: "document", "document.documentation_order" | sort: "documentation_order" %}
+  <div class="site-shell">
+    <aside class="site-sidebar documentation-sidebar" aria-label="Site navigation">
+      <div class="desktop-documentation-navigation">{% include site-navigation.html %}</div>
+      <details class="mobile-documentation-navigation">
+        <summary>Browse site &amp; documentation{% if page.documentation_order %} · {{ page.documentation_order | prepend: '0' | slice: -2, 2 }}{% endif %}</summary>
+        {% include site-navigation.html %}
+      </details>
+    </aside>
+    {% if page.layout == 'documentation' %}
+    <main id="main" tabindex="-1" class="wrap content documentation-shell">{{ content }}</main>
+    {% else %}
+    <main id="main" tabindex="-1" class="wrap content">
+      {% if page.url != '/' %}{% include breadcrumbs.html %}{% endif %}
+      {{ content | replace: '<table>', '<div class="table-scroll" role="region" aria-label="Scrollable table" tabindex="0"><table>' | replace: '</table>', '</table></div>' | replace: '<pre ', '<pre tabindex="0" ' | replace: '<pre>', '<pre tabindex="0">' }}
+    </main>
+    {% endif %}
+  </div>
+  <aside class="license-bar" aria-label="Site licensing"><span>© OpenIPERA contributors</span><span><a href="{{ '/licensing/' | relative_url }}">Code: Apache 2.0 · Docs &amp; diagrams: CC BY 4.0</a> · <a href="{{ '/licensing/' | relative_url }}">Licensing &amp; branding</a></span></aside>
 </body>
 </html>

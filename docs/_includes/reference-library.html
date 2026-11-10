@@ -1,0 +1,30 @@
+{% assign library_documents = site.pages | where_exp: "document", "document.documentation_order" | sort: "documentation_order" %}
+<div class="reference-library">
+  {% assign categories = 'specification,supporting' | split: ',' %}
+  {% for category in categories %}
+  <section class="library-group library-group-{{ category }}" aria-labelledby="library-{{ category }}">
+    {% if category == 'specification' %}
+    <h2 id="library-{{ category }}">Architecture and Service Model</h2>
+    <p class="library-group-description">Documents 02–06 define architectural capabilities, service-model semantics, authoring, compilation, and realization.</p>
+    {% else %}
+    <h2 id="library-{{ category }}">Reference and supporting materials</h2>
+    <p class="library-group-description">Documents 01 and 07–09 provide terminology, historical context, implementation records, and textual reference.</p>
+    {% endif %}
+    <div class="library-entries">
+      {% for document in library_documents %}
+      {% assign document_key = document.documentation_order | append: '' %}
+      {% assign reference = site.data.documentation[document_key] %}
+      {% if reference.category == category %}
+      <article class="library-entry" id="document-{{ document.documentation_order | prepend: '0' | slice: -2, 2 }}">
+        <span class="library-number" aria-hidden="true">{{ document.documentation_order | prepend: '0' | slice: -2, 2 }}</span>
+        <div>
+          <h3><a href="{{ document.url | relative_url }}"><span class="visually-hidden">Document {{ document.documentation_order | prepend: '0' | slice: -2, 2 }} — </span>{{ document.title | escape }}</a></h3>
+          <p>{{ reference.description | escape }}</p>
+        </div>
+      </article>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+  {% endfor %}
+</div>

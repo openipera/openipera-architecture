@@ -1,5 +1,6 @@
 ---
 layout: default
+section: architecture
 title: Worked Example
 ---
 

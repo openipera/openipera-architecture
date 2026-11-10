@@ -9,6 +9,10 @@ title: Architecture
 
 OpenIPERA separates the **description of a service** from the **mechanisms that realize it**.
 
+<div class="journey-callout" markdown="1">
+**Follow the architecture:** explore the two views below, then [walk through a virtual machine request](example.md) to see the model in context. Continue with the [technical specifications](documentation.md) for detailed semantics.
+</div>
+
 ## Two complementary architectural views
 
 <div class="architecture-comparison">

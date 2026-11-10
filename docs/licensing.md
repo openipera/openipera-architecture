@@ -1,5 +1,6 @@
 ---
 layout: default
+section: project
 title: Licensing
 permalink: /licensing/
 ---

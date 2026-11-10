@@ -1,0 +1,36 @@
+"1":
+  label: "Acronyms"
+  description: "Definitions of OpenIPERA terminology and abbreviations."
+  category: supporting
+"2":
+  label: "Functional Capabilities"
+  description: "Required architectural capabilities and their relationship to implementation tooling."
+  category: specification
+"3":
+  label: "Service Model"
+  description: "The minimum structure and semantics of the service model."
+  category: specification
+"4":
+  label: "Authoring Rules"
+  description: "Rules for constructing valid service models and Lifecycle Cards."
+  category: specification
+"5":
+  label: "Compilation"
+  description: "How validated service knowledge becomes a Service Object Graph."
+  category: specification
+"6":
+  label: "Deterministic Realization"
+  description: "Versioning, provenance, and consistency across service realization."
+  category: specification
+"7":
+  label: "Repository History"
+  description: "Historical record of the repository's structural evolution."
+  category: supporting
+"8":
+  label: "Implementation Registry"
+  description: "Implementation choices, maturity, and architectural alignment."
+  category: supporting
+"9":
+  label: "ASCII Reference"
+  description: "Approved textual representations of architectural constructs."
+  category: supporting
